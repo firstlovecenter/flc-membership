@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+// eslint-disable-next-line import/no-extraneous-dependencies
 const concurrently = require('concurrently')
 
 const {
@@ -25,11 +27,14 @@ if (templateName === 'Flutter') {
 } else {
   jobs.push({
     name: templateName,
-    command: `cd ${TEMPLATE_DIR} && ${runner} run dev`,
+    command: `cd ${TEMPLATE_DIR} && ${runner} run start`,
     prefixColor: 'blue',
   })
 }
 
-concurrently(jobs, concurrentOpts).catch((e) => {
+const { result } = concurrently(jobs, concurrentOpts)
+
+result.catch((e) => {
+  // eslint-disable-next-line no-console
   console.error(e.message)
 })

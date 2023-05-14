@@ -4,7 +4,7 @@ type Member {
   firstName: String #@search
   middleName: String
   lastName: String
-  fullName: String @ignore
+  fullName: String @customResolver
   email: String
   phoneNumber: String
   whatsappNumber: String

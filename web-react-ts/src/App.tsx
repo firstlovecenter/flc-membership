@@ -1,19 +1,37 @@
-import './App.css'
-import { Button, Card, Container, Text, VStack } from '@chakra-ui/react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Navigation from './components/Navigation'
+import { AuthProvider } from 'contexts/AuthContext'
+import PrivateRoute from 'auth/PrivateRoute'
+import { authRoutes } from 'auth/authRoutes'
+import { LoadingPage, PageNotFound } from '@jaedag/admin-portal-core'
+import { Suspense } from 'react'
 
-const App = () => {
+function App() {
   return (
-    <Container height="100vh" width="100%">
-      <Text>Welcome David</Text>
-      <Text>Choose an Option</Text>
-
-      <VStack paddingY={10} spacing={4} align="stretch">
-        <Button paddingY={10}>Pay Tithe</Button>
-        <Button paddingY={10}>Give Offering</Button>
-        <Button paddingY={10}>BENMP</Button>
-        <Button paddingY={10}>Giving History</Button>
-      </VStack>
-    </Container>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navigation />
+        <Suspense fallback={<LoadingPage />}>
+          <Routes>
+            {[...authRoutes].map((route, i) => (
+              <Route
+                key={i}
+                path={route.path}
+                element={
+                  <PrivateRoute
+                    roles={route.roles}
+                    placeholder={route.placeholder}
+                  >
+                    <route.element />
+                  </PrivateRoute>
+                }
+              />
+            ))}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 
