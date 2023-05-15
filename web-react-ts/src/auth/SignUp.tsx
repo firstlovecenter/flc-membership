@@ -33,7 +33,7 @@ const SignUp = () => {
     password: '',
     passwordConfirm: '',
   }
-  console.log(import.meta.env.VITE_FIREBASE_API_KEY)
+
   const validationSchema = Yup.object({
     email: Yup.string().email().required(),
     password: Yup.string().min(6).required(),

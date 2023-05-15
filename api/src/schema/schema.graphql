@@ -10,3 +10,16 @@ type Member {
   whatsappNumber: String
   pictureUrl: String
 }
+
+type Offering {
+  id: ID!
+  amount: Int!
+  method: String!
+  member: Member! @relationship(type: "GAVE", direction: IN)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Mutation {
+  giveOffering(amount: Int!, method: String!): Offering!
+}

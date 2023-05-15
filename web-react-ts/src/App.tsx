@@ -5,6 +5,7 @@ import PrivateRoute from 'auth/PrivateRoute'
 import { authRoutes } from 'auth/authRoutes'
 import { LoadingPage, PageNotFound } from '@jaedag/admin-portal-core'
 import { Suspense } from 'react'
+import { offeringRoutes } from 'pages/give-offering/giveOfferingRoutes'
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Navigation />
         <Suspense fallback={<LoadingPage />}>
           <Routes>
-            {[...authRoutes].map((route, i) => (
+            {[...authRoutes, ...offeringRoutes].map((route, i) => (
               <Route
                 key={i}
                 path={route.path}

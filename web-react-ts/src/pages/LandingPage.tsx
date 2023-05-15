@@ -31,10 +31,12 @@ const LandingPage = () => {
   }
 
   return (
-    <Center height="60vh">
+    <Center paddingTop={10}>
       <Container textAlign="center">
-        <Card>
-          <CardHeader>Profile</CardHeader>
+        <Card variant="outline">
+          <CardHeader>
+            <Text>Welcome {currentUser.displayName}</Text>
+          </CardHeader>
           <CardBody>
             {error && (
               <Alert status="error">
@@ -43,14 +45,14 @@ const LandingPage = () => {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <Text>Name: {currentUser.displayName}</Text>
 
-            <Text>Welcome David</Text>
             <Text>Choose an Option</Text>
 
             <VStack paddingY={10} spacing={4} align="stretch">
               <Button paddingY={10}>Pay Tithe</Button>
-              <Button paddingY={10}>Give Offering</Button>
+              <Button paddingY={10} onClick={() => navigate('/give-offering')}>
+                Give Offering
+              </Button>
               <Button paddingY={10}>BENMP</Button>
               <Button paddingY={10}>Giving History</Button>
             </VStack>
@@ -59,10 +61,10 @@ const LandingPage = () => {
               Update Profile
             </Button>
           </CardBody>
+          <Button variant="link" paddingBottom={10} onClick={handleLogout}>
+            Log Out
+          </Button>
         </Card>
-        <Button variant="link" onClick={handleLogout}>
-          Log Out
-        </Button>
       </Container>
     </Center>
   )

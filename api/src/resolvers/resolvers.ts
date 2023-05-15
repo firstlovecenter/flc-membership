@@ -15,12 +15,12 @@ const resolvers = {
   Member: {
     fullName: (source: Member) => `${source.firstName} ${source.lastName}`,
   },
-  Query: {
-    members: async (source: any, args: any, context: Context) => {
-      const session = context.executionContext.session()
-      const rows = ['']
-      return rows
-    },
+  Mutation: {
+    giveOffering: async (
+      source: unknown,
+      args: { amount: number },
+      context: Context
+    ) => {},
   },
 }
 
