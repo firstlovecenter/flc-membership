@@ -49,12 +49,12 @@ const LandingPage = () => {
             <Text>Choose an Option</Text>
 
             <VStack paddingY={10} spacing={4} align="stretch">
-              <Button paddingY={10}>Pay Tithe</Button>
+              {/* <Button paddingY={10}>Pay Tithe</Button> */}
               <Button paddingY={10} onClick={() => navigate('/give-offering')}>
                 Give Offering
               </Button>
-              <Button paddingY={10}>BENMP</Button>
-              <Button paddingY={10}>Giving History</Button>
+              {/* <Button paddingY={10}>BENMP</Button> */}
+              {/* <Button paddingY={10}>Giving History</Button> */}
             </VStack>
 
             <Button marginTop={2} onClick={() => navigate('/update-profile')}>

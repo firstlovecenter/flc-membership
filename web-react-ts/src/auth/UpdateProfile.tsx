@@ -92,6 +92,8 @@ const UpdateProfile = () => {
               >
                 {(formik) => (
                   <Form>
+                    <Input size="lg" name="firstName" label="First Name" />
+                    <Input size="lg" name="lastName" label="Last Name" />
                     <Input size="lg" name="email" label="Email" />
                     <InputGroup size="md" marginY={5}>
                       <Input

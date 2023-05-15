@@ -1,7 +1,7 @@
 type Member {
   id: ID!
   auth_id: String
-  firstName: String #@search
+  firstName: String
   middleName: String
   lastName: String
   fullName: String @customResolver

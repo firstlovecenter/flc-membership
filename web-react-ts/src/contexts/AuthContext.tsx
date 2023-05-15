@@ -8,6 +8,7 @@ import {
   signOut,
   updateEmail as updateEmailAuth,
   updatePassword as updatePasswordAuth,
+  updateProfile as updateProfileAuth,
 } from 'firebase/auth'
 import {
   ReactNode,
@@ -25,6 +26,10 @@ interface AuthContextType {
   resetPassword: (email: string) => Promise<void>
   updateEmail: (email: string) => Promise<void>
   updatePassword: (password: string) => Promise<void>
+  updateProfile: (profile: {
+    displayName?: string | null
+    photoURL?: string | null
+  }) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -35,6 +40,7 @@ const AuthContext = createContext<AuthContextType>({
   resetPassword: () => Promise.resolve(),
   updateEmail: () => Promise.resolve(),
   updatePassword: () => Promise.resolve(),
+  updateProfile: () => Promise.resolve(),
 })
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -74,6 +80,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return updatePasswordAuth(currentUser, password)
   }
 
+  const updateProfile = (profile: {
+    displayName?: string | null
+    photoURL?: string | null
+  }) => {
+    return updateProfileAuth(currentUser, profile)
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user as User)
@@ -91,6 +104,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     resetPassword,
     updateEmail,
     updatePassword,
+    updateProfile,
   }
 
   return (
