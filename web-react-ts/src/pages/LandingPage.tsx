@@ -6,6 +6,7 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Avatar,
   Button,
   Card,
   CardBody,
@@ -13,10 +14,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from 'contexts/UserContext'
 
 const LandingPage = () => {
   const [error, setError] = useState('')
-  const { currentUser, logout } = useAuth()
+  const { logout } = useAuth()
+  const { user } = useUser()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
@@ -35,7 +38,12 @@ const LandingPage = () => {
       <Container textAlign="center">
         <Card variant="outline">
           <CardHeader>
-            <Text>Welcome {currentUser.displayName}</Text>
+            <Avatar
+              size="xl"
+              src={user.pictureUrl}
+              name={`${user.firstName} ${user.lastName}`}
+            />
+            <Text>Welcome {user.firstName}</Text>
           </CardHeader>
           <CardBody>
             {error && (

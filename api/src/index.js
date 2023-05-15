@@ -11,6 +11,8 @@ import { Neo4jGraphQLAuthJWTPlugin } from '@neo4j/graphql-plugin-auth'
 import { typeDefs } from './schema/graphql-schema'
 import resolvers from './resolvers/resolvers'
 
+const secret = require('./credentials.json')
+
 const app = express()
 const httpServer = http.createServer(app)
 
@@ -31,7 +33,7 @@ const neoSchema = new Neo4jGraphQL({
   driver,
   plugins: {
     auth: new Neo4jGraphQLAuthJWTPlugin({
-      secret: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET || secret,
       rolesPath: 'https://flcadmin\\.netlify\\.app/roles',
     }),
   },

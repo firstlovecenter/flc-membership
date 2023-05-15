@@ -16,9 +16,9 @@ const resolvers = {
     fullName: (source: Member) => `${source.firstName} ${source.lastName}`,
   },
   Mutation: {
-    giveOffering: async (
+    giveFellowshipOffering: async (
       source: unknown,
-      args: { amount: number },
+      args: { memberId: string; amount: number },
       context: Context
     ) => {},
   },

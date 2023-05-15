@@ -6,34 +6,37 @@ import { authRoutes } from 'auth/authRoutes'
 import { LoadingPage, PageNotFound } from '@jaedag/admin-portal-core'
 import { Suspense } from 'react'
 import { offeringRoutes } from 'pages/give-offering/giveOfferingRoutes'
-import AppWithApollo from 'AppWithApollo'
+import AppWithApollo from 'utils/AppWithApollo'
+import { UserProvider } from 'contexts/UserContext'
 
 const App = () => {
   return (
     <AuthProvider>
       <AppWithApollo>
-        <BrowserRouter>
-          <Navigation />
-          <Suspense fallback={<LoadingPage />}>
-            <Routes>
-              {[...authRoutes, ...offeringRoutes].map((route, i) => (
-                <Route
-                  key={i}
-                  path={route.path}
-                  element={
-                    <PrivateRoute
-                      roles={route.roles}
-                      placeholder={route.placeholder}
-                    >
-                      <route.element />
-                    </PrivateRoute>
-                  }
-                />
-              ))}
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
+        <UserProvider>
+          <BrowserRouter>
+            <Navigation />
+            <Suspense fallback={<LoadingPage />}>
+              <Routes>
+                {[...authRoutes, ...offeringRoutes].map((route, i) => (
+                  <Route
+                    key={i}
+                    path={route.path}
+                    element={
+                      <PrivateRoute
+                        roles={route.roles}
+                        placeholder={route.placeholder}
+                      >
+                        <route.element />
+                      </PrivateRoute>
+                    }
+                  />
+                ))}
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </UserProvider>
       </AppWithApollo>
     </AuthProvider>
   )
