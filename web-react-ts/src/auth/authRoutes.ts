@@ -29,7 +29,7 @@ export const authRoutes: LazyRouteTypes[] = [
   {
     path: '/',
     element: LandingPage,
-    placeholder: false,
+    placeholder: true,
     roles: ['all'],
   },
   {

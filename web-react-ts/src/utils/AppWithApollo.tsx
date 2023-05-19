@@ -9,10 +9,11 @@ import {
 } from '@apollo/client'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
+import LogIn from 'auth/LogIn'
 
 const AppWithApollo = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string>('')
-  const { getAccessTokenSilently } = useAuth0()
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
 
   const getAccessToken = useCallback(async () => {
     try {
@@ -63,6 +64,8 @@ const AppWithApollo = ({ children }: { children: ReactNode }) => {
     link: from([retryLink, authLink.concat(httpLink)]),
     cache: new InMemoryCache(),
   })
+
+  if (!isAuthenticated) return <LogIn />
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }

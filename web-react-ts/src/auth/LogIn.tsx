@@ -1,78 +1,44 @@
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
+  Box,
   Button,
   Card,
   CardBody,
   Center,
   Container,
   Heading,
-  InputGroup,
-  InputRightElement,
   Link,
   Text,
 } from '@chakra-ui/react'
 import { useAuth } from 'contexts/AuthContext'
-import { Form, Formik, FormikHelpers } from 'formik'
-import * as Yup from 'yup'
-import { useState } from 'react'
-import { Input } from '@jaedag/admin-portal-core'
-import { Link as RouterLink, useNavigate } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 
 const LogIn = () => {
-  const [error, setError] = useState('')
-  const { login, currentUser } = useAuth()
-  const navigate = useNavigate()
+  const { login } = useAuth()
 
   return (
     <Container>
       <Center height="80vh">
         <Container>
-          <Card>
-            <CardBody>
-              <Heading textAlign="center" marginBottom={4}>
-                Log In
-              </Heading>
-              {error && (
-                <Alert status="error">
-                  <AlertIcon />
-                  <AlertTitle>Error!</AlertTitle>
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              )}
-              <Text>{JSON.stringify(currentUser?.email)}</Text>
+          <Heading size="md" textAlign="center" marginBottom={4} paddingX={10}>
+            Welcome to the First Love Members Giving Portal
+          </Heading>
 
-              <Button
-                width="100%"
-                type="submit"
-                size="lg"
-                marginTop={5}
-                onClick={login}
-              >
-                Log In
-              </Button>
+          <Box marginY={2} height="200px" />
+          <Box textAlign="center">
+            <Text>Give all your offerings...</Text>
+            <Text>Pay all your tithes</Text>
+            <Text>Come and give it</Text>
+          </Box>
 
-              <Container marginTop={3}>
-                <Text
-                  textAlign="center"
-                  color="blue.500"
-                  onClick={() => navigate('/forgot-password')}
-                >
-                  Forgot Password?
-                </Text>
-              </Container>
-            </CardBody>
-          </Card>
-          <Center width="100%" marginTop={2}>
-            <Text>
-              Need an account?{' '}
-              <Link as={RouterLink} to="/signup">
-                Sign Up
-              </Link>
-            </Text>
-          </Center>
+          <Button
+            width="100%"
+            type="submit"
+            size="lg"
+            marginTop={5}
+            onClick={login}
+          >
+            Login as a member
+          </Button>
         </Container>
       </Center>
     </Container>
