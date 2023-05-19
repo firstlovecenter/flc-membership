@@ -7,4 +7,9 @@ export interface Member {
   phoneNumber: string
   whatsappNumber: string
   pictureUrl: string
+  fellowship: {
+    id: string
+    name: string
+    bankingCode: number
+  }
 }

@@ -1,6 +1,6 @@
 import { useAuth } from 'contexts/AuthContext'
-import LogIn from './LogIn'
 import { PageNotFound } from '@jaedag/admin-portal-core'
+import LogIn from './LogIn'
 
 interface ProtectedRouteProps {
   children: JSX.Element

@@ -63,7 +63,7 @@ const SignUp = () => {
         <Container>
           <Card>
             <CardBody>
-              <Heading textAlign={'center'} marginBottom={4}>
+              <Heading textAlign="center" marginBottom={4}>
                 Sign Up
               </Heading>
               {error && (
@@ -126,7 +126,7 @@ const SignUp = () => {
               </Formik>
             </CardBody>
           </Card>
-          <Center width={'100%'} marginTop={2}>
+          <Center width="100%" marginTop={2}>
             <Text>
               Already have an account?{' '}
               <Link as={RouterLink} to="/login">

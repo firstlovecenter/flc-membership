@@ -44,7 +44,6 @@
   ],
   "rules": {
     "prettier/prettier": "warn",
-    "react/prop-types": "error",
     "no-unused-vars": "error",
     "no-console": "error",
     "import/extensions": "off",

@@ -22,37 +22,9 @@ import { Input } from '@jaedag/admin-portal-core'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
 const LogIn = () => {
-  const [show, setShow] = useState(false)
   const [error, setError] = useState('')
-  const handleClick = () => setShow(!show)
   const { login, currentUser } = useAuth()
   const navigate = useNavigate()
-
-  const initialValues = {
-    email: '',
-    password: '',
-  }
-
-  const validationSchema = Yup.object({
-    email: Yup.string().email().required(),
-    password: Yup.string().min(6).required(),
-  })
-
-  const onSubmit = async (
-    values: typeof initialValues,
-    onSubmitProps: FormikHelpers<typeof initialValues>
-  ) => {
-    const { setSubmitting } = onSubmitProps
-    try {
-      setSubmitting(true)
-      await login(values.email, values.password)
-      navigate('/')
-    } catch (error) {
-      setError('Failed to log in')
-    }
-
-    setSubmitting(false)
-  }
 
   return (
     <Container>
@@ -60,7 +32,7 @@ const LogIn = () => {
         <Container>
           <Card>
             <CardBody>
-              <Heading textAlign={'center'} marginBottom={4}>
+              <Heading textAlign="center" marginBottom={4}>
                 Log In
               </Heading>
               {error && (
@@ -72,40 +44,15 @@ const LogIn = () => {
               )}
               <Text>{JSON.stringify(currentUser?.email)}</Text>
 
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
+              <Button
+                width="100%"
+                type="submit"
+                size="lg"
+                marginTop={5}
+                onClick={login}
               >
-                {(formik) => (
-                  <Form>
-                    <Input name="email" label="Email" size="lg" />
-                    <InputGroup size="lg" marginY={5}>
-                      <Input
-                        // paddingRight="4.5rem"
-                        name="password"
-                        type={show ? 'text' : 'password'}
-                        placeholder="Enter password"
-                      />
-                      <InputRightElement width="4.5rem">
-                        <Button h="1.75rem" size="sm" onClick={handleClick}>
-                          {show ? 'Hide' : 'Show'}
-                        </Button>
-                      </InputRightElement>
-                    </InputGroup>
-
-                    <Button
-                      width="100%"
-                      type="submit"
-                      size="lg"
-                      marginTop={5}
-                      isLoading={formik.isSubmitting}
-                    >
-                      Log In
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
+                Log In
+              </Button>
 
               <Container marginTop={3}>
                 <Text
@@ -118,7 +65,7 @@ const LogIn = () => {
               </Container>
             </CardBody>
           </Card>
-          <Center width={'100%'} marginTop={2}>
+          <Center width="100%" marginTop={2}>
             <Text>
               Need an account?{' '}
               <Link as={RouterLink} to="/signup">

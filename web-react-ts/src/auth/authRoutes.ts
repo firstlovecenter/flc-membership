@@ -39,3 +39,5 @@ export const authRoutes: LazyRouteTypes[] = [
     roles: ['all'],
   },
 ]
+
+export default authRoutes

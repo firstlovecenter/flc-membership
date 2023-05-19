@@ -12,8 +12,11 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { Input, Select } from '@jaedag/admin-portal-core'
+import { useAuth } from 'contexts/AuthContext'
+import { useUser } from 'contexts/UserContext'
 import { Form, Formik, FormikHelpers } from 'formik'
 import React from 'react'
+import * as Yup from 'yup'
 
 const GIVING_METHODS = [
   { key: 'Mobile Money', value: 'Mobile Money' },
@@ -21,11 +24,19 @@ const GIVING_METHODS = [
 ]
 
 const OfferingForm = () => {
+  const { user } = useUser()
   const initialValues = {
     amount: '',
+    fellowshipCode: user.fellowship.bankingCode,
     date: new Date(),
     method: '',
   }
+
+  const validationSchema = Yup.object({
+    amount: Yup.number().required(),
+    fellowshipCode: Yup.string().required(),
+    method: Yup.string().required(),
+  })
 
   const onSubmit = (
     values: typeof initialValues,
@@ -34,7 +45,6 @@ const OfferingForm = () => {
     const { setSubmitting } = onSubmitProps
 
     setSubmitting(false)
-    console.log(values)
     setSubmitting(true)
   }
 
@@ -46,7 +56,7 @@ const OfferingForm = () => {
         </CardHeader>
         <CardBody>
           <Box paddingBottom={10}>
-            <Text>Hi David</Text>
+            <Text>Hi {user.firstName}</Text>
             <Text>
               God bless your seed and cause men to give to you according to Luke
               6:38
@@ -66,6 +76,11 @@ const OfferingForm = () => {
                   name="amount"
                   label="Amount"
                   placeholder="Enter The Amount in GHS"
+                />
+                <Input
+                  name="fellowshipCode"
+                  label="Fellowship Code"
+                  placeholder=""
                 />
                 <Select
                   label="Method of Giving"

@@ -1,5 +1,5 @@
 import { Container, Text, Center } from '@chakra-ui/layout'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from 'contexts/AuthContext'
 import {
   Alert,
@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from 'contexts/UserContext'
+import LogIn from 'auth/LogIn'
 
 const LandingPage = () => {
   const [error, setError] = useState('')
@@ -31,6 +32,10 @@ const LandingPage = () => {
     } catch (error) {
       setError('Failed to log out')
     }
+  }
+
+  if (!user) {
+    return <LogIn />
   }
 
   return (

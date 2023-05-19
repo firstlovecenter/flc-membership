@@ -10,3 +10,5 @@ export const offeringRoutes = [
     roles: ['all'],
   },
 ]
+
+export default offeringRoutes

@@ -9,6 +9,13 @@ type Member {
   phoneNumber: String
   whatsappNumber: String
   pictureUrl: String
+  fellowship: Fellowship! @relationship(type: "BELONGS_TO", direction: OUT)
+}
+
+type Fellowship {
+  id: ID!
+  bankingCode: Int!
+  name: String!
 }
 
 type Offering {

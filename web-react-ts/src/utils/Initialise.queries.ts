@@ -11,6 +11,11 @@ export const GET_MEMBER = gql`
       phoneNumber
       whatsappNumber
       pictureUrl
+      fellowship {
+        id
+        name
+        bankingCode
+      }
     }
   }
 `

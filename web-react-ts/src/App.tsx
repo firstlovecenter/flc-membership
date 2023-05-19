@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Navigation from './components/Navigation'
 import { AuthProvider } from 'contexts/AuthContext'
 import PrivateRoute from 'auth/PrivateRoute'
 import { authRoutes } from 'auth/authRoutes'
@@ -8,6 +7,7 @@ import { Suspense } from 'react'
 import { offeringRoutes } from 'pages/give-offering/giveOfferingRoutes'
 import AppWithApollo from 'utils/AppWithApollo'
 import { UserProvider } from 'contexts/UserContext'
+import Navigation from './components/Navigation'
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
               <Routes>
                 {[...authRoutes, ...offeringRoutes].map((route, i) => (
                   <Route
-                    key={i}
+                    key={route.path}
                     path={route.path}
                     element={
                       <PrivateRoute

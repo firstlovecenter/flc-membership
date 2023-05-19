@@ -14,18 +14,21 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",
+    "@auth0/auth0-react": "^1.11.0",
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@jaedag/admin-portal-core": "^1.0.45",
     "@vitejs/plugin-react": "^3.1.0",
     "firebase": "^9.22.0",
+    "formik": "^2.2.9",
     "framer-motion": "^10.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
     "vite-plugin-svgr": "^2.4.0",
-    "vite-tsconfig-paths": "^4.0.7"
+    "vite-tsconfig-paths": "^4.0.7",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

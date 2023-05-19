@@ -1,9 +1,9 @@
 import { ReactNode, createContext, useContext } from 'react'
-import { Member } from 'utils/global-types'
-import { useAuth } from './AuthContext'
 import { GET_MEMBER } from 'utils/Initialise.queries'
 import { ApolloWrapper } from '@jaedag/admin-portal-core'
 import { useQuery } from '@apollo/client'
+import { Member } from 'utils/global-types'
+import { useAuth } from './AuthContext'
 
 interface UserContextType {
   user: Member
@@ -25,7 +25,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { currentUser } = useAuth()
 
   const { data, loading, error } = useQuery(GET_MEMBER, {
-    variables: { email: currentUser.email },
+    variables: { email: currentUser?.email ?? 'no@email.com' },
   })
 
   const user = data?.members[0]
@@ -36,7 +36,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      <ApolloWrapper data={data} loading={loading} error={error}>
+      <ApolloWrapper data={data && user} loading={loading} error={error}>
         {children}
       </ApolloWrapper>
     </UserContext.Provider>

@@ -7,32 +7,37 @@ import {
   from,
   InMemoryCache,
 } from '@apollo/client'
-import { ReactNode, useContext, useEffect } from 'react'
-import { useAuth } from 'contexts/AuthContext'
-import LogIn from 'auth/LogIn'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const AppWithApollo = ({ children }: { children: ReactNode }) => {
-  const { currentUser } = useAuth()
+  const [accessToken, setAccessToken] = useState<string>('')
+  const { getAccessTokenSilently } = useAuth0()
 
-  const getFirebaseToken = async () => {
-    if (!currentUser) {
-      return <LogIn />
+  const getAccessToken = useCallback(async () => {
+    try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://flcadmin.netlify.app/graphql',
+        scope: 'read:current_user',
+      })
+
+      setAccessToken(token)
+      sessionStorage.setItem('token', token)
+    } catch (err) {
+      // eslint-disable-next-line
+      console.error('Error Obtaining Token', err)
     }
-
-    const token = await currentUser.getIdToken()
-
-    sessionStorage.setItem('token', token)
-  }
+  }, [getAccessTokenSilently])
 
   useEffect(() => {
-    getFirebaseToken()
-  }, [])
+    getAccessToken()
+  }, [getAccessToken])
 
   const httpLink = createHttpLink({
     uri: import.meta.env.VITE_GRAPHQL_URI || '/graphql',
   })
   const authLink = setContext((_, { headers }) => {
-    const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token') || accessToken
 
     return {
       headers: {

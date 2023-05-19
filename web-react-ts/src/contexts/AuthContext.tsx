@@ -1,15 +1,4 @@
-import { auth } from 'firebase'
-import {
-  User,
-  UserCredential,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signOut,
-  updateEmail as updateEmailAuth,
-  updatePassword as updatePasswordAuth,
-  updateProfile as updateProfileAuth,
-} from 'firebase/auth'
+import { User, useAuth0 } from '@auth0/auth0-react'
 import {
   ReactNode,
   createContext,
@@ -20,27 +9,14 @@ import {
 
 interface AuthContextType {
   currentUser: User
-  signup: (email: string, password: string) => Promise<UserCredential>
-  login: (email: string, password: string) => Promise<UserCredential>
+  login: () => Promise<void>
   logout: () => Promise<void>
-  resetPassword: (email: string) => Promise<void>
-  updateEmail: (email: string) => Promise<void>
-  updatePassword: (password: string) => Promise<void>
-  updateProfile: (profile: {
-    displayName?: string | null
-    photoURL?: string | null
-  }) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
   currentUser: {} as User,
-  signup: () => Promise.resolve({} as UserCredential),
-  login: () => Promise.resolve({} as UserCredential),
+  login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
-  resetPassword: () => Promise.resolve(),
-  updateEmail: () => Promise.resolve(),
-  updatePassword: () => Promise.resolve(),
-  updateProfile: () => Promise.resolve(),
 })
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -55,61 +31,33 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User>({} as User)
   const [loading, setLoading] = useState(true)
+  const {
+    loginWithRedirect,
+    logout: logoutAuth0,
+    user,
+    isAuthenticated,
+  } = useAuth0()
 
-  const signup = (email: string, password: string) => {
-    return createUserWithEmailAndPassword(auth, email, password)
-  }
-
-  const login = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password)
+  const login = () => {
+    return loginWithRedirect()
   }
 
   const logout = () => {
-    return signOut(auth)
-  }
-
-  const resetPassword = (email: string) => {
-    return sendPasswordResetEmail(auth, email)
-  }
-
-  const updateEmail = (email: string) => {
-    return updateEmailAuth(currentUser, email)
-  }
-
-  const updatePassword = (password: string) => {
-    return updatePasswordAuth(currentUser, password)
-  }
-
-  const updateProfile = (profile: {
-    displayName?: string | null
-    photoURL?: string | null
-  }) => {
-    return updateProfileAuth(currentUser, profile)
+    return logoutAuth0()
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    if (isAuthenticated) {
       setCurrentUser(user as User)
       setLoading(false)
-    })
-
-    return unsubscribe
-  }, [])
+    }
+  }, [user, isAuthenticated])
 
   const value = {
     currentUser,
-    signup,
     login,
     logout,
-    resetPassword,
-    updateEmail,
-    updatePassword,
-    updateProfile,
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

@@ -56,7 +56,7 @@ const ForgotPassword = () => {
         <Container>
           <Card>
             <CardBody>
-              <Heading textAlign={'center'} marginBottom={4}>
+              <Heading textAlign="center" marginBottom={4}>
                 Password Reset
               </Heading>
               {error && (
@@ -109,7 +109,7 @@ const ForgotPassword = () => {
               </Container>
             </CardBody>
           </Card>
-          <Center width={'100%'} marginTop={2}>
+          <Center width="100%" marginTop={2}>
             <Text>
               Need an account?{' '}
               <Link as={RouterLink} to="/signup">
