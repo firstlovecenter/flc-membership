@@ -9,8 +9,8 @@ import {
 
 interface AuthContextType {
   currentUser: User
-  login: () => Promise<void>
-  logout: () => Promise<void>
+  login: () => void
+  logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -19,7 +19,6 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => Promise.resolve(),
 })
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (context === undefined) {
@@ -30,7 +29,6 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User>({} as User)
-  const [loading, setLoading] = useState(true)
   const {
     loginWithRedirect,
     logout: logoutAuth0,
@@ -49,7 +47,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isAuthenticated) {
       setCurrentUser(user as User)
-      setLoading(false)
     }
   }, [user, isAuthenticated])
 

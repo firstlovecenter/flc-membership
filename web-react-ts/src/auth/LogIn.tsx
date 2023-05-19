@@ -1,16 +1,5 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Center,
-  Container,
-  Heading,
-  Link,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Button, Center, Container, Heading, Text } from '@chakra-ui/react'
 import { useAuth } from 'contexts/AuthContext'
-import { Link as RouterLink } from 'react-router-dom'
 
 const LogIn = () => {
   const { login } = useAuth()
