@@ -65,16 +65,29 @@ export const paymentMutations = {
             status: paymentRes.status,
           })
         ),
-        db.collection('transactions').add({
-          ...args,
-          reference: paymentRes.reference,
-          status: paymentRes.status,
-          createdAt: new Date(),
-          createdBy: context.auth.jwt.sub,
-          firstName: member.firstName,
-          lastName: member.lastName,
-          email: member.email,
-        }),
+        db
+          .collection('offerings')
+          .doc(paymentRes.reference)
+          .set({
+            ...args,
+            reference: paymentRes.reference,
+            status: paymentRes.status,
+            createdAt: new Date(),
+            createdBy: member.id,
+            firstName: member.firstName,
+            lastName: member.lastName,
+            email: member.email,
+          }),
+        db
+          .collection('members')
+          .doc(member.id)
+          .set({
+            ...member,
+            location: {
+              latitude: member.location.y,
+              longitude: member.location.x,
+            },
+          }),
       ])
 
       const cypherRes = dbRes[0]
