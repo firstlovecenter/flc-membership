@@ -24,9 +24,17 @@ type Offering {
   method: String!
   member: Member! @relationship(type: "GAVE", direction: IN)
   createdAt: DateTime!
+  reference: String!
   updatedAt: DateTime!
 }
 
 type Mutation {
-  giveFellowshipOffering(amount: Int!, method: String!): Offering!
+  giveFellowshipOfferingMomo(
+    amount: Float!
+    bankingCode: Int!
+    mobileNetwork: String!
+    mobileNumber: String!
+  ): Offering!
+  SendPaymentOTP(otp: String!, reference: String!): Boolean!
+  ConfirmOfferingPayment(reference: String!): Offering!
 }

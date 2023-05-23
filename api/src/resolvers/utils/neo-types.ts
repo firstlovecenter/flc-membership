@@ -1,5 +1,5 @@
+import { Role } from '@jaedag/admin-portal-api-core'
 import { Session } from 'neo4j-driver'
-import { Role } from './types'
 
 export type Context = {
   auth: { roles: Role[]; jwt: { sub: string } }

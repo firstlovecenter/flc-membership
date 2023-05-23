@@ -1,5 +1,5 @@
-import { Context } from './utils/neo-types'
-import { Member } from './utils/types'
+import { Member } from '@jaedag/admin-portal-api-core'
+import { paymentMutations } from './payment/resolvers'
 
 const dotenv = require('dotenv')
 
@@ -16,11 +16,7 @@ const resolvers = {
     fullName: (source: Member) => `${source.firstName} ${source.lastName}`,
   },
   Mutation: {
-    giveFellowshipOffering: async (
-      source: unknown,
-      args: { memberId: string; amount: number },
-      context: Context
-    ) => {},
+    ...paymentMutations,
   },
 }
 

@@ -9,7 +9,7 @@ const LogIn = () => {
       <Center height="80vh">
         <Container>
           <Heading size="md" textAlign="center" marginBottom={4} paddingX={10}>
-            Welcome to the First Love Members Giving Portal
+            Welcome to the First Love Members Portal
           </Heading>
 
           <Box marginY={2} height="200px" />

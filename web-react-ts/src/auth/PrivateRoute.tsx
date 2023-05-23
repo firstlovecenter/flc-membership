@@ -1,5 +1,5 @@
 import { useAuth } from 'contexts/AuthContext'
-import { PageNotFound } from '@jaedag/admin-portal-core'
+import { PageNotFound } from '@jaedag/admin-portal-react-core'
 import LogIn from './LogIn'
 
 interface ProtectedRouteProps {
