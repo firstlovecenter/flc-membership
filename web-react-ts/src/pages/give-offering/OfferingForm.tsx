@@ -68,16 +68,16 @@ const OfferingForm = () => {
     const { setSubmitting } = onSubmitProps
     try {
       setSubmitting(true)
-      // const res = await giveMomo({
-      //   variables: {
-      //     amount: parseFloat(values.amount),
-      //     mobileNumber: values.mobileMoneyNumber,
-      //     mobileNetwork: values.mobileNetwork,
-      //     bankingCode: parseInt(values.bankingCode.toString(), 10),
-      //   },
-      // })
+      const res = await giveMomo({
+        variables: {
+          amount: parseFloat(values.amount),
+          mobileNumber: values.mobileMoneyNumber,
+          mobileNetwork: values.mobileNetwork,
+          bankingCode: parseInt(values.bankingCode.toString(), 10),
+        },
+      })
 
-      // setTransactionId(res.data?.giveFellowshipOfferingMomo.id)
+      setTransactionId(res.data?.giveFellowshipOfferingMomo.id)
       navigate('/confirm-transaction')
     } catch (err) {
       setError(err.message)
