@@ -79,7 +79,7 @@ const OfferingForm = () => {
 
       setTransactionId(res.data?.giveFellowshipOfferingMomo.id)
       navigate('/confirm-transaction')
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message)
     } finally {
       setSubmitting(false)
