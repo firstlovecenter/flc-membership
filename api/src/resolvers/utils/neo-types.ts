@@ -1,4 +1,4 @@
-import { Role } from '@jaedag/admin-portal-api-core'
+import { Role } from '@jaedag/admin-portal-types'
 import { Session } from 'neo4j-driver'
 
 export type Context = {

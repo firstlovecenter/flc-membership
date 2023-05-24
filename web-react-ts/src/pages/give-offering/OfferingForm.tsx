@@ -26,6 +26,7 @@ import { useUser } from 'contexts/UserContext'
 import { Form, Formik, FormikHelpers } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
 import { GIVE_FELLOWSHIP_OFFERING_MOMO } from './giveOfferingQueries'
 
 const GIVING_METHODS = [
@@ -34,7 +35,7 @@ const GIVING_METHODS = [
 ]
 
 const OfferingForm = () => {
-  const { user } = useUser()
+  const { user, setTransactionId } = useUser()
   const [error, setError] = useState('')
   const initialValues = {
     amount: '',
@@ -45,6 +46,7 @@ const OfferingForm = () => {
     mobileMoneyNumber: '',
   }
   const [giveMomo] = useMutation(GIVE_FELLOWSHIP_OFFERING_MOMO)
+  const navigate = useNavigate()
 
   const validationSchema = Yup.object({
     amount: Yup.number().required(),
@@ -66,14 +68,17 @@ const OfferingForm = () => {
     const { setSubmitting } = onSubmitProps
     try {
       setSubmitting(true)
-      await giveMomo({
-        variables: {
-          amount: parseFloat(values.amount),
-          mobileNumber: values.mobileMoneyNumber,
-          mobileNetwork: values.mobileNetwork,
-          bankingCode: parseInt(values.bankingCode.toString(), 10),
-        },
-      })
+      // const res = await giveMomo({
+      //   variables: {
+      //     amount: parseFloat(values.amount),
+      //     mobileNumber: values.mobileMoneyNumber,
+      //     mobileNetwork: values.mobileNetwork,
+      //     bankingCode: parseInt(values.bankingCode.toString(), 10),
+      //   },
+      // })
+
+      // setTransactionId(res.data?.giveFellowshipOfferingMomo.id)
+      navigate('/confirm-transaction')
     } catch (err) {
       setError(err.message)
     } finally {

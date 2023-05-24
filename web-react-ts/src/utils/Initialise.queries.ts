@@ -19,3 +19,5 @@ export const GET_MEMBER = gql`
     }
   }
 `
+
+export default GET_MEMBER

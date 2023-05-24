@@ -14,9 +14,27 @@ export const GIVE_FELLOWSHIP_OFFERING_MOMO = gql`
       bankingCode: $bankingCode
     ) {
       id
-      reference
+      transactionReference
     }
   }
 `
 
-export const CONFIRM_FELLOWSHIP_OFFERING_MOMO = ``
+export const GET_TRANSACTION = gql`
+  query getTransaction($transactionId: ID!) {
+    transactions(where: { id: $transactionId }) {
+      id
+      transactionReference
+    }
+  }
+`
+
+export const CONFIRM_FELLOWSHIP_OFFERING_MOMO = gql`
+  mutation confirmFellowshipOfferingMomo($transactionId: ID!) {
+    ConfirmTransaction(transactionId: $transactionId) {
+      id
+      transactionReference
+      transactionStatus
+      income
+    }
+  }
+`

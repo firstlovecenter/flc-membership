@@ -18,13 +18,25 @@ type Fellowship {
   name: String!
 }
 
-type Offering {
+type Transaction {
   id: ID!
   amount: Int!
   method: String!
-  member: Member! @relationship(type: "GAVE", direction: IN)
+  member: Member! @relationship(type: "MADE", direction: IN)
   createdAt: DateTime!
-  reference: String!
+  transactionReference: String!
+  transactionStatus: String!
+  updatedAt: DateTime!
+}
+
+type Offering  {
+  id: ID!
+  amount: Int!
+  method: String!
+  member: Member! 
+  createdAt: DateTime!
+  transactionReference: String!
+  transactionStatus: String!
   updatedAt: DateTime!
 }
 
@@ -36,5 +48,5 @@ type Mutation {
     mobileNumber: String!
   ): Offering!
   SendPaymentOTP(otp: String!, reference: String!): Boolean!
-  ConfirmOfferingPayment(reference: String!): Offering!
+  ConfirmTransaction(reference: String!): Offering!
 }

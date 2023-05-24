@@ -1,5 +1,5 @@
-import { Member } from '@jaedag/admin-portal-api-core'
-import { paymentMutations } from './payment/resolvers'
+import { Member } from '@jaedag/admin-portal-types'
+import { paymentMutations } from './payment/payment-resolvers'
 
 const dotenv = require('dotenv')
 

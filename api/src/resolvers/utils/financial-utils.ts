@@ -1,19 +1,17 @@
-import { Stream } from '@jaedag/admin-portal-api-core'
+import { Stream } from '@jaedag/admin-portal-types'
 
 const dotenv = require('dotenv')
 
 dotenv.config()
 
-export const getStreamFinancials = (stream: Stream) => {
+export const getStreamFinancials = (stream?: Stream) => {
   const auth = process.env.PAYSTACK_PRIVATE_KEY_WEEKDAY || ''
   let subaccount = ''
 
-  switch (stream.accountName) {
+  switch (stream?.bankAccount) {
     case 'aes_account':
-      throw new Error(
-        'Payment Error' +
-          'Anagkazo has a different financial system. Thank you!'
-      )
+      subaccount = process.env.PAYSTACK_SUBACCOUNT_AES || ''
+      break
     case 'ges_account':
       subaccount = process.env.PAYSTACK_SUBACCOUNT_GES || ''
       break

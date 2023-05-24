@@ -36,5 +36,18 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "@typescript-eslint",
+      "no-relative-import-paths",
+      "import"
+    ],
+    "rules": {
+      "import/no-unresolved": "off",
+      "no-console": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-relative-import-paths/no-relative-import-paths": "off"
+    }
   }
 }

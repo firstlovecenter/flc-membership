@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext } from 'react'
+import { ReactNode, createContext, useContext, useState } from 'react'
 import { GET_MEMBER } from 'utils/Initialise.queries'
 import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import { useQuery } from '@apollo/client'
@@ -7,10 +7,14 @@ import { useAuth } from './AuthContext'
 
 interface UserContextType {
   user: Member
+  transactionId: string
+  setTransactionId: (transactionId: string) => void
 }
 
 const UserContext = createContext<UserContextType>({
   user: {} as Member,
+  transactionId: '',
+  setTransactionId: () => null,
 })
 
 export const useUser = () => {
@@ -23,6 +27,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { currentUser } = useAuth()
+  const [transactionId, setTransactionId] = useState<string>('')
 
   const { data, loading, error } = useQuery(GET_MEMBER, {
     variables: { email: currentUser?.email ?? 'no@email.com' },
@@ -32,6 +37,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const value = {
     user,
+    transactionId,
+    setTransactionId,
   }
 
   return (

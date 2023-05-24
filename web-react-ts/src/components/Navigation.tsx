@@ -13,10 +13,10 @@ import {
 import React from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher'
+import { ColorModeSwitcher } from './ColorModeSwitcher'
 import useCustomColorMode from '../hooks/useCustomColors'
 
-function Navigation() {
+const Navigation = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef(null)
   const navigate = useNavigate()
