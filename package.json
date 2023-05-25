@@ -27,8 +27,7 @@
     "typescript-eslint": "^0.0.1-alpha.0"
   },
   "scripts": {
-    "seedDb": "node scripts/seed.js",
-    "start": "node scripts/start-dev.js",
+    "start": "doppler run node scripts/start-dev.js",
     "build": "node scripts/build.js",
     "doppler-install": "(curl -Ls https://cli.doppler.com/install.sh || wget -qO- https://cli.doppler.com/install.sh) | sh -s -- --no-install --no-package-manager",
     "format": "find . -name \"*.js\" | grep -v node_modules | grep -v build | xargs prettier --write",

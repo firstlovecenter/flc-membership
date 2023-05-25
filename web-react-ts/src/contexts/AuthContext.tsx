@@ -4,17 +4,20 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 
 interface AuthContextType {
   currentUser: User
+  setCurrentUser: (user: User) => void
   login: () => void
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType>({
   currentUser: {} as User,
+  setCurrentUser: () => null,
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 })
@@ -36,25 +39,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isAuthenticated,
   } = useAuth0()
 
-  const login = () => {
-    return loginWithRedirect()
-  }
-
-  const logout = () => {
-    return logoutAuth0()
-  }
-
   useEffect(() => {
     if (isAuthenticated) {
       setCurrentUser(user as User)
     }
   }, [user, isAuthenticated])
 
-  const value = {
-    currentUser,
-    login,
-    logout,
-  }
+  const value = useMemo(
+    () => ({
+      currentUser,
+      setCurrentUser,
+      login: () => {
+        return loginWithRedirect()
+      },
+      logout: () => {
+        setCurrentUser({} as User)
+        return logoutAuth0()
+      },
+    }),
+    [currentUser, loginWithRedirect, logoutAuth0]
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

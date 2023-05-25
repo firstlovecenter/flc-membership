@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from 'react'
+import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
 import { GET_MEMBER } from 'utils/Initialise.queries'
 import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import { useQuery } from '@apollo/client'
@@ -33,13 +33,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     variables: { email: currentUser?.email ?? 'no@email.com' },
   })
 
-  const user = data?.members[0]
+  const user = data?.members[0] ?? currentUser
 
-  const value = {
-    user,
-    transactionId,
-    setTransactionId,
-  }
+  const value = useMemo(
+    () => ({
+      user,
+      transactionId,
+      setTransactionId,
+    }),
+    [user, transactionId]
+  )
 
   return (
     <UserContext.Provider value={value}>

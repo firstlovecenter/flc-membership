@@ -9,7 +9,6 @@ import {
 } from '@apollo/client'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
-import LogIn from 'auth/LogIn'
 
 const AppWithApollo = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string>('')
@@ -31,8 +30,10 @@ const AppWithApollo = ({ children }: { children: ReactNode }) => {
   }, [getAccessTokenSilently])
 
   useEffect(() => {
-    getAccessToken()
-  }, [getAccessToken])
+    if (isAuthenticated) {
+      getAccessToken()
+    }
+  }, [getAccessToken, isAuthenticated])
 
   const httpLink = createHttpLink({
     uri: import.meta.env.VITE_GRAPHQL_URI || '/graphql',
@@ -64,8 +65,6 @@ const AppWithApollo = ({ children }: { children: ReactNode }) => {
     link: from([retryLink, authLink.concat(httpLink)]),
     cache: new InMemoryCache(),
   })
-
-  if (!isAuthenticated) return <LogIn />
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }

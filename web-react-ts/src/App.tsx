@@ -7,6 +7,7 @@ import { Suspense } from 'react'
 import { offeringRoutes } from 'pages/give-offering/giveOfferingRoutes'
 import AppWithApollo from 'utils/AppWithApollo'
 import { UserProvider } from 'contexts/UserContext'
+import OfferingForm from 'pages/give-offering/OfferingForm'
 import Navigation from './components/Navigation'
 
 const App = () => {
@@ -18,6 +19,10 @@ const App = () => {
             <Navigation />
             <Suspense fallback={<LoadingPage />}>
               <Routes>
+                <Route
+                  path="/give-offering/anonymous"
+                  element={<OfferingForm />}
+                />
                 {[...authRoutes, ...offeringRoutes].map((route, i) => (
                   <Route
                     key={route.path}

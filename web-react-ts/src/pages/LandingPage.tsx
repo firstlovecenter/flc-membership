@@ -1,7 +1,7 @@
-import { Container, Text, Center } from '@chakra-ui/layout'
-import React, { useEffect, useState } from 'react'
-import { useAuth } from 'contexts/AuthContext'
 import {
+  Container,
+  Text,
+  Center,
   Alert,
   AlertDescription,
   AlertIcon,
@@ -13,6 +13,8 @@ import {
   CardHeader,
   VStack,
 } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { useAuth } from 'contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from 'contexts/UserContext'
 import LogIn from 'auth/LogIn'
@@ -29,12 +31,12 @@ const LandingPage = () => {
     try {
       await logout()
       navigate('/login')
-    } catch (error) {
+    } catch (err) {
       setError('Failed to log out')
     }
   }
 
-  if (!user) {
+  if (!user.id) {
     return <LogIn />
   }
 

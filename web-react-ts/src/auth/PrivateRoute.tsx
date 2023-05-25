@@ -16,15 +16,13 @@ const PrivateRoute: (props: ProtectedRouteProps) => JSX.Element = (props) => {
     return children
   }
 
-  if (!currentUser) {
-    return <LogIn />
-  }
-
   if (roles.includes('all')) {
     return children
   }
 
-  return <PageNotFound />
+  if (!currentUser) {
+    return <PageNotFound />
+  }
 }
 
 export default PrivateRoute
