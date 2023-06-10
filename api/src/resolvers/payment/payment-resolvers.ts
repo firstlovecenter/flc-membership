@@ -5,7 +5,10 @@ import {
   PayStackRequestBody,
   Stream,
 } from '@jaedag/admin-portal-types'
-import { paystackAxiosReq } from '@jaedag/admin-portal-api-core'
+import {
+  initiatePaystackTransaction,
+  updatePaystackCustomerBody,
+} from '@jaedag/admin-portal-api-core'
 import { Context } from '../utils/neo-types'
 import {
   checkTransactionReference,
@@ -43,12 +46,10 @@ export const paymentMutations = {
       const stream: Stream = memberResponse.records[0]?.get('stream').properties
 
       const { auth, subaccount } = getStreamFinancials(stream)
-      const { iniitiatePaystackTransaction, updatePaystackCustomerBody } =
-        paystackAxiosReq
 
       const response = await Promise.all([
         axios(
-          iniitiatePaystackTransaction({
+          initiatePaystackTransaction({
             amount: args.amount,
             mobileNetwork: args.mobileNetwork,
             mobileNumber: args.mobileNumber,
@@ -71,26 +72,26 @@ export const paymentMutations = {
             transactionReference: paymentRes.reference,
           })
         ),
-        db
-          .collection('offerings')
-          .doc(paymentRes.transactionReference)
-          .set({
-            ...args,
-            transactionReference: paymentRes.reference,
-            transactionStatus: paymentRes.status,
-            createdAt: new Date(),
-            createdBy: member.id,
-          }),
-        db
-          .collection('members')
-          .doc(member.id)
-          .set({
-            ...member,
-            location: {
-              latitude: member.location.y,
-              longitude: member.location.x,
-            },
-          }),
+        // db
+        //   .collection('offerings')
+        //   .doc(paymentRes.transactionReference)
+        //   .set({
+        //     ...args,
+        //     transactionReference: paymentRes.reference,
+        //     transactionStatus: paymentRes.status,
+        //     createdAt: new Date(),
+        //     createdBy: member.id,
+        //   }),
+        // db
+        //   .collection('members')
+        //   .doc(member.id)
+        //   .set({
+        //     ...member,
+        //     location: {
+        //       latitude: member.location.y,
+        //       longitude: member.location.x,
+        //     },
+        //   }),
       ])
 
       const cypherRes = dbRes[0]
@@ -105,7 +106,7 @@ export const paymentMutations = {
   },
   ConfirmTransaction: async (
     object: any,
-    args: { transactionId: string },
+    args: { reference: string },
     context: Context
   ) => {
     const session = context.executionContext.session()
@@ -174,44 +175,44 @@ export const paymentMutations = {
         }
       )
 
-      const labels = transactionResponse.records[0]?.get('transaction').labels
+      // const labels = transactionResponse.records[0]?.get('transaction').labels
       const promises = [
         session.executeWrite((tx) =>
           tx.run(setTransactionStatusFailed, {
-            transactionId: args.transactionId,
+            reference: args.reference,
             transactionStatus: confirmationResponse.data.data.status,
           })
         ),
       ]
 
-      if (labels.includes('Offering')) {
-        promises.push(
-          db
-            .collection('offerings')
-            .doc(transaction.transactionReference)
-            .update({ status: confirmationResponse.data.data.status })
-        )
-      }
-      if (labels.includes('Tithe')) {
-        promises.push(
-          db
-            .collection('tithes')
-            .doc(transaction.transactionReference)
-            .update({ status: confirmationResponse.data.data.status })
-        )
-      }
-      if (labels.includes('BENMP')) {
-        promises.push(
-          db
-            .collection('benmp')
-            .doc(transaction.transactionReference)
-            .update({ status: confirmationResponse.data.data.status })
-        )
-      }
+      // if (labels.includes('Offering')) {
+      //   promises.push(
+      //     db
+      //       .collection('offerings')
+      //       .doc(transaction.transactionReference)
+      //       .update({ status: confirmationResponse.data.data.status })
+      //   )
+      // }
+      // if (labels.includes('Tithe')) {
+      //   promises.push(
+      //     db
+      //       .collection('tithes')
+      //       .doc(transaction.transactionReference)
+      //       .update({ status: confirmationResponse.data.data.status })
+      //   )
+      // }
+      // if (labels.includes('BENMP')) {
+      //   promises.push(
+      //     db
+      //       .collection('benmp')
+      //       .doc(transaction.transactionReference)
+      //       .update({ status: confirmationResponse.data.data.status })
+      //   )
+      // }
 
       const response = await Promise.all(promises)
 
-      return response[0].records[0].get('labels').transaction.properties
+      return response[0].records[0].get('transaction').properties
     } catch (error: any) {
       console.error(error)
       throw new Error(`Payment Error: ${error.response?.data.message ?? error}`)

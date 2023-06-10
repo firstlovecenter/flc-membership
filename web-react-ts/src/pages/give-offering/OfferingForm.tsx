@@ -39,7 +39,7 @@ const OfferingForm = () => {
   const [error, setError] = useState('')
   const initialValues = {
     amount: '',
-    bankingCode: user.fellowship.bankingCode,
+    bankingCode: user.fellowship?.bankingCode,
     date: new Date(),
     method: 'mobileMoney',
     mobileNetwork: '',

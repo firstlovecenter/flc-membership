@@ -49,24 +49,19 @@ export const initiateTitheTransaction = `
 `
 
 export const checkTransactionReference = `
-MATCH (transaction:Transaction {id: $transactionId})
-RETURN transaction {
-    .id,
-    .transactionReference,
-    .transactionStatus,
-    .income
-} 
+MATCH (transaction:Transaction {transactionReference: '3n4upku02gplnmw'})
+RETURN transaction 
 `
 
 export const setTransactionStatusFailed = `
-MATCH (transaction:Transaction {id: $transactionId})
+MATCH (transaction:Transaction {transactionReference: $reference})
 SET transaction.transactionStatus = 'failed'
 
 RETURN transaction
 `
 
 export const setTransactionStatus = `
-    MATCH (transaction:Transaction {id: $transactionId})
+MATCH (transaction:Transaction {transactionReference: $reference})
     SET transaction.transactionStatus = $transactionStatus
 
     RETURN transaction 

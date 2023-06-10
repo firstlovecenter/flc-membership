@@ -26,7 +26,9 @@ const ConfirmTransaction = () => {
   const { data, loading, error } = useQuery(GET_TRANSACTION, {
     variables: { transactionId },
   })
-  const [confirmTransaction] = useMutation(CONFIRM_FELLOWSHIP_OFFERING_MOMO)
+  const [confirmTransaction, { loading: btnLoading }] = useMutation(
+    CONFIRM_FELLOWSHIP_OFFERING_MOMO
+  )
 
   const [countdown, setCountdown] = useState(15)
   const transaction = data?.transactions[0]
@@ -43,6 +45,7 @@ const ConfirmTransaction = () => {
     countdown > 0 && setTimeout(() => setCountdown(countdown - 1), 1000)
   }, [countdown, setCountdown])
 
+  console.log(error)
   return (
     <ApolloWrapper data={data} loading={loading} error={error}>
       <Center height="80vh">
@@ -57,7 +60,12 @@ const ConfirmTransaction = () => {
           <Button
             marginY={4}
             disabled={countdown > 0}
-            onClick={() => confirmTransaction({ variables: { transactionId } })}
+            isLoading={btnLoading}
+            onClick={() =>
+              confirmTransaction({
+                variables: { reference: transaction.transactionReference },
+              })
+            }
           >
             Confirm Transaction
           </Button>

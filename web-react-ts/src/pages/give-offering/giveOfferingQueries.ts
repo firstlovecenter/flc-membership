@@ -29,12 +29,14 @@ export const GET_TRANSACTION = gql`
 `
 
 export const CONFIRM_FELLOWSHIP_OFFERING_MOMO = gql`
-  mutation confirmFellowshipOfferingMomo($transactionId: ID!) {
-    ConfirmTransaction(transactionId: $transactionId) {
+  mutation confirmFellowshipOfferingMomo($reference: String!) {
+    ConfirmTransaction(reference: $reference) {
       id
       transactionReference
       transactionStatus
-      income
+      amount
+      method
+      createdAt
     }
   }
 `
