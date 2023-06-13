@@ -1,4 +1,11 @@
-import { Button, Heading, ListItem, UnorderedList } from '@chakra-ui/react'
+import {
+  Button,
+  Container,
+  Heading,
+  ListItem,
+  Text,
+  UnorderedList,
+} from '@chakra-ui/react'
 
 type ManualApprovalStepsProps = {
   close: () => void
@@ -7,12 +14,12 @@ type ManualApprovalStepsProps = {
 const ManualApprovalSteps = (props: ManualApprovalStepsProps) => {
   const { close } = props
   return (
-    <>
+    <Container>
       <Heading>Manual Approval</Heading>
-      To manually approve the transaction
-      <UnorderedList className="mt-3 force-left">
-        <ListItem className="text-left">Dial *170#</ListItem>
-        <ListItem>Choose Option: 6) Wallet</ListItem>
+      <Text>To manually approve the transaction</Text>
+      <UnorderedList marginY={2}>
+        <ListItem>Dial *170#</ListItem>
+        <ListItem>{`Choose Option: 6) Wallet `}</ListItem>
         <ListItem>{`Choose Option: 3) My Approvals `}</ListItem>
         <ListItem>
           Enter your MoMo Pin to retrieve your pending approval list
@@ -21,10 +28,10 @@ const ManualApprovalSteps = (props: ManualApprovalStepsProps) => {
         <ListItem>Choose Option 1 to approve</ListItem>
         <ListItem>Tap button to continue</ListItem>
       </UnorderedList>
-      <Button onClick={close} colorScheme="green" size="lg">
+      <Button onClick={close} colorScheme="green" marginY={4}>
         Okay!
       </Button>
-    </>
+    </Container>
   )
 }
 

@@ -16,7 +16,7 @@
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@jaedag/admin-portal-react-core": "^1.0.66",
+    "@jaedag/admin-portal-react-core": "^1.1.2",
     "@vitejs/plugin-react": "^3.1.0",
     "firebase": "^9.22.0",
     "formik": "^2.2.9",

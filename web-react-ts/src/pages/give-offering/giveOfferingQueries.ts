@@ -19,10 +19,23 @@ export const GIVE_FELLOWSHIP_OFFERING_MOMO = gql`
   }
 `
 
-export const GET_TRANSACTION = gql`
-  query getTransaction($transactionId: ID!) {
+export const GET_TRANSACTION_REFERENCE = gql`
+  query getTransactionReference($transactionId: ID!) {
     transactions(where: { id: $transactionId }) {
       id
+      transactionReference
+    }
+  }
+`
+
+export const GET_TRANSACTION_DETAILS = gql`
+  query getTransactionDetails($transactionId: ID!) {
+    transactions(where: { id: $transactionId }) {
+      id
+      amount
+      method
+      createdAt
+      transactionStatus
       transactionReference
     }
   }

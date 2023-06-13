@@ -15,15 +15,17 @@ import ManualApprovalSteps from 'components/ManualApprovalSteps'
 import { useUser } from 'contexts/UserContext'
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
 import {
   CONFIRM_FELLOWSHIP_OFFERING_MOMO,
-  GET_TRANSACTION,
+  GET_TRANSACTION_REFERENCE,
 } from './giveOfferingQueries'
 
 const ConfirmTransaction = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { transactionId } = useUser()
-  const { data, loading, error } = useQuery(GET_TRANSACTION, {
+  const navigate = useNavigate()
+  const { data, loading, error } = useQuery(GET_TRANSACTION_REFERENCE, {
     variables: { transactionId },
   })
   const [confirmTransaction, { loading: btnLoading }] = useMutation(
@@ -45,7 +47,6 @@ const ConfirmTransaction = () => {
     countdown > 0 && setTimeout(() => setCountdown(countdown - 1), 1000)
   }, [countdown, setCountdown])
 
-  console.log(error)
   return (
     <ApolloWrapper data={data} loading={loading} error={error}>
       <Center height="80vh">
@@ -60,12 +61,14 @@ const ConfirmTransaction = () => {
           <Button
             marginY={4}
             disabled={countdown > 0}
+            colorScheme={countdown > 0 ? 'gray' : 'green'}
             isLoading={btnLoading}
-            onClick={() =>
-              confirmTransaction({
+            onClick={async () => {
+              await confirmTransaction({
                 variables: { reference: transaction.transactionReference },
               })
-            }
+              navigate('/offering-details')
+            }}
           >
             Confirm Transaction
           </Button>

@@ -27,7 +27,13 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { currentUser } = useAuth()
-  const [transactionId, setTransactionId] = useState<string>('')
+  const [transactionId, setTransactionId] = useState<string>(
+    sessionStorage.getItem('transactionId') ?? ''
+  )
+  const setTransId = (transId: string) => {
+    setTransactionId(transId)
+    sessionStorage.setItem('transactionId', transId)
+  }
 
   const { data, loading, error } = useQuery(GET_MEMBER, {
     variables: { email: currentUser?.email ?? 'no@email.com' },
@@ -39,7 +45,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       user,
       transactionId,
-      setTransactionId,
+      setTransactionId: setTransId,
     }),
     [user, transactionId]
   )
