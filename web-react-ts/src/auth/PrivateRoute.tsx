@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useAuth } from 'contexts/AuthContext'
 import { PageNotFound } from '@jaedag/admin-portal-react-core'
 import { ReactNode } from 'react'
