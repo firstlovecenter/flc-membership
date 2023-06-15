@@ -40,8 +40,16 @@ export const paymentMutations = {
           ...args,
         })
       )
+      const anonymousMember = {
+        id: 'anonymous',
+        firstName: 'anonymous',
+        lastName: 'anonymous',
+        email: 'give@firstlovecenter.com',
+        phoneNumber: 'anonymous',
+      }
 
       const member: Member = memberResponse.records[0]?.get('member').properties
+      console.log('🚀 ~ file: payment-resolvers.ts:45 ~ member:', member)
 
       const stream: Stream = memberResponse.records[0]?.get('stream').properties
 
@@ -53,12 +61,12 @@ export const paymentMutations = {
             amount: args.amount,
             mobileNetwork: args.mobileNetwork,
             mobileNumber: args.mobileNumber,
-            customer: member,
+            customer: member ?? anonymousMember,
             subaccount,
             auth,
           })
         ),
-        axios(updatePaystackCustomerBody({ auth, customer: member })),
+        member && axios(updatePaystackCustomerBody({ auth, customer: member })),
       ])
 
       const paymentRes = response[0].data.data
