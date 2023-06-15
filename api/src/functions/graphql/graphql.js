@@ -10,12 +10,13 @@ const neo4j = require('neo4j-driver')
 // Be sure to run `npm run build`
 const { typeDefs } = require('./schema/graphql-schema')
 const resolvers = require('../../resolvers/resolvers').default
+const SECRETS = require('../../resolvers/getSecrets').default
 
 const driver = neo4j.driver(
-  process.env.NEO4J_URI || 'bolt://localhost:7687',
+  SECRETS.NEO4J_URI || 'bolt://localhost:7687',
   neo4j.auth.basic(
-    process.env.NEO4J_USER || 'neo4j',
-    process.env.NEO4J_PASSWORD || 'neo4j'
+    SECRETS.NEO4J_USER || 'neo4j',
+    SECRETS.NEO4J_PASSWORD || 'neo4j'
   )
 )
 
@@ -25,7 +26,7 @@ const neoSchema = new Neo4jGraphQL({
   driver,
   plugins: {
     auth: new Neo4jGraphQLAuthJWTPlugin({
-      secret: process.env.JWT_SECRET.replace(/\\n/gm, '\n'),
+      secret: SECRETS.JWT_SECRET.replace(/\\n/gm, '\n'),
       rolesPath: 'https://flcadmin\\.netlify\\.app/roles',
     }),
   },
