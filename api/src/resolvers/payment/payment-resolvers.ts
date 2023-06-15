@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import {
   Member,
   Network,
@@ -139,49 +139,49 @@ export const paymentMutations = {
         },
       }
 
-      const confirmationResponse = await axios(confirmPaymentBody).catch(
-        async (error) => {
-          if (error.response.data.status === false) {
-            const promises = [
-              session.executeWrite((tx) =>
-                tx.run(setTransactionStatusFailed, args)
-              ),
-            ]
+      const confirmationResponse = await axios(
+        confirmPaymentBody as AxiosRequestConfig<any>
+      ).catch(async (error) => {
+        if (error.response.data.status === false) {
+          const promises = [
+            session.executeWrite((tx) =>
+              tx.run(setTransactionStatusFailed, args)
+            ),
+          ]
 
-            const labels =
-              transactionResponse.records[0]?.get('transaction').labels
-            if (labels.includes('Offering')) {
-              promises.push(
-                db
-                  .collection('offerings')
-                  .doc(transaction.transactionReference)
-                  .update({ status: 'failed' })
-              )
-            }
-            if (labels.includes('Tithe')) {
-              promises.push(
-                db
-                  .collection('tithes')
-                  .doc(transaction.transactionReference)
-                  .update({ status: 'failed' })
-              )
-            }
-            if (labels.includes('BENMP')) {
-              promises.push(
-                db
-                  .collection('benmp')
-                  .doc(transaction.transactionReference)
-                  .update({ status: 'failed' })
-              )
-            }
-
-            await Promise.all(promises)
+          const labels =
+            transactionResponse.records[0]?.get('transaction').labels
+          if (labels.includes('Offering')) {
+            promises.push(
+              db
+                .collection('offerings')
+                .doc(transaction.transactionReference)
+                .update({ status: 'failed' })
+            )
           }
-          throw new Error(
-            `There was an error confirming transaction - ${error.response.data.message}`
-          )
+          if (labels.includes('Tithe')) {
+            promises.push(
+              db
+                .collection('tithes')
+                .doc(transaction.transactionReference)
+                .update({ status: 'failed' })
+            )
+          }
+          if (labels.includes('BENMP')) {
+            promises.push(
+              db
+                .collection('benmp')
+                .doc(transaction.transactionReference)
+                .update({ status: 'failed' })
+            )
+          }
+
+          await Promise.all(promises)
         }
-      )
+        throw new Error(
+          `There was an error confirming transaction - ${error.response.data.message}`
+        )
+      })
 
       // const labels = transactionResponse.records[0]?.get('transaction').labels
       const promises = [
