@@ -4,15 +4,12 @@ import { PageNotFound } from '@jaedag/admin-portal-react-core'
 import { ReactNode } from 'react'
 
 interface ProtectedRouteProps {
-  children: ReactNode
+  children: JSX.Element
   roles: string[]
   placeholder?: boolean
 }
-const defaultProps: Partial<ProtectedRouteProps> = {
-  placeholder: false,
-}
 
-const PrivateRoute = (props: ProtectedRouteProps) => {
+const ProtectedRoute = (props: ProtectedRouteProps) => {
   const { children, roles, placeholder } = props
   const { currentUser } = useAuth()
 
@@ -31,6 +28,4 @@ const PrivateRoute = (props: ProtectedRouteProps) => {
   return <PageNotFound />
 }
 
-PrivateRoute.defaultProps = defaultProps
-
-export default PrivateRoute
+export default ProtectedRoute

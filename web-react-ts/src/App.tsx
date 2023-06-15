@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from 'contexts/AuthContext'
-import PrivateRoute from 'auth/PrivateRoute'
+import ProtectedRoute from 'auth/ProtectedRoute'
 import { authRoutes } from 'auth/authRoutes'
 import { LoadingPage, PageNotFound } from '@jaedag/admin-portal-react-core'
 import { Suspense } from 'react'
@@ -28,12 +28,12 @@ const App = () => {
                     key={route.path}
                     path={route.path}
                     element={
-                      <PrivateRoute
+                      <ProtectedRoute
                         roles={route.roles}
                         placeholder={route.placeholder}
                       >
                         <route.element />
-                      </PrivateRoute>
+                      </ProtectedRoute>
                     }
                   />
                 ))}
