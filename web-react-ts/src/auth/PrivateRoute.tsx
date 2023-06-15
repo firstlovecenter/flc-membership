@@ -7,8 +7,11 @@ interface ProtectedRouteProps {
   roles: string[]
   placeholder?: boolean
 }
+const defaultProps: Partial<ProtectedRouteProps> = {
+  placeholder: false,
+}
 
-const PrivateRoute: (props: ProtectedRouteProps) => JSX.Element = (props) => {
+const PrivateRoute = (props: ProtectedRouteProps) => {
   const { children, roles, placeholder } = props
   const { currentUser } = useAuth()
 
@@ -26,5 +29,7 @@ const PrivateRoute: (props: ProtectedRouteProps) => JSX.Element = (props) => {
 
   return <PageNotFound />
 }
+
+PrivateRoute.defaultProps = defaultProps
 
 export default PrivateRoute
