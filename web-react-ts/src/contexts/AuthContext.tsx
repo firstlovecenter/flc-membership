@@ -32,6 +32,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User>({} as User)
+
   const {
     loginWithRedirect,
     logout: logoutAuth0,

@@ -35,7 +35,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     sessionStorage.setItem('transactionId', transId)
   }
 
-  const { data, loading, error } = useQuery(GET_MEMBER, {
+  const { data } = useQuery(GET_MEMBER, {
     variables: { email: currentUser?.email ?? 'no@email.com' },
   })
 
@@ -52,9 +52,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      <ApolloWrapper data={data && user} loading={loading} error={error}>
-        {children}
-      </ApolloWrapper>
+      {/* <ApolloWrapper data={data && user} loading={loading} error={error}> */}
+      {children}
+      {/* </ApolloWrapper> */}
     </UserContext.Provider>
   )
 }
