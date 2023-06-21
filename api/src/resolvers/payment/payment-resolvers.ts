@@ -7,8 +7,9 @@ import {
 import {
   initiatePaystackTransaction,
   updatePaystackCustomerBody,
+  transactionTimeBeforeConfirmationRange,
 } from '@jaedag/admin-portal-api-core'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { Context } from '../utils/neo-types'
 import {
   checkTransactionReference,
@@ -131,7 +132,7 @@ export const paymentMutations = {
 
       const { auth } = getStreamFinancials(stream)
 
-      const confirmPaymentBody: PayStackRequestBody = {
+      const confirmPaymentBody: AxiosRequestConfig<PayStackRequestBody> = {
         method: 'get',
         baseURL: 'https://api.paystack.co/',
         url: `/transaction/verify/${transaction.transactionReference}`,
@@ -149,6 +150,13 @@ export const paymentMutations = {
           )
         }
       )
+
+      if (
+        transaction.transactionTime &&
+        transactionTimeBeforeConfirmationRange(transaction.transactionTime)
+      ) {
+        return transaction
+      }
 
       const promises = []
       if (confirmationResponse?.data.data.status === 'success') {
