@@ -58,27 +58,27 @@ const ConfirmTransaction = () => {
             prompt to authorize the transaction`}
           </Text>
 
-          <Button
-            marginY={4}
-            disabled={countdown > 0}
-            colorScheme={countdown > 0 ? 'gray' : 'green'}
-            isLoading={btnLoading}
-            onClick={async () => {
-              await confirmTransaction({
-                variables: { reference: transaction.transactionReference },
-              })
-              navigate('/offering-details')
-            }}
-          >
-            Confirm Transaction
-          </Button>
-
           {countdown > 0 ? (
-            <div>{`Confirm in ${countdown}`}</div>
+            <Button disabled marginY={4}>{`Confirm in ${countdown}`}</Button>
           ) : (
-            <Text color="gray" onClick={() => togglePopup()}>
-              <u>Prompt not received?</u>
-            </Text>
+            <>
+              <Button
+                marginY={4}
+                colorScheme="green"
+                isLoading={btnLoading}
+                onClick={async () => {
+                  await confirmTransaction({
+                    variables: { reference: transaction.transactionReference },
+                  })
+                  navigate('/offering-details')
+                }}
+              >
+                Confirm Transaction
+              </Button>{' '}
+              <Text color="gray" onClick={() => togglePopup()}>
+                <u>Prompt not received?</u>
+              </Text>
+            </>
           )}
 
           {isOpen && (

@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-export const getStreamFinancials = (stream?: Stream) => {
+export const getStreamFinancials = (stream: Stream) => {
   const auth = SECRETS.PAYSTACK_PRIVATE_KEY_WEEKDAY || ''
   let subaccount = ''
 

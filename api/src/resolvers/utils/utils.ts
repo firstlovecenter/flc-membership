@@ -1,3 +1,5 @@
+import { captureException } from '@sentry/node'
+
 export const throwError = (message: string, error: string | any) => {
   let errorVar = ''
 
@@ -13,6 +15,31 @@ export const throwError = (message: string, error: string | any) => {
     errorVar = `${error.response.status} ${error.response.statusText}`
   }
 
+  throw new Error(`${message} ${errorVar}`)
+}
+
+export const throwToSentry = (message: string, error: string | any) => {
+  let errorVar = ''
+
+  if (error) {
+    errorVar = error
+  }
+  console.error(error)
+  if (error?.response?.data?.message) {
+    errorVar = error?.response?.data?.message
+  }
+
+  if (error?.response?.statusText) {
+    errorVar = `${error.response.status} ${error.response.statusText}`
+  }
+
+  // eslint-disable-next-line no-console
+  console.error(message, errorVar)
+  captureException(error, {
+    tags: {
+      message,
+    },
+  })
   throw new Error(`${message} ${errorVar}`)
 }
 
