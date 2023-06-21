@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
 import { GET_MEMBER } from 'utils/Initialise.queries'
-import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import { useQuery } from '@apollo/client'
 import { Member } from 'utils/global-types'
 import { useAuth } from './AuthContext'
