@@ -23,6 +23,7 @@ export const GET_TRANSACTION_REFERENCE = gql`
   query getTransactionReference($transactionId: ID!) {
     transactions(where: { id: $transactionId }) {
       id
+      amount
       transactionReference
     }
   }

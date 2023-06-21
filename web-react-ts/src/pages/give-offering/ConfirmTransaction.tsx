@@ -54,7 +54,7 @@ const ConfirmTransaction = () => {
           <Spinner size="xl" />
           <Heading>Processing!</Heading>
           <Text marginTop="2">
-            {`Your transaction of ${transaction?.amount} is currently being processed. Please wait for the
+            {`Your transaction of ${transaction?.amount} GHS is currently being processed. Please wait for the
             prompt to authorize the transaction`}
           </Text>
 
