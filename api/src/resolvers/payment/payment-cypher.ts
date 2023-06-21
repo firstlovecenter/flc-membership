@@ -49,8 +49,8 @@ export const initiateTitheTransaction = `
 `
 
 export const checkTransactionReference = `
-MATCH (transaction:Transaction {transactionReference: $reference})-[:GIVEN_AT]->(fellowship:Fellowship)
-MATCH (fellowship)<-[:HAS*4]-(stream:Stream)
+MATCH (transaction:Transaction {transactionReference: $reference})-[:GIVEN_AT]->(service:ServiceRecord)
+MATCH (service)<-[:HAS_SERVICE]-(:ServiceLog)<-[:HAS_HISTORY]-(fellowship)<-[:HAS*4]-(stream:Stream)
 RETURN transaction, stream
 `
 
