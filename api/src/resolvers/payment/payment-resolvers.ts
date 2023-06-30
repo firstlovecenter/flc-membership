@@ -103,6 +103,9 @@ export const paymentMutations = {
             },
           }),
       ])
+      console.log('🚀 ~ file: payment-resolvers.ts:106 ~ dbRes[0]:', dbRes[0])
+      console.log('🚀 ~ file: payment-resolvers.ts:106 ~ dbRes[1]:', dbRes[1])
+      console.log('🚀 ~ file: payment-resolvers.ts:106 ~ dbRes[2]:', dbRes[2])
 
       const cypherRes = dbRes[0]
 
