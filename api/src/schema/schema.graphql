@@ -10,6 +10,8 @@ type Member {
   whatsappNumber: String
   pictureUrl: String
   fellowship: Fellowship! @relationship(type: "BELONGS_TO", direction: OUT)
+  offerings: [Offering!]! @relationship(type: "MADE", direction: OUT)
+  transactions: [Transaction!]! @customResolver
 }
 
 type Fellowship {
@@ -18,23 +20,25 @@ type Fellowship {
   name: String!
 }
 
-type Transaction {
+interface Transaction {
   id: ID!
   amount: Int!
   method: String!
   member: Member! @relationship(type: "MADE", direction: IN)
   createdAt: DateTime!
+  createdBy: String!
   transactionReference: String!
   transactionStatus: String!
   updatedAt: DateTime!
 }
 
-type Offering  {
+type Offering implements Transaction {
   id: ID!
   amount: Int!
   method: String!
-  member: Member! 
+  member: Member!
   createdAt: DateTime!
+  createdBy: String!
   transactionReference: String!
   transactionStatus: String!
   updatedAt: DateTime!

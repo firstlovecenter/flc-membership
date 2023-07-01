@@ -57,3 +57,7 @@ export const noEmptyArgsValidation = (args: any[]) => {
     }
   })
 }
+
+export const convertFirestoreTimestampToDate = (timestamp: any) => {
+  return new Date(timestamp.toDate()).toISOString()
+}

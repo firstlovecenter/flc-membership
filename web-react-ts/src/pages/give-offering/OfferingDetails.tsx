@@ -1,10 +1,19 @@
 import { useQuery } from '@apollo/client'
-import { Container, Heading, Table, Tbody, Td, Tr } from '@chakra-ui/react'
+import {
+  Button,
+  Container,
+  Heading,
+  Table,
+  Tbody,
+  Td,
+  Tr,
+} from '@chakra-ui/react'
 import {
   ApolloWrapper,
   getHumanReadableDateTime,
 } from '@jaedag/admin-portal-react-core'
 import { useUser } from 'contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
 import { GET_TRANSACTION_DETAILS } from './giveOfferingQueries'
 
 const OfferingDetails = () => {
@@ -12,6 +21,7 @@ const OfferingDetails = () => {
   const { data, loading, error } = useQuery(GET_TRANSACTION_DETAILS, {
     variables: { transactionId },
   })
+  const navigate = useNavigate()
 
   const transaction = data?.transactions[0]
 
@@ -44,6 +54,9 @@ const OfferingDetails = () => {
             </Tr>
           </Tbody>
         </Table>
+        <Button marginTop={5} onClick={() => navigate('/')}>
+          Back to Home
+        </Button>
       </Container>
     </ApolloWrapper>
   )

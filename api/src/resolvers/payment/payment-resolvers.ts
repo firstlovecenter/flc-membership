@@ -49,9 +49,14 @@ export const paymentMutations = {
         lastName: 'anonymous',
         email: 'give@firstlovecenter.com',
         phoneNumber: 'anonymous',
+        location: {
+          y: 0,
+          x: 0,
+        },
       }
 
-      const member: Member = memberResponse.records[0]?.get('member').properties
+      const member: Member =
+        memberResponse.records[0]?.get('member').properties ?? anonymousMember
 
       const stream: Stream = memberResponse.records[0]?.get('stream').properties
 
@@ -103,9 +108,6 @@ export const paymentMutations = {
             },
           }),
       ])
-      console.log('🚀 ~ file: payment-resolvers.ts:106 ~ dbRes[0]:', dbRes[0])
-      console.log('🚀 ~ file: payment-resolvers.ts:106 ~ dbRes[1]:', dbRes[1])
-      console.log('🚀 ~ file: payment-resolvers.ts:106 ~ dbRes[2]:', dbRes[2])
 
       const cypherRes = dbRes[0]
 
@@ -185,6 +187,7 @@ export const paymentMutations = {
       }
 
       const labels = transactionResponse.records[0]?.get('transaction').labels
+      console.log('🚀 ~ file: payment-resolvers.ts:190 ~ labels:', labels)
       if (labels.includes('Offering')) {
         promises.push(
           db
