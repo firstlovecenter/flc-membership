@@ -69,7 +69,9 @@ const LandingPage = () => {
                 Give Offering
               </Button>
               {/* <Button paddingY={10}>BENMP</Button> */}
-              {/* <Button paddingY={10}>Giving History</Button> */}
+              <Button paddingY={10} onClick={() => navigate('/giving-history')}>
+                Giving History
+              </Button>
             </VStack>
 
             <Button marginTop={2} onClick={() => navigate('/update-profile')}>

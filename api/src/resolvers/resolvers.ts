@@ -3,6 +3,7 @@ import { Member } from '@jaedag/admin-portal-types'
 import { paymentMutations } from './payment/payment-resolvers'
 import { db } from './firebase-init'
 import { convertFirestoreTimestampToDate } from './utils/utils'
+import { Transaction } from './utils/types'
 
 const dotenv = require('dotenv')
 
@@ -17,7 +18,7 @@ const resolvers = {
 
   Member: {
     fullName: (source: Member) => `${source.firstName} ${source.lastName}`,
-    transactions: async (source: Member, args: any, context: any) => {
+    transactions: async (source: Member) => {
       const collections = ['offerings']
 
       const fetchData = async () => {
@@ -45,9 +46,9 @@ const resolvers = {
     __isTypeOf() {
       return 'Transaction'
     },
-    createdAt: (source: any) =>
+    createdAt: (source: Transaction) =>
       convertFirestoreTimestampToDate(source.createdAt),
-    updatedAt: (source: any) =>
+    updatedAt: (source: Transaction) =>
       convertFirestoreTimestampToDate(source.updatedAt),
   },
   Mutation: {
