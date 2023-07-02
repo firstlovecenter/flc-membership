@@ -25,9 +25,9 @@ const LogIn = () => {
 
           <Box marginY={2} height="200px" />
           <Box textAlign="center">
-            <Text>Give all your offerings...</Text>
-            <Text>Pay all your tithes</Text>
-            <Text>Come and give it</Text>
+            <Text size="sm">Give all your offerings...</Text>
+            <Text size="sm">Pay all your tithes</Text>
+            <Text size="sm">Come and give it</Text>
           </Box>
 
           <Button

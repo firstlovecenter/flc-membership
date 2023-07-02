@@ -29,7 +29,7 @@ interface Transaction {
   createdBy: String!
   transactionReference: String!
   transactionStatus: String!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Offering implements Transaction {
@@ -41,7 +41,7 @@ type Offering implements Transaction {
   createdBy: String!
   transactionReference: String!
   transactionStatus: String!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Mutation {

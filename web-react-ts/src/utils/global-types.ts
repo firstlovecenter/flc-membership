@@ -12,6 +12,7 @@ export interface Member {
     name: string
     bankingCode: number
   }
+  transactions: Transaction[]
 }
 
 type transactionStatus = 'pending' | 'success' | 'failed'
@@ -20,9 +21,10 @@ export interface Transaction {
   id: string
   amount: number
   member: Member
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt?: string
   createdBy: string
   transactionReference: string
+  method: 'mobileMoney' | 'card'
   transactionStatus: transactionStatus
 }

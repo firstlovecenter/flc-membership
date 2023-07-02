@@ -92,6 +92,7 @@ export const paymentMutations = {
           .doc(paymentRes.reference)
           .set({
             ...args,
+            method: 'mobileMoney',
             transactionReference: paymentRes.reference,
             transactionStatus: paymentRes.status,
             createdAt: new Date(),
