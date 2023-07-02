@@ -104,8 +104,8 @@ export const paymentMutations = {
           .set({
             ...member,
             location: {
-              latitude: member.location?.y,
-              longitude: member.location?.x,
+              latitude: member.location?.y ?? 0.0,
+              longitude: member.location?.x ?? 0.0,
             },
           }),
       ])
