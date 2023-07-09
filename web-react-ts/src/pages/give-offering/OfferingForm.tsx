@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useMutation } from '@apollo/client'
 import {
   Alert,
@@ -23,10 +24,11 @@ import {
   Select,
 } from '@jaedag/admin-portal-react-core'
 import { useUser } from 'contexts/UserContext'
-import { Form, Formik, FormikHelpers } from 'formik'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { GIVE_FELLOWSHIP_OFFERING_MOMO } from './giveOfferingQueries'
 
 const GIVING_METHODS = [
@@ -38,19 +40,21 @@ const OfferingForm = () => {
   const { user, setTransactionId } = useUser()
   const [error, setError] = useState('')
   const initialValues = {
-    amount: '',
+    amount: 100,
     bankingCode: user.fellowship?.bankingCode,
     date: new Date(),
     method: 'mobileMoney',
     mobileNetwork: '',
     mobileMoneyNumber: '',
   }
+
   const [giveMomo] = useMutation(GIVE_FELLOWSHIP_OFFERING_MOMO)
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
     amount: Yup.number().required(),
     bankingCode: Yup.number().required(),
+    date: Yup.date().required(),
     method: Yup.string().required(),
     mobileNetwork: Yup.string().required(),
     mobileMoneyNumber: Yup.string()
@@ -60,17 +64,21 @@ const OfferingForm = () => {
         `Enter a valid MoMo Number without spaces. eg. (02XXXXXXXX)`
       ),
   })
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<typeof initialValues>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValues,
+  })
 
-  const onSubmit = async (
-    values: typeof initialValues,
-    onSubmitProps: FormikHelpers<typeof initialValues>
-  ) => {
-    const { setSubmitting } = onSubmitProps
+  const onSubmit = async (values: typeof initialValues) => {
     try {
-      setSubmitting(true)
       const res = await giveMomo({
         variables: {
-          amount: parseFloat(values.amount),
+          amount: values.amount,
           mobileNumber: values.mobileMoneyNumber,
           mobileNetwork: values.mobileNetwork,
           bankingCode: parseInt(values.bankingCode.toString(), 10),
@@ -81,8 +89,6 @@ const OfferingForm = () => {
       navigate('/confirm-transaction')
     } catch (err: any) {
       setError(err.message)
-    } finally {
-      setSubmitting(false)
     }
   }
 
@@ -107,66 +113,70 @@ const OfferingForm = () => {
               </Box>
             </Flex>
           </Box>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {(formik) => (
-              <Form>
-                <Input
-                  name="amount"
-                  label="Amount"
-                  placeholder="Enter The Amount in GHS"
-                />
-                <Input
-                  name="bankingCode"
-                  label="Fellowship Code"
-                  placeholder=""
-                />
-                <Select
-                  label="Method of Giving"
-                  name="method"
-                  options={GIVING_METHODS}
-                />
 
-                {formik.values.method === 'mobileMoney' && (
-                  <>
-                    <Select
-                      name="mobileNetwork"
-                      label="Mobile Network"
-                      placeholder="Enter Your Mobile Network"
-                      options={GH_MOBILE_NETWORK_OPTIONS}
-                    />
-                    <Input
-                      name="mobileMoneyNumber"
-                      label="Mobile Money Number"
-                      placeholder="Enter Your Mobile Money Number"
-                    />
-                  </>
-                )}
-                {error && (
-                  <Alert status="error">
-                    <AlertIcon />
-                    <AlertTitle>Error!</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                  </Alert>
-                )}
-                <Center>
-                  <Button
-                    marginTop={10}
-                    type="submit"
-                    size="lg"
-                    width="100%"
-                    isLoading={formik.isSubmitting}
-                    colorScheme="whatsapp"
-                  >
-                    Give
-                  </Button>
-                </Center>
-              </Form>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              name="amount"
+              label="Amount"
+              control={control}
+              errors={errors}
+              placeholder="Enter The Amount in GHS"
+            />
+
+            <Input
+              name="bankingCode"
+              label="Banking Code"
+              control={control}
+              errors={errors}
+            />
+            <Select
+              label="Method of Giving"
+              name="method"
+              options={GIVING_METHODS}
+              control={control}
+              errors={errors}
+            />
+
+            {watch('method') === 'mobileMoney' && (
+              <>
+                <Select
+                  name="mobileNetwork"
+                  label="Mobile Network"
+                  placeholder="Enter Your Mobile Network"
+                  options={GH_MOBILE_NETWORK_OPTIONS}
+                  control={control}
+                  errors={errors}
+                />
+                <Input
+                  name="mobileMoneyNumber"
+                  label="Mobile Money Number"
+                  placeholder="Enter Your Mobile Money Number"
+                  control={control}
+                  errors={errors}
+                />
+              </>
             )}
-          </Formik>
+
+            {error && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle>Error!</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            <Center>
+              <Button
+                marginTop={10}
+                type="submit"
+                size="lg"
+                width="100%"
+                isLoading={isSubmitting}
+                colorScheme="whatsapp"
+              >
+                Give
+              </Button>
+            </Center>
+          </form>
         </CardBody>
       </Card>
     </Container>
