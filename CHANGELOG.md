@@ -1,3 +1,30 @@
+#### 0.3.8 (2023-07-09)
+
+##### New Features
+
+*  switch from formik to react-hook-form ([aa176d50](https://github.com/jaedag/fl-admin-portal/commit/aa176d50d8d8c7448cdadeb4c61a3759dadc227d))
+*  implement giving history page ([39fd2d7d](https://github.com/jaedag/fl-admin-portal/commit/39fd2d7df079a1f89667d5a280afcd6898bbf148))
+*  implement transactions property on Member in schema ([b13f5c84](https://github.com/jaedag/fl-admin-portal/commit/b13f5c84b41f5969f3949849b0cfcc6f6e35b48e))
+*   set firebase env from doppler secrets ([15657216](https://github.com/jaedag/fl-admin-portal/commit/15657216e51f3804dea5760074c32f991af8126a))
+
+##### Bug Fixes
+
+*  set null location to 0.0 for latlng ([fdaffd29](https://github.com/jaedag/fl-admin-portal/commit/fdaffd29e44f2c9d5394f53d7a5e462629fc772a))
+*  implement page for giving history ([75cd0366](https://github.com/jaedag/fl-admin-portal/commit/75cd03667c2f7f115eb65366c05a63e1220c64ca))
+*  log response from firestore transactions ([3199ae61](https://github.com/jaedag/fl-admin-portal/commit/3199ae61322d7762018a2fc5cbcfab8b0a0437f1))
+*  update packages ([721d5bde](https://github.com/jaedag/fl-admin-portal/commit/721d5bdeceb32819f0243d7fbfbd007e52c6bf51))
+*  fix bug in cypher not causing reference to get matched ([54d5cd30](https://github.com/jaedag/fl-admin-portal/commit/54d5cd30e067f32ec9c33a7c23fcd9bca4a278c6))
+*  update deps ([ec03b7c3](https://github.com/jaedag/fl-admin-portal/commit/ec03b7c356fed4567ec91186736a01c171e4491d))
+*  correct typing of confirmPayment Axios Body ([d4361238](https://github.com/jaedag/fl-admin-portal/commit/d4361238a985b4117094a250f02ef683da8f03e5))
+*  fix undefined var in confirm transaction component ([b306523f](https://github.com/jaedag/fl-admin-portal/commit/b306523f7310fe44fe36b3988cb62ec8a3621bc6))
+*  imporove charging and confirming flows ([c5e44978](https://github.com/jaedag/fl-admin-portal/commit/c5e44978df9c450aa4e452a68d1d60af60ae6a70))
+*  update index.js ([829263f7](https://github.com/jaedag/fl-admin-portal/commit/829263f7582aa76f91b50cd12908b90859784530))
+*  remove ApolloWrapper around the whole app ([796a880e](https://github.com/jaedag/fl-admin-portal/commit/796a880ed904f9fa106600561fbd076012485c5f))
+
+##### Other Changes
+
+* //github.com/firstlovecenter/flc-membership into deploy ([6d74bdac](https://github.com/jaedag/fl-admin-portal/commit/6d74bdac78b650f083cc22f22b303c3c8123e252))
+
 #### 0.3.7 (2023-06-16)
 
 ##### New Features
