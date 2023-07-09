@@ -8,12 +8,10 @@ import {
   Td,
   Tr,
 } from '@chakra-ui/react'
-import {
-  ApolloWrapper,
-  getHumanReadableDateTime,
-} from '@jaedag/admin-portal-react-core'
+import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import { useUser } from 'contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
+import { getHumanReadableDateTime } from '@jaedag/admin-portal-types'
 import { GET_TRANSACTION_DETAILS } from './giveOfferingQueries'
 
 const OfferingDetails = () => {

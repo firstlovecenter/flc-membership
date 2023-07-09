@@ -5,9 +5,9 @@ import {
   ApolloWrapper,
   CurrencySpan,
   TableFromArrays,
-  getHumanReadableDateTime,
 } from '@jaedag/admin-portal-react-core'
 import { Member } from 'utils/global-types'
+import { getHumanReadableDateTime } from '@jaedag/admin-portal-types'
 import { MEMBER_GIVING_HISTORY } from './givingHistoryGQL'
 
 const GivingHistory = () => {
