@@ -96,7 +96,7 @@ export const paymentMutations = {
             transactionReference: paymentRes.reference,
             transactionStatus: paymentRes.status,
             createdAt: new Date(),
-            createdBy: member.id,
+            createdBy: `members/${member.id}`,
           }),
         db
           .collection('members')
