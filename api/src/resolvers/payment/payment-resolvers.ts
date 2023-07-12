@@ -103,6 +103,7 @@ export const paymentMutations = {
           .doc(member.id)
           .set({
             ...member,
+            hasHolyGhostBaptismDate: member?.hasHolyGhostBaptismDate.toString(),
             location: {
               latitude: member.location?.y ?? 0.0,
               longitude: member.location?.x ?? 0.0,
