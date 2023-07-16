@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
 import { GET_MEMBER } from 'utils/Initialise.queries'
 import { useQuery } from '@apollo/client'
 import { Member } from 'utils/global-types'
+import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import { useAuth } from './AuthContext'
 
 interface UserContextType {
@@ -34,7 +35,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     sessionStorage.setItem('transactionId', transId)
   }
 
-  const { data } = useQuery(GET_MEMBER, {
+  const { data, loading, error } = useQuery(GET_MEMBER, {
     variables: { email: currentUser?.email ?? 'no@email.com' },
   })
 
@@ -51,9 +52,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      {/* <ApolloWrapper data={data && user} loading={loading} error={error}> */}
-      {children}
-      {/* </ApolloWrapper> */}
+      <ApolloWrapper data={data && user} loading={loading} error={error}>
+        {children}
+      </ApolloWrapper>
     </UserContext.Provider>
   )
 }

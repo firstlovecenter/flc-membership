@@ -44,20 +44,7 @@ export const paymentMutations = {
           ...args,
         })
       )
-      const anonymousMember = {
-        id: 'anonymous',
-        firstName: 'anonymous',
-        lastName: 'anonymous',
-        email: 'give@firstlovecenter.com',
-        phoneNumber: 'anonymous',
-        location: {
-          y: 0,
-          x: 0,
-        },
-      }
-
-      const member: Member =
-        memberResponse.records[0]?.get('member').properties ?? anonymousMember
+      const member: Member = memberResponse.records[0]?.get('member').properties
 
       const stream: Stream = memberResponse.records[0]?.get('stream').properties
 
@@ -69,7 +56,7 @@ export const paymentMutations = {
             amount: args.amount,
             mobileNetwork: args.mobileNetwork,
             mobileNumber: args.mobileNumber,
-            customer: member ?? anonymousMember,
+            customer: member,
             subaccount,
             auth,
           })
@@ -99,18 +86,15 @@ export const paymentMutations = {
             createdAt: new Date(),
             createdBy: `members/${member.id}`,
           }),
-        db
-          .collection('members')
-          .doc(member.id)
-          .set({
-            ...member,
-            hasHolyGhostBaptismDate:
-              member?.hasHolyGhostBaptismDate?.toString(),
-            location: {
-              latitude: member.location?.y ?? 0.0,
-              longitude: member.location?.x ?? 0.0,
-            },
-          }),
+        db.collection('members').doc(member.id).set({
+          id: member.id,
+          firstName: member.firstName,
+          lastName: member.lastName,
+          email: member.email,
+          phoneNumber: member.phoneNumber,
+          whatsappNumber: member.whatsappNumber,
+          pictureUrl: member.pictureUrl,
+        }),
       ])
 
       const cypherRes = dbRes[0]
@@ -192,18 +176,19 @@ export const paymentMutations = {
             createdAt: new Date(),
             createdBy: `members/${member.id}`,
           }),
-        db
-          .collection('members')
-          .doc(member.id)
-          .set({
-            ...member,
-            hasHolyGhostBaptismDate:
-              member?.hasHolyGhostBaptismDate?.toString() ?? '',
-            location: {
-              latitude: member.location?.y ?? 0.0,
-              longitude: member.location?.x ?? 0.0,
-            },
-          }),
+        member &&
+          db
+            .collection('members')
+            .doc(member.id)
+            .set({
+              ...member,
+              hasHolyGhostBaptismDate:
+                member?.hasHolyGhostBaptismDate?.toString() ?? '',
+              location: {
+                latitude: member.location?.y ?? 0.0,
+                longitude: member.location?.x ?? 0.0,
+              },
+            }),
       ])
 
       const cypherRes = dbRes[0]

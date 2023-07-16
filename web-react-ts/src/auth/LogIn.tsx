@@ -2,18 +2,7 @@ import { Box, Button, Center, Container, Heading, Text } from '@chakra-ui/react'
 import { useAuth } from 'contexts/AuthContext'
 
 const LogIn = () => {
-  const { login, setCurrentUser } = useAuth()
-
-  const anonymousUser = {
-    id: 'anonymous',
-    name: 'anonymous',
-    firstName: 'Anonymous',
-    lastName: '',
-    fellowship: {
-      bankingCode: '0000',
-    },
-    email: 'anon@anonymous.com',
-  }
+  const { login } = useAuth()
 
   return (
     <Container>
@@ -40,6 +29,9 @@ const LogIn = () => {
           >
             Login
           </Button>
+
+          {/*
+          TODO: Implement anonymous login 
           <Button
             width="100%"
             type="submit"
@@ -48,7 +40,7 @@ const LogIn = () => {
             onClick={() => setCurrentUser(anonymousUser)}
           >
             Anonymous
-          </Button>
+          </Button> */}
         </Container>
       </Center>
     </Container>
