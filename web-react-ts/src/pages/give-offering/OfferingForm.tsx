@@ -29,7 +29,10 @@ import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { GIVE_FELLOWSHIP_OFFERING_MOMO } from './giveOfferingQueries'
+import {
+  GIVE_ANON_FELLOWSHIP_OFFERING_MOMO,
+  GIVE_FELLOWSHIP_OFFERING_MOMO,
+} from './giveOfferingQueries'
 
 const GIVING_METHODS = [
   { key: 'Mobile Money', value: 'mobileMoney' },
@@ -49,6 +52,7 @@ const OfferingForm = () => {
   }
 
   const [giveMomo] = useMutation(GIVE_FELLOWSHIP_OFFERING_MOMO)
+  const [giveAnonMomo] = useMutation(GIVE_ANON_FELLOWSHIP_OFFERING_MOMO)
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
@@ -76,6 +80,21 @@ const OfferingForm = () => {
 
   const onSubmit = async (values: typeof initialValues) => {
     try {
+      if (user.id === 'anonymous') {
+        const res = await giveAnonMomo({
+          variables: {
+            amount: values.amount,
+            mobileNumber: values.mobileMoneyNumber,
+            mobileNetwork: values.mobileNetwork,
+            bankingCode: parseInt(values.bankingCode.toString(), 10),
+          },
+        })
+
+        setTransactionId(res.data?.giveAnonFellowshipOfferingMomo.id)
+        navigate('/confirm-transaction')
+        return
+      }
+
       const res = await giveMomo({
         variables: {
           amount: values.amount,

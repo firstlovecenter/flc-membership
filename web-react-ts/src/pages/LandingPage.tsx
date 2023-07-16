@@ -65,7 +65,10 @@ const LandingPage = () => {
 
             <VStack paddingY={10} spacing={4} align="stretch">
               {/* <Button paddingY={10}>Pay Tithe</Button> */}
-              <Button paddingY={10} onClick={() => navigate('/give-offering')}>
+              <Button
+                paddingY={10}
+                onClick={() => navigate('/give-offering/anonymous')}
+              >
                 Give Offering
               </Button>
               {/* <Button paddingY={10}>BENMP</Button> */}

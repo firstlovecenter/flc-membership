@@ -38,7 +38,7 @@ const LogIn = () => {
             marginTop={5}
             onClick={login}
           >
-            Login as a member
+            Login
           </Button>
           <Button
             width="100%"

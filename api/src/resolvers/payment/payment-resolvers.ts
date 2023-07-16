@@ -14,6 +14,7 @@ import { Context } from '../utils/neo-types'
 import {
   checkTransactionReference,
   getMember,
+  getStreamFromFellowshipCode,
   initiateOfferingTransaction,
   setTransactionStatus,
   setTransactionStatusFailed,
@@ -105,6 +106,99 @@ export const paymentMutations = {
             ...member,
             hasHolyGhostBaptismDate:
               member?.hasHolyGhostBaptismDate?.toString(),
+            location: {
+              latitude: member.location?.y ?? 0.0,
+              longitude: member.location?.x ?? 0.0,
+            },
+          }),
+      ])
+
+      const cypherRes = dbRes[0]
+
+      return cypherRes.records[0].toObject().transaction.properties
+    } catch (error: any) {
+      console.error(error)
+      throw new Error(`Payment Error: ${error.response?.data.message ?? error}`)
+    } finally {
+      session.close()
+    }
+  },
+  giveAnonFellowshipOfferingMomo: async (
+    source: unknown,
+    args: {
+      amount: number
+      bankingCode: number
+      mobileNetwork: Network
+      mobileNumber: string
+    },
+    context: Context
+  ) => {
+    const session = context.executionContext.session()
+
+    try {
+      const anonymousMember = {
+        id: 'anonymous',
+        firstName: 'anonymous',
+        lastName: 'anonymous',
+        email: 'give@firstlovecenter.com',
+        phoneNumber: 'anonymous',
+        location: {
+          y: 0,
+          x: 0,
+        },
+      } as Member
+
+      const member: Member = anonymousMember
+      const streamResponse = await session.executeRead((tx) =>
+        tx.run(getStreamFromFellowshipCode, args)
+      )
+      const stream: Stream = streamResponse.records[0]?.get('stream').properties
+
+      const { auth, subaccount } = getStreamFinancials(stream)
+
+      const response = await Promise.all([
+        axios(
+          initiatePaystackTransaction({
+            amount: args.amount,
+            mobileNetwork: args.mobileNetwork,
+            mobileNumber: args.mobileNumber,
+            customer: member,
+            subaccount,
+            auth,
+          })
+        ),
+        member && axios(updatePaystackCustomerBody({ auth, customer: member })),
+      ])
+
+      const paymentRes = response[0].data.data
+
+      const dbRes = await Promise.all([
+        session.executeWrite((tx) =>
+          tx.run(initiateOfferingTransaction, {
+            ...args,
+            auth: context.auth,
+            transactionStatus: paymentRes.status,
+            transactionReference: paymentRes.reference,
+          })
+        ),
+        db
+          .collection('offerings')
+          .doc(paymentRes.reference)
+          .set({
+            ...args,
+            method: 'mobileMoney',
+            transactionReference: paymentRes.reference,
+            transactionStatus: paymentRes.status,
+            createdAt: new Date(),
+            createdBy: `members/${member.id}`,
+          }),
+        db
+          .collection('members')
+          .doc(member.id)
+          .set({
+            ...member,
+            hasHolyGhostBaptismDate:
+              member?.hasHolyGhostBaptismDate?.toString() ?? '',
             location: {
               latitude: member.location?.y ?? 0.0,
               longitude: member.location?.x ?? 0.0,

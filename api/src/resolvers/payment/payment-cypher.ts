@@ -1,7 +1,12 @@
 export const getMember = `
-    MATCH (member:Member {auth_id: $auth.jwt.sub})
+    OPTIONAL MATCH (member:Member {auth_id: $auth.jwt.sub})
     MATCH (fellowship:Fellowship {bankingCode: $bankingCode})<-[:HAS*4]-(stream:Stream)
     RETURN member, stream
+`
+
+export const getStreamFromFellowshipCode = `
+    MATCH (fellowship:Fellowship {bankingCode: $bankingCode})<-[:HAS*4]-(stream:Stream)
+    RETURN  stream
 `
 
 export const initiateOfferingTransaction = `

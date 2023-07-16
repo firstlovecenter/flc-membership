@@ -18,6 +18,24 @@ export const GIVE_FELLOWSHIP_OFFERING_MOMO = gql`
     }
   }
 `
+export const GIVE_ANON_FELLOWSHIP_OFFERING_MOMO = gql`
+  mutation giveAnonFellowshipOfferingMomo(
+    $amount: Float!
+    $mobileNetwork: String!
+    $mobileNumber: String!
+    $bankingCode: Int!
+  ) {
+    giveAnonFellowshipOfferingMomo(
+      amount: $amount
+      mobileNetwork: $mobileNetwork
+      mobileNumber: $mobileNumber
+      bankingCode: $bankingCode
+    ) {
+      id
+      transactionReference
+    }
+  }
+`
 
 export const GET_TRANSACTION_REFERENCE = gql`
   query getTransactionReference($transactionId: ID!) {
