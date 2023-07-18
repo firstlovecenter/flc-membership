@@ -62,7 +62,7 @@ export const GET_TRANSACTION_DETAILS = gql`
 
 export const CONFIRM_FELLOWSHIP_OFFERING_MOMO = gql`
   mutation confirmFellowshipOfferingMomo($reference: String!) {
-    ConfirmTransaction(reference: $reference) {
+    confirmTransaction(reference: $reference) {
       id
       transactionReference
       transactionStatus

@@ -57,6 +57,6 @@ type Mutation {
     mobileNetwork: String!
     mobileNumber: String!
   ): Offering!
-  SendPaymentOTP(otp: String!, reference: String!): Boolean!
-  ConfirmTransaction(reference: String!): Offering!
+  sendPaymentOTP(otp: String!, reference: String!): Boolean!
+  confirmTransaction(reference: String!): Offering!
 }

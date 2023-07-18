@@ -201,7 +201,7 @@ export const paymentMutations = {
       session.close()
     }
   },
-  ConfirmTransaction: async (
+  confirmTransaction: async (
     object: any,
     args: { reference: string },
     context: Context
