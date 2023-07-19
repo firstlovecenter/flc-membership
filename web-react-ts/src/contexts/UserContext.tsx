@@ -3,6 +3,8 @@ import { GET_MEMBER } from 'utils/Initialise.queries'
 import { useQuery } from '@apollo/client'
 import { Member } from 'utils/global-types'
 import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
+import LogIn from 'auth/LogIn'
+import { useAuth0 } from '@auth0/auth0-react'
 import { useAuth } from './AuthContext'
 
 interface UserContextType {
@@ -27,6 +29,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { currentUser } = useAuth()
+  const { isAuthenticated } = useAuth0()
   const [transactionId, setTransactionId] = useState<string>(
     sessionStorage.getItem('transactionId') ?? ''
   )
@@ -52,9 +55,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      <ApolloWrapper data={data && user} loading={loading} error={error}>
-        {children}
-      </ApolloWrapper>
+      {!isAuthenticated ? (
+        <LogIn />
+      ) : (
+        <ApolloWrapper data={data && user} loading={loading} error={error}>
+          {children}
+        </ApolloWrapper>
+      )}
     </UserContext.Provider>
   )
 }
