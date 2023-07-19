@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 
 const OfferingForm = lazy(() => import('./OfferingForm'))
-const confirmTransaction = lazy(() => import('./confirmTransaction'))
+const confirmTransaction = lazy(() => import('./ConfirmTransaction'))
 const OfferingDetails = lazy(() => import('./OfferingDetails'))
 
 export const offeringRoutes = [
