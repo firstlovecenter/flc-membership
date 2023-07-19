@@ -25,10 +25,10 @@ const retryLink = new RetryLink({
 const WithApolloProvider = ({ children }: { children: ReactNode }) => {
   const { getAccessTokenSilently } = useAuth0()
   const [token, setToken] = useState<string | null>(
-    sessionStorage.getItem('token')
+    localStorage.getItem('token')
   )
   const [expiryDate, setExpiryDate] = useState<string | null>(
-    sessionStorage.getItem('expiryDate')
+    localStorage.getItem('expiryDate')
   )
 
   const httpLink = createHttpLink({
@@ -53,8 +53,8 @@ const WithApolloProvider = ({ children }: { children: ReactNode }) => {
     const fetchedExpiryDate = new Date(new Date().getTime() + 3600 * 1000)
 
     // Store token and its expiry date in local storage
-    sessionStorage.setItem('token', fetchedToken)
-    sessionStorage.setItem('expiryDate', fetchedExpiryDate.toString())
+    localStorage.setItem('token', fetchedToken)
+    localStorage.setItem('expiryDate', fetchedExpiryDate.toString())
 
     // update state with new token and expiry
     setToken(fetchedToken)
@@ -68,16 +68,6 @@ const WithApolloProvider = ({ children }: { children: ReactNode }) => {
       },
     }
   })
-
-  // const errorLink = onError(({ graphQLErrors, networkError }) => {
-  //   if (graphQLErrors)
-  //     graphQLErrors.forEach(({ message, locations, path }) =>
-  //       console.error(
-  //         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-  //       )
-  //     )
-  //   if (networkError) console.error(`[Network error]: ${networkError}`)
-  // })
 
   const errorPolicy = 'all'
   const client = new ApolloClient({

@@ -29,7 +29,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { currentUser } = useAuth()
-  const { isAuthenticated } = useAuth0()
+  const { isAuthenticated, isLoading } = useAuth0()
   const [transactionId, setTransactionId] = useState<string>(
     sessionStorage.getItem('transactionId') ?? ''
   )
@@ -55,9 +55,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      {!isAuthenticated ? (
-        <LogIn />
-      ) : (
+      {isLoading && !isAuthenticated && <div>Loading...</div>}
+      {!isLoading && !isAuthenticated && <LogIn />}
+      {isAuthenticated && (
         <ApolloWrapper data={data && user} loading={loading} error={error}>
           {children}
         </ApolloWrapper>
