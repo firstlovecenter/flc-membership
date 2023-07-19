@@ -9,6 +9,7 @@ import AppWithApollo from 'utils/WithApolloProvider'
 import { UserProvider } from 'contexts/UserContext'
 import OfferingForm from 'pages/give-offering/OfferingForm'
 import givingHistoryRoutes from 'pages/giving-history/givingHistoryRoutes'
+import memberProfileRoutes from 'pages/member-profile/memberProfileRoutes'
 import Navigation from './components/Navigation'
 
 const App = () => {
@@ -24,22 +25,25 @@ const App = () => {
                   path="/give-offering/anonymous"
                   element={<OfferingForm />}
                 />
-                {[...authRoutes, ...offeringRoutes, ...givingHistoryRoutes].map(
-                  (route, i) => (
-                    <Route
-                      key={route.path}
-                      path={route.path}
-                      element={
-                        <ProtectedRoute
-                          roles={route.roles}
-                          placeholder={route.placeholder}
-                        >
-                          <route.element />
-                        </ProtectedRoute>
-                      }
-                    />
-                  )
-                )}
+                {[
+                  ...authRoutes,
+                  ...offeringRoutes,
+                  ...givingHistoryRoutes,
+                  ...memberProfileRoutes,
+                ].map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={
+                      <ProtectedRoute
+                        roles={route.roles}
+                        placeholder={route.placeholder}
+                      >
+                        <route.element />
+                      </ProtectedRoute>
+                    }
+                  />
+                ))}
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </Suspense>

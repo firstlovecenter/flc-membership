@@ -9,6 +9,14 @@ type Member {
   phoneNumber: String
   whatsappNumber: String
   pictureUrl: String
+  visitationArea: String
+  dob: TimeGraph @relationship(type: "WAS_BORN_ON", direction: OUT)
+  occupation: Occupation @relationship(type: "HAS_OCCUPATION", direction: OUT)
+  gender: Gender! @relationship(type: "HAS_GENDER", direction: OUT)
+  maritalStatus: MaritalStatus!
+    @relationship(type: "HAS_MARITAL_STATUS", direction: OUT)
+  title: [Title!]!
+    @relationship(type: "HAS_TITLE", properties: "HasTitle", direction: OUT)
   fellowship: Fellowship! @relationship(type: "BELONGS_TO", direction: OUT)
   offerings: [Offering!]! @relationship(type: "MADE", direction: OUT)
   transactions: [Transaction!]! @customResolver
@@ -59,4 +67,45 @@ type Mutation {
   ): Offering!
   sendPaymentOTP(otp: String!, reference: String!): Boolean!
   confirmTransaction(reference: String!): Offering!
+}
+
+type Gender @auth(rules: [{ isAuthenticated: true }]) {
+  gender: String
+  members: [Member!]! @relationship(type: "HAS_GENDER", direction: IN)
+}
+
+type MaritalStatus @auth(rules: [{ isAuthenticated: true }]) {
+  status: String
+  members: [Member!]! @relationship(type: "HAS_MARITAL_STATUS", direction: IN)
+}
+
+type Occupation @auth(rules: [{ isAuthenticated: true }]) {
+  occupation: String
+  members: [Member!]! @relationship(type: "HAS_OCCUPATION", direction: IN)
+}
+
+type Title @auth(rules: [{ isAuthenticated: true }]) {
+  name: String! #Pastor, Reverend, Apostle, Bishop (Mother)
+  members: [Member!]!
+    @relationship(type: "HAS_TITLE", properties: "HasTitle", direction: IN)
+}
+
+interface HasTitle @relationshipProperties {
+  date: Date
+}
+
+interface TimeGraphNode {
+  date: Date
+}
+
+type TimeGraph implements TimeGraphNode
+  @auth(rules: [{ isAuthenticated: true }]) {
+  id: ID
+    @cypher(
+      statement: """
+      MATCH (this)
+      RETURN toString(this.date)
+      """
+    )
+  date: Date
 }
