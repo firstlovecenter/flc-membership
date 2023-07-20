@@ -22,22 +22,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { Resolver, useForm } from 'react-hook-form'
 import { DISPLAY_MEMBER_BIO } from './memberProfileGQL'
-
-type CreateMemberFormOptions = {
-  firstName: string
-  middleName: string
-  lastName: string
-  gender: 'Male' | 'Female' | ''
-  phoneNumber: string
-  whatsappNumber: string
-  email: string
-  dob: Date
-  maritalStatus: 'Single' | 'Married' | ''
-  occupation: string
-  pictureUrl: string
-  idlLocation: string
-  fellowship: number
-}
+import { CreateMemberFormOptions } from './member-profile-types'
 
 const UpdateProfile = () => {
   const { user } = useUser()
@@ -60,7 +45,7 @@ const UpdateProfile = () => {
     maritalStatus: member?.maritalStatus?.status ?? '',
     occupation: member?.occupation?.occupation ?? '',
     pictureUrl: member?.pictureUrl ?? '',
-    idlLocation: member?.idlLocation ?? 'no-location',
+    visitationArea: member?.visitationArea ?? 'no-location',
     fellowship: member?.fellowship.bankingCode,
   }
 
@@ -233,9 +218,9 @@ const UpdateProfile = () => {
 
           <Input
             label="Home/Campus Location * (for IDL)"
-            name="idlLocation"
+            name="visitationArea"
             placeholder="Enter the location for IDL Visitaion"
-            aria-describedby="idlLocation"
+            aria-describedby="visitationArea"
             control={control}
             errors={errors}
           />

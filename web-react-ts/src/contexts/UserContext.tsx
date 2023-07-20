@@ -4,11 +4,11 @@ import { useQuery } from '@apollo/client'
 import { Member } from 'utils/global-types'
 import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import LogIn from 'auth/LogIn'
-import { useAuth0 } from '@auth0/auth0-react'
+import { User, useAuth0 } from '@auth0/auth0-react'
 import { useAuth } from './AuthContext'
 
 interface UserContextType {
-  user: Member
+  user: User & Member
   transactionId: string
   setTransactionId: (transactionId: string) => void
 }
@@ -55,7 +55,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      {isLoading && !isAuthenticated && <div>Loading...</div>}
+      {isLoading && !isAuthenticated && <div>Splash Screen</div>}
       {!isLoading && !isAuthenticated && <LogIn />}
       {isAuthenticated && (
         <ApolloWrapper data={data && user} loading={loading} error={error}>

@@ -17,9 +17,9 @@ import React, { useState } from 'react'
 import { useAuth } from 'contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from 'contexts/UserContext'
-import NoAccountLandingPage from './NoAccountLandingPage'
+import { FaExclamationTriangle } from 'react-icons/fa'
 
-const LandingPage = () => {
+const NoAccountLandingPage = () => {
   const [error, setError] = useState('')
   const { logout } = useAuth()
   const { user } = useUser()
@@ -36,10 +36,6 @@ const LandingPage = () => {
     }
   }
 
-  if (!user.id) {
-    return <NoAccountLandingPage />
-  }
-
   return (
     <Center paddingTop={10}>
       <Container textAlign="center">
@@ -47,10 +43,10 @@ const LandingPage = () => {
           <CardHeader>
             <Avatar
               size="xl"
-              src={user.pictureUrl}
-              name={`${user.firstName} ${user.lastName}`}
+              src={user?.picture}
+              name={`${user.given_name} ${user.family_name}`}
             />
-            <Text>Welcome {user.firstName}</Text>
+            <Text>Welcome {user.given_name}</Text>
           </CardHeader>
           <CardBody>
             {error && (
@@ -61,25 +57,21 @@ const LandingPage = () => {
               </Alert>
             )}
 
-            <Text>Choose an Option</Text>
-
             <VStack paddingY={10} spacing={4} align="stretch">
-              {/* <Button paddingY={10}>Pay Tithe</Button> */}
+              <Text>
+                {`You'll need to update your profile so that you can access your
+                membership portal`}
+              </Text>
               <Button
                 paddingY={10}
-                onClick={() => navigate('/give-offering/anonymous')}
+                marginTop={2}
+                colorScheme="red"
+                leftIcon={<FaExclamationTriangle />}
+                onClick={() => navigate('/create-profile')}
               >
-                Give Offering
-              </Button>
-              {/* <Button paddingY={10}>BENMP</Button> */}
-              <Button paddingY={10} onClick={() => navigate('/giving-history')}>
-                Giving History
+                Update Profile
               </Button>
             </VStack>
-
-            <Button marginTop={2} onClick={() => navigate('/update-profile')}>
-              Update Profile
-            </Button>
           </CardBody>
           <Button variant="link" paddingBottom={10} onClick={handleLogout}>
             Log Out
@@ -89,5 +81,4 @@ const LandingPage = () => {
     </Center>
   )
 }
-
-export default LandingPage
+export default NoAccountLandingPage
