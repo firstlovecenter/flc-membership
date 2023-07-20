@@ -7,7 +7,6 @@ import { Suspense } from 'react'
 import { offeringRoutes } from 'pages/give-offering/giveOfferingRoutes'
 import AppWithApollo from 'utils/WithApolloProvider'
 import { UserProvider } from 'contexts/UserContext'
-import OfferingForm from 'pages/give-offering/OfferingForm'
 import givingHistoryRoutes from 'pages/giving-history/givingHistoryRoutes'
 import memberProfileRoutes from 'pages/member-profile/memberProfileRoutes'
 import Navigation from './components/Navigation'
@@ -21,10 +20,6 @@ const App = () => {
             <Navigation />
             <Suspense fallback={<LoadingPage />}>
               <Routes>
-                <Route
-                  path="/give-offering/anonymous"
-                  element={<OfferingForm />}
-                />
                 {[
                   ...authRoutes,
                   ...offeringRoutes,

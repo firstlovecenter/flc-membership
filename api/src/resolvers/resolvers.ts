@@ -26,7 +26,7 @@ const resolvers = {
           collections.map(async (collection) => {
             const snapshot = await db
               .collection(collection)
-              .where('createdBy', '==', source.id)
+              .where('createdBy', '==', `/members/${source.id}`)
               .get()
 
             return snapshot.docs.map((doc: { data: () => any }) => doc.data())
@@ -46,7 +46,6 @@ const resolvers = {
     __isTypeOf() {
       return 'Transaction'
     },
-    id: (source: Transaction) => source.transactionReference,
     createdAt: (source: Transaction) =>
       convertFirestoreTimestampToDate(source.createdAt),
     updatedAt: (source: Transaction) =>

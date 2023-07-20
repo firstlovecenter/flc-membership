@@ -28,7 +28,7 @@ type Fellowship {
   name: String!
 }
 
-interface Transaction {
+interface TransactionInterface {
   id: ID!
   amount: Int!
   method: String!
@@ -40,7 +40,19 @@ interface Transaction {
   updatedAt: DateTime
 }
 
-type Offering implements Transaction {
+type Transaction implements TransactionInterface {
+  id: ID!
+  amount: Int!
+  method: String!
+  member: Member!
+  createdAt: DateTime!
+  createdBy: String!
+  transactionReference: String!
+  transactionStatus: String!
+  updatedAt: DateTime
+}
+
+type Offering implements TransactionInterface {
   id: ID!
   amount: Int!
   method: String!

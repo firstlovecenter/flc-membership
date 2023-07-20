@@ -14,6 +14,7 @@ export const GIVE_FELLOWSHIP_OFFERING_MOMO = gql`
       bankingCode: $bankingCode
     ) {
       id
+      amount
       transactionReference
     }
   }
