@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client'
 import { useEffect } from 'react'
-import { Container, Text } from '@chakra-ui/react'
+import { Badge, Container, Tag, TagLabel, Text } from '@chakra-ui/react'
 import { BeatLoader } from 'react-spinners'
 import { GET_FELLOWSHIP } from './memberProfileGQL'
 
@@ -30,15 +30,26 @@ const FellowshipCodeInputMessage = ({
   return (
     <Container paddingY={2}>
       {!fellowship && !loading && (
-        <Text color="gray">Fellowship Not Found</Text>
+        <Tag size="lg" colorScheme="red" borderRadius="full">
+          <TagLabel>Fellowship Not Found</TagLabel>
+        </Tag>
       )}
 
       {!!fellowship && (
         <>
-          <Text color="green.100" fontWeight="bold">
-            {`Fellowship: ${fellowship.name}`}
+          <Text as="span" color="green.100" fontWeight="bold">
+            <Badge colorScheme="green" marginRight={2}>
+              Fellowship
+            </Badge>{' '}
+            {fellowship.name}
           </Text>
-          <Text color="green.100">{`Leader: ${fellowship.leader.firstName} ${fellowship.leader.lastName}`}</Text>
+
+          <Text color="green.100">
+            <Badge colorScheme="green" marginRight={2}>
+              Leader
+            </Badge>
+            {`${fellowship.leader.firstName} ${fellowship.leader.lastName}`}
+          </Text>
         </>
       )}
       {loading && <BeatLoader color="grey" size={10} />}
