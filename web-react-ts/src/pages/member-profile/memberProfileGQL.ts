@@ -82,11 +82,11 @@ export const CREATE_MEMBER_PROFILE = gql`
       dob {
         date
       }
+      gender {
+        gender
+      }
       maritalStatus {
         status
-      }
-      occupation {
-        occupation
       }
       fellowship {
         id

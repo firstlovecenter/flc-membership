@@ -59,14 +59,13 @@ export const memberProfileMutations = {
           auth: context.auth,
         })
       )
-      console.log(
-        '🚀 ~ file: member-profile-resolvers.ts:63 ~ response:',
-        response
-      )
+
+      const createdMember = response.records[0]?.get('member').properties
+
+      return createdMember
     } catch (error) {
       throw new Error(`Error creating member profile: ${error}`)
     }
-    return null
   },
 }
 

@@ -48,24 +48,38 @@ CREATE (member:Active:Member:IDL:Deer {whatsappNumber:$whatsappNumber})
          	WITH member
          	WITH member  WHERE $occupation IS NOT NULL
          	MERGE (occupation:Occupation {occupation:$occupation})
-      	MERGE (member)-[:HAS_OCCUPATION]-> (occupation)
+      	  MERGE (member)-[:HAS_OCCUPATION]-> (occupation)
          	RETURN count(member) AS member_occupation
          	}
 
-      WITH member
-      CALL {
-         	WITH member
-         	WITH member  WHERE $ministry IS NOT NULL
-         	MATCH (ministry:CreativeArts {id:$ministry})
-      	MERGE (member)-[:BELONGS_TO]-> (ministry)
-         	RETURN count(member) AS member_ministry
-         	}
-
-           MATCH (fellowship:Fellowship {id: $fellowship})
-           MATCH (fellowship)<-[:HAS]-(bacenta:Bacenta)
-          MATCH (bacenta:Bacenta)<-[:HAS]-(constituency:Constituency)<-[:HAS]-(council:Council)
-           RETURN member  {.id, .firstName,.middleName,.lastName,.email,.phoneNumber,.whatsappNumber,
-            fellowship:fellowship {.id,bacenta:bacenta{.id,constituency:constituency{.id}}}}
+           MATCH (fellowship:Fellowship {bankingCode: $fellowshipCode})
+           MATCH (member)-[:WAS_BORN_ON]->(dob:TimeGraph)
+           MATCH (member)-[:HAS_GENDER]->(gender:Gender)
+           MATCH (member)-[:HAS_MARITAL_STATUS]->(maritalStatus:MaritalStatus)
+           RETURN member 
+            {
+              .id, 
+              .firstName,
+              .middleName,
+              .lastName,
+              .email,
+              .phoneNumber,
+              .whatsappNumber,
+              fellowship:fellowship {
+                .id, 
+                .name, 
+                .bankingCode
+              },
+              dob:dob {
+                .date
+              },
+              gender: gender {
+                .gender
+              },
+              maritalStatus: maritalStatus {
+                .status
+              }
+            }
       `
 
 export const checkMemberExists = `
