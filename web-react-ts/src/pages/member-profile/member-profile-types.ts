@@ -11,5 +11,5 @@ export type CreateMemberFormOptions = {
   occupation: string
   pictureUrl: string
   visitationArea: string
-  fellowship: number
+  fellowshipCode: number
 }

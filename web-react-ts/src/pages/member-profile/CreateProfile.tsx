@@ -1,5 +1,4 @@
 import { useUser } from 'contexts/UserContext'
-import React from 'react'
 import {
   GENDER_OPTIONS,
   ImageUpload,
@@ -20,7 +19,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import { Resolver, useForm } from 'react-hook-form'
 import { User } from '@auth0/auth0-react'
+import { useMutation } from '@apollo/client'
 import { CreateMemberFormOptions } from './member-profile-types'
+import { CREATE_MEMBER_PROFILE } from './memberProfileGQL'
+import FellowshipCodeInputMessage from './FellowshipCodeInputMessage'
 
 const CreateProfile = () => {
   const { user } = useUser()
@@ -39,7 +41,7 @@ const CreateProfile = () => {
     occupation: '',
     pictureUrl: member?.picture ?? '',
     visitationArea: '',
-    fellowship: 0,
+    fellowshipCode: 0,
   }
 
   const validationSchema = Yup.object({
@@ -47,7 +49,6 @@ const CreateProfile = () => {
     firstName: Yup.string().required('First Name is a required field'),
     lastName: Yup.string().required('Last Name is a required field'),
     gender: Yup.string().required('Gender is a required field'),
-    email: Yup.string().email('Please enter a valid email address').trim(),
     maritalStatus: Yup.string().required('Marital Status is a required field'),
     dob: Yup.date()
       .max(new Date(), "You can't be born after today")
@@ -64,17 +65,29 @@ const CreateProfile = () => {
         `Phone Number must start with + and country code (eg. '+233')`
       )
       .required('Whats App Number is required'),
-    fellowship: Yup.number().required('Pleaser enter a valid fellowship code'),
+    fellowshipCode: Yup.number().required(
+      'Pleaser enter a valid fellowship code'
+    ),
   })
 
+  const [CreateMemberProfile] = useMutation(CREATE_MEMBER_PROFILE)
+
   const onSubmit = async (values: typeof initialValues) => {
-    console.log(values)
+    try {
+      const res = await CreateMemberProfile({
+        variables: values,
+      })
+      console.log('🚀 ~ file: CreateProfile.tsx:78 ~ res:', res)
+    } catch (err) {
+      console.log('🚀 ~ file: CreateProfile.tsx:81 ~ error:', err)
+    }
   }
 
   const {
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<typeof initialValues>({
     resolver: yupResolver(
@@ -88,7 +101,6 @@ const CreateProfile = () => {
       <Heading marginBottom={5}>Update Profile</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* <!-- Basic Info Div --> */}
-
         <ImageUpload
           user={user}
           name="pictureUrl"
@@ -104,7 +116,6 @@ const CreateProfile = () => {
         <Text marginTop={2} size="xs" textAlign="center" color="red.300">
           Please note that * are required to submit the form
         </Text>
-
         <Heading marginY={2}>Basic Info</Heading>
         <Input
           label="First Name*"
@@ -114,7 +125,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         <Input
           label="Middle Name"
           name="middleName"
@@ -123,7 +133,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         <Input
           label="Last Name*"
           name="lastName"
@@ -132,7 +141,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         <Select
           label="Gender*"
           name="gender"
@@ -142,7 +150,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         <Input
           label="Phone Number*"
           placeholder="Eg. +233 241 23 456"
@@ -150,7 +157,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         <Input
           label="WhatsApp Number*"
           placeholder="Eg. +233 241 23 456"
@@ -159,7 +165,6 @@ const CreateProfile = () => {
           errors={errors}
         />
         <Divider />
-
         <Select
           label="Marital Status*"
           name="maritalStatus"
@@ -169,7 +174,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         <Input
           label="Occupation"
           name="occupation"
@@ -178,16 +182,6 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
-        <Input
-          label="Email Address"
-          name="email"
-          placeholder="Enter Email Address"
-          aria-describedby="emailHelp"
-          control={control}
-          errors={errors}
-        />
-
         <Text size="xs">
           Date of Birth*{' '}
           <Text as="i" className="text-secondary">
@@ -202,12 +196,9 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
-
         {/* <!--End of Basic Info Section--> */}
-
         {/* <!-- Beginning of Church Info Section--> */}
         <Heading>Church Info</Heading>
-
         <Input
           label="Home/Campus Location * (for IDL)"
           name="visitationArea"
@@ -223,6 +214,9 @@ const CreateProfile = () => {
           aria-describedby="fellowshipCode"
           control={control}
           errors={errors}
+        />
+        <FellowshipCodeInputMessage
+          watchedFellowshipCode={watch('fellowshipCode')}
         />
 
         <Container marginTop={10} textAlign="center" paddingX={0}>

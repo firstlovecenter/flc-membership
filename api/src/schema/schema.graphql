@@ -26,6 +26,7 @@ type Fellowship {
   id: ID!
   bankingCode: Int!
   name: String!
+  leader: Member! @relationship(type: "LEADS", direction: IN)
 }
 
 type Gender @auth(rules: [{ isAuthenticated: true }]) {
