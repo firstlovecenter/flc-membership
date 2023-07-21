@@ -1,0 +1,52 @@
+interface TransactionInterface {
+  id: ID
+  amount: Int!
+  method: String!
+  member: Member! @relationship(type: "MADE", direction: IN)
+  createdAt: DateTime!
+  createdBy: String!
+  transactionReference: String!
+  transactionStatus: String!
+  updatedAt: DateTime
+}
+
+type Transaction implements TransactionInterface {
+  id: ID
+  amount: Int!
+  method: String!
+  member: Member!
+  createdAt: DateTime!
+  createdBy: String!
+  transactionReference: String!
+  transactionStatus: String!
+  updatedAt: DateTime
+}
+
+type Offering implements TransactionInterface {
+  id: ID
+  amount: Int!
+  method: String!
+  member: Member!
+  createdAt: DateTime!
+  createdBy: String!
+  transactionReference: String!
+  transactionStatus: String!
+  updatedAt: DateTime
+}
+
+type Mutation {
+  giveFellowshipOfferingMomo(
+    amount: Float!
+    bankingCode: Int!
+    mobileNetwork: String!
+    mobileNumber: String!
+  ): Offering!
+  giveAnonFellowshipOfferingMomo(
+    amount: Float!
+    bankingCode: Int!
+    mobileNetwork: String!
+    mobileNumber: String!
+  ): Offering!
+  sendPaymentOTP(otp: String!, reference: String!): Boolean!
+  confirmTransaction(reference: String!): Offering!
+}

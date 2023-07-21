@@ -8,11 +8,13 @@ const path = require('path')
  */
 
 const schema = fs
-  .readFileSync(
-    process.env.GRAPHQL_SCHEMA || path.join(__dirname, 'schema.graphql')
-  )
+  .readFileSync(path.join(__dirname, 'schema.graphql'))
   .toString('utf-8')
 
-const array = [schema]
+const transactions = fs
+  .readFileSync(path.join(__dirname, 'transactions.graphql'))
+  .toString('utf-8')
+
+const array = [schema, transactions]
 
 exports.typeDefs = array.join(' ')

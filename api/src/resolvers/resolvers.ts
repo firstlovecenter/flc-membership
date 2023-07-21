@@ -43,7 +43,15 @@ const resolvers = {
       return transactions
     },
   },
-  Transaction: {},
+  Transaction: {
+    __isTypeOf() {
+      return 'Transaction'
+    },
+    createdAt: (source: Transaction) =>
+      convertFirestoreTimestampToDate(source.createdAt),
+    updatedAt: (source: Transaction) =>
+      convertFirestoreTimestampToDate(source.updatedAt),
+  },
   Offering: {
     __isTypeOf() {
       return 'Transaction'
