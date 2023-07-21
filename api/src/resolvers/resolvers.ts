@@ -24,9 +24,11 @@ const resolvers = {
       const fetchData = async () => {
         const data = await Promise.all(
           collections.map(async (collection) => {
+            const memberRef = db.collection('members').doc(source.id)
+
             const snapshot = await db
               .collection(collection)
-              .where('createdBy', '==', `/members/${source.id}`)
+              .where('createdBy', '==', memberRef)
               .get()
 
             return snapshot.docs.map((doc: { data: () => any }) => doc.data())
