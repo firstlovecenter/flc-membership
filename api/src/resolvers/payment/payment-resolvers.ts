@@ -64,6 +64,16 @@ export const paymentMutations = {
       ])
 
       const paymentRes = response[0].data.data
+      const memberRef = db.collection('members').doc(member.id)
+      await memberRef.set({
+        id: member.id,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        email: member.email,
+        phoneNumber: member.phoneNumber,
+        whatsappNumber: member.whatsappNumber,
+        pictureUrl: member.pictureUrl,
+      })
 
       const dbRes = await Promise.all([
         session.executeWrite((tx) =>
@@ -83,17 +93,8 @@ export const paymentMutations = {
             transactionReference: paymentRes.reference,
             transactionStatus: paymentRes.status,
             createdAt: new Date(),
-            createdBy: `/members/${member.id}`,
+            createdBy: memberRef,
           }),
-        db.collection('members').doc(member.id).set({
-          id: member.id,
-          firstName: member.firstName,
-          lastName: member.lastName,
-          email: member.email,
-          phoneNumber: member.phoneNumber,
-          whatsappNumber: member.whatsappNumber,
-          pictureUrl: member.pictureUrl,
-        }),
       ])
 
       const cypherRes = dbRes[0]
