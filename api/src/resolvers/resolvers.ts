@@ -29,6 +29,7 @@ const resolvers = {
             const snapshot = await db
               .collection(collection)
               .where('createdBy', '==', memberRef)
+              .orderBy('createdAt', 'desc')
               .get()
 
             return snapshot.docs.map((doc: { data: () => any }) => doc.data())
