@@ -46,7 +46,7 @@ const UpdateProfile = () => {
     occupation: member?.occupation?.occupation ?? '',
     pictureUrl: member?.pictureUrl ?? '',
     visitationArea: member?.visitationArea ?? 'no-location',
-    fellowship: member?.fellowship.bankingCode,
+    fellowshipCode: member?.fellowship.bankingCode,
   }
 
   const validationSchema = Yup.object({
@@ -71,7 +71,9 @@ const UpdateProfile = () => {
         `Phone Number must start with + and country code (eg. '+233')`
       )
       .required('Whats App Number is required'),
-    fellowship: Yup.number().required('Pleaser enter a valid fellowship code'),
+    fellowshipCode: Yup.number().required(
+      'Pleaser enter a valid fellowship code'
+    ),
   })
 
   const onSubmit = async (values: typeof initialValues) => {
