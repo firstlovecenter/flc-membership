@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { useUser } from 'contexts/UserContext'
-import { Center, Heading, Text } from '@chakra-ui/react'
+import { Badge, Center, Heading, Text } from '@chakra-ui/react'
 import {
   ApolloWrapper,
   CurrencySpan,
@@ -20,13 +20,20 @@ const GivingHistory = () => {
 
   const member: Member = data?.members[0]
 
-  const headings = [['Date', 'Amount', 'Method', 'Status', 'Reference']]
+  const headings = [['Status', 'Date', 'Amount', 'Method', 'Reference']]
   const tableArray = member?.transactions.map((transaction) => {
+    let badgeColour = 'red'
+    if (transaction.transactionStatus === 'success') {
+      badgeColour = 'green'
+    } else if (transaction.transactionStatus === 'pending') {
+      badgeColour = 'yellow'
+    }
+
     return [
+      <Badge colorScheme={badgeColour}>{transaction.transactionStatus}</Badge>,
       getHumanReadableDateTime(transaction.createdAt),
       <CurrencySpan number={transaction.amount} />,
       transaction.method,
-      transaction.transactionStatus,
       transaction.transactionReference,
     ]
   })

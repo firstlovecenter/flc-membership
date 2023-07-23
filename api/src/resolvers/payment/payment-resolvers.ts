@@ -154,25 +154,29 @@ export const paymentMutations = {
 
       const promises = []
       if (confirmationResponse?.data.data.status === 'success') {
-        promises.push([
-          session.run(setTransactionStatus, {
-            ...args,
-            status: confirmationResponse?.data.data.status,
-          }),
-        ])
+        promises.push(
+          session.executeWrite((tx) =>
+            tx.run(setTransactionStatus, {
+              ...args,
+              transactionStatus: confirmationResponse?.data.data.status,
+            })
+          )
+        )
       }
 
       if (
         confirmationResponse?.data.data.status === 'failed' ||
         confirmationResponse?.data.data.status === 'abandoned'
       ) {
-        promises.push([
-          session.run(setTransactionStatusFailed, {
-            ...args,
-            status: confirmationResponse?.data.data.status,
-            failureReason: confirmationResponse?.data.data.gateway_response,
-          }),
-        ])
+        promises.push(
+          session.executeWrite((tx) =>
+            tx.run(setTransactionStatusFailed, {
+              ...args,
+              transactionStatus: confirmationResponse?.data.data.status,
+              failureReason: confirmationResponse?.data.data.gateway_response,
+            })
+          )
+        )
       }
 
       const labels = transactionResponse.records[0]?.get('transaction').labels
@@ -182,23 +186,25 @@ export const paymentMutations = {
           db
             .collection('offerings')
             .doc(transaction.transactionReference)
-            .update({ status: confirmationResponse?.data.data.status })
+            .update({
+              transactionStatus: confirmationResponse?.data.data.status,
+            })
         )
       }
+
       if (labels.includes('Tithe')) {
         promises.push(
-          db
-            .collection('tithes')
-            .doc(transaction.transactionReference)
-            .update({ status: confirmationResponse?.data.data.status })
+          db.collection('tithes').doc(transaction.transactionReference).update({
+            transactionStatus: confirmationResponse?.data.data.status,
+          })
         )
       }
+
       if (labels.includes('BENMP')) {
         promises.push(
-          db
-            .collection('benmp')
-            .doc(transaction.transactionReference)
-            .update({ status: confirmationResponse?.data.data.status })
+          db.collection('benmp').doc(transaction.transactionReference).update({
+            transactionStatus: confirmationResponse?.data.data.status,
+          })
         )
       }
 
@@ -206,7 +212,7 @@ export const paymentMutations = {
 
       const response = await Promise.all(promises)
 
-      return response[0].records[0].get('transaction').properties
+      return response[0].records[0]?.get('transaction').properties
     } catch (error: any) {
       console.error(error)
       throw new Error(`Payment Error: ${error.response?.data.message ?? error}`)

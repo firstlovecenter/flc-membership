@@ -5,6 +5,7 @@ const { getFirestore } = require('firebase-admin/firestore')
 const dotenv = require('dotenv')
 
 dotenv.config()
+
 const serviceAccount = {
   type: 'service_account',
   project_id: SECRETS.FIREBASE_PROJECT_ID,
