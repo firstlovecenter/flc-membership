@@ -38,7 +38,7 @@ export const DISPLAY_MEMBER_BIO = gql`
 `
 
 export const CREATE_MEMBER_PROFILE = gql`
-  mutation createMemberProfile(
+  mutation CreateMemberProfile(
     $firstName: String!
     $middleName: String!
     $lastName: String!

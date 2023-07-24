@@ -36,7 +36,8 @@ export const memberProfileMutations = {
         })
       )
 
-      const member: Member = memberResponse.records[0]?.get('member').properties
+      const member: Member =
+        memberResponse.records[0]?.get('member')?.properties
       const memberExists = memberResponse.records[0]?.get('predicate')
 
       if (memberExists) {
@@ -47,10 +48,14 @@ export const memberProfileMutations = {
             auth: context.auth,
           })
         )
+
+        const updatedMember = response.records[0]?.get('member').properties
         console.log(
-          '🚀 ~ file: member-profile-resolvers.ts:47 ~ response:',
-          response
+          '🚀 ~ file: member-profile-resolvers.ts:53 ~ updatedMember:',
+          updatedMember
         )
+
+        return updatedMember
       }
 
       const response = await session.executeWrite((tx) =>
@@ -61,6 +66,10 @@ export const memberProfileMutations = {
       )
 
       const createdMember = response.records[0]?.get('member').properties
+      console.log(
+        '🚀 ~ file: member-profile-resolvers.ts:65 ~ createdMember:',
+        createdMember
+      )
 
       return createdMember
     } catch (error) {

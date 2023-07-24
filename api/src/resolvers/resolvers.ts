@@ -4,6 +4,7 @@ import { paymentMutations } from './payment/payment-resolvers'
 import { db } from './firebase-init'
 import { convertFirestoreTimestampToDate } from './utils/utils'
 import { Transaction } from './utils/types'
+import { memberProfileMutations } from './member-profile/member-profile-resolvers'
 
 const dotenv = require('dotenv')
 
@@ -64,6 +65,7 @@ const resolvers = {
   },
   Mutation: {
     ...paymentMutations,
+    ...memberProfileMutations,
   },
 }
 

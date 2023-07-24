@@ -18,7 +18,7 @@
     "@emotion/styled": "^11.10.6",
     "@hookform/resolvers": "^3.1.1",
     "@jaedag/admin-portal-react-core": "^2.0.7",
-    "@jaedag/admin-portal-types": "^1.0.17",
+    "@jaedag/admin-portal-types": "^1.0.21",
     "@vitejs/plugin-react": "^3.1.0",
     "firebase": "^9.22.0",
     "framer-motion": "^10.5.0",

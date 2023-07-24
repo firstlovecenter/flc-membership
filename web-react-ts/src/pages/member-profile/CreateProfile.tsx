@@ -20,6 +20,7 @@ import * as Yup from 'yup'
 import { Resolver, useForm } from 'react-hook-form'
 import { User } from '@auth0/auth0-react'
 import { useMutation } from '@apollo/client'
+import { parsePhoneNumber } from '@jaedag/admin-portal-types'
 import { CreateMemberFormOptions } from './member-profile-types'
 import { CREATE_MEMBER_PROFILE } from './memberProfileGQL'
 import FellowshipCodeInputMessage from './FellowshipCodeInputMessage'
@@ -75,7 +76,12 @@ const CreateProfile = () => {
   const onSubmit = async (values: typeof initialValues) => {
     try {
       const res = await CreateMemberProfile({
-        variables: values,
+        variables: {
+          ...values,
+          phoneNumber: parsePhoneNumber(values.phoneNumber),
+          whatsappNumber: parsePhoneNumber(values.whatsappNumber),
+          dob: new Date(values.dob).toISOString().slice(0, 10),
+        },
       })
       console.log('🚀 ~ file: CreateProfile.tsx:78 ~ res:', res)
     } catch (err) {
