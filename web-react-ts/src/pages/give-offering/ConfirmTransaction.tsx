@@ -28,7 +28,7 @@ const ConfirmTransaction = () => {
   const { data, loading, error } = useQuery(GET_TRANSACTION_REFERENCE, {
     variables: { transactionId },
   })
-  const [confirmTransaction, { loading: btnLoading }] = useMutation(
+  const [ConfirmTransactionMutation, { loading: btnLoading }] = useMutation(
     CONFIRM_FELLOWSHIP_OFFERING_MOMO
   )
 
@@ -67,10 +67,16 @@ const ConfirmTransaction = () => {
                 colorScheme="green"
                 isLoading={btnLoading}
                 onClick={async () => {
-                  await confirmTransaction({
-                    variables: { reference: transaction.transactionReference },
-                  })
-                  navigate('/offering-details')
+                  try {
+                    await ConfirmTransactionMutation({
+                      variables: {
+                        reference: transaction.transactionReference,
+                      },
+                    })
+                    navigate('/offering-details')
+                  } catch (err) {
+                    console.log(err)
+                  }
                 }}
               >
                 Confirm Transaction

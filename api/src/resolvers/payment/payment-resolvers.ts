@@ -23,7 +23,7 @@ import { db } from '../firebase-init'
 import { throwToSentry } from '../utils/utils'
 
 export const paymentMutations = {
-  giveFellowshipOfferingMomo: async (
+  GiveFellowshipOfferingMomo: async (
     source: unknown,
     args: {
       memberId: string
@@ -108,7 +108,7 @@ export const paymentMutations = {
     }
   },
 
-  confirmTransaction: async (
+  ConfirmTransaction: async (
     object: any,
     args: { reference: string },
     context: Context

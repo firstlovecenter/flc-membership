@@ -7,7 +7,7 @@ import {
 } from './member-profile-cypher'
 
 export const memberProfileMutations = {
-  createMemberProfile: async (
+  CreateMemberProfile: async (
     source: unknown,
     args: {
       firstName: string

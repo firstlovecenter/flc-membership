@@ -53,7 +53,7 @@ export const CREATE_MEMBER_PROFILE = gql`
     $visitationArea: String!
     $fellowshipCode: Int!
   ) {
-    createMemberProfile(
+    CreateMemberProfile(
       firstName: $firstName
       middleName: $middleName
       lastName: $lastName

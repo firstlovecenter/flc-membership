@@ -35,18 +35,18 @@ type Offering implements TransactionInterface {
 }
 
 type Mutation {
-  giveFellowshipOfferingMomo(
+  GiveFellowshipOfferingMomo(
     amount: Float!
     bankingCode: Int!
     mobileNetwork: String!
     mobileNumber: String!
   ): Offering!
-  giveAnonFellowshipOfferingMomo(
+  GiveAnonFellowshipOfferingMomo(
     amount: Float!
     bankingCode: Int!
     mobileNetwork: String!
     mobileNumber: String!
   ): Offering!
-  sendPaymentOTP(otp: String!, reference: String!): Boolean!
-  confirmTransaction(reference: String!): Offering!
+  SendPaymentOTP(otp: String!, reference: String!): Boolean!
+  ConfirmTransaction(reference: String!): Offering!
 }

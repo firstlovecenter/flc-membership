@@ -48,7 +48,7 @@ const OfferingForm = () => {
     mobileMoneyNumber: '',
   }
 
-  const [giveMomo] = useMutation(GIVE_FELLOWSHIP_OFFERING_MOMO)
+  const [GiveMomo] = useMutation(GIVE_FELLOWSHIP_OFFERING_MOMO)
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
@@ -76,7 +76,7 @@ const OfferingForm = () => {
 
   const onSubmit = async (values: typeof initialValues) => {
     try {
-      const res = await giveMomo({
+      const res = await GiveMomo({
         variables: {
           amount: values.amount,
           mobileNumber: values.mobileMoneyNumber,
@@ -86,7 +86,7 @@ const OfferingForm = () => {
       })
       console.log('🚀 ~ file: OfferingForm.tsx:91 ~ res:', res)
 
-      setTransactionId(res.data?.giveFellowshipOfferingMomo.id)
+      setTransactionId(res.data?.GiveFellowshipOfferingMomo.id)
       navigate('/confirm-transaction')
     } catch (err: any) {
       setError(err.message)

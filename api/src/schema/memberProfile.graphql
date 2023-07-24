@@ -1,0 +1,17 @@
+type Mutation {
+  CreateMemberProfile(
+    firstName: String!
+    middleName: String!
+    lastName: String!
+    gender: String!
+    phoneNumber: String!
+    whatsappNumber: String!
+    email: String!
+    dob: String!
+    maritalStatus: String!
+    occupation: String!
+    pictureUrl: String!
+    visitationArea: String!
+    fellowshipCode: Int!
+  ): Member!
+}
