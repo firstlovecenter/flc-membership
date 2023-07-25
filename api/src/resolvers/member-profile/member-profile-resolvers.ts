@@ -50,6 +50,7 @@ export const memberProfileMutations = {
         )
 
         const updatedMember = response.records[0]?.get('member').properties
+
         console.log(
           '🚀 ~ file: member-profile-resolvers.ts:53 ~ updatedMember:',
           updatedMember
