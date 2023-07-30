@@ -49,12 +49,7 @@ export const memberProfileMutations = {
           })
         )
 
-        const updatedMember = response.records[0]?.get('member').properties
-
-        console.log(
-          '🚀 ~ file: member-profile-resolvers.ts:53 ~ updatedMember:',
-          updatedMember
-        )
+        const updatedMember = response.records[0]?.get('member')
 
         return updatedMember
       }
@@ -66,11 +61,7 @@ export const memberProfileMutations = {
         })
       )
 
-      const createdMember = response.records[0]?.get('member').properties
-      console.log(
-        '🚀 ~ file: member-profile-resolvers.ts:65 ~ createdMember:',
-        createdMember
-      )
+      const createdMember = response.records[0]?.get('member')
 
       return createdMember
     } catch (error) {

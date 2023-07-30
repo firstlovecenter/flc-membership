@@ -42,7 +42,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      setCurrentUser(user as User)
+      setCurrentUser({
+        ...user,
+        firstName: user?.given_name,
+        lastName: user?.family_name,
+      } as User)
     }
   }, [user, isAuthenticated])
 

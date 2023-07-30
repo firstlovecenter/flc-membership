@@ -26,12 +26,11 @@ CREATE (member:Active:Member:IDL:Deer {whatsappNumber:$whatsappNumber})
         log.timeStamp = datetime(),
         log.historyRecord = $firstName +' ' +$lastName+' was registered on '+apoc.date.convertFormat(toString(date()), 'date', 'dd MMMM yyyy') + ' with ' + fellowship.name + ' Fellowship'
 
-      RETURN member, log
       MERGE (today:TimeGraph {date: date()})
       MERGE (date:TimeGraph {date: date($dob)})
 
       WITH member, log, today, date
-      MATCH (maritalStatus:MaritalStatus {status:$maritalStatus})
+      MATCH (maritalStatus:MaritalStatus {status: $maritalStatus})
       MATCH (gender:Gender {gender: $gender})
       MATCH (fellowship:Fellowship {bankingCode: $fellowshipCode})
 
@@ -67,6 +66,8 @@ CREATE (member:Active:Member:IDL:Deer {whatsappNumber:$whatsappNumber})
          .email,
          .phoneNumber,
          .whatsappNumber,
+          .visitationArea,
+          .pictureUrl,
          fellowship:fellowship {
            .id, 
            .name, 
@@ -125,7 +126,7 @@ MATCH (member:Member {whatsappNumber:$whatsappNumber})
       REMOVE member:Inactive
 
       WITH member, log, today, date
-      MATCH (maritalStatus:MaritalStatus {status:$maritalStatus})
+      MATCH (maritalStatus:MaritalStatus {status: $maritalStatus})
       MATCH (gender:Gender {gender: $gender})
       MATCH (fellowship:Fellowship {bankingCode: $fellowshipCode})
 
@@ -160,6 +161,8 @@ MATCH (member:Member {whatsappNumber:$whatsappNumber})
               .email,
               .phoneNumber,
               .whatsappNumber,
+              .visitationArea,
+              .pictureUrl,
               fellowship:fellowship {
                 .id, 
                 .name, 
