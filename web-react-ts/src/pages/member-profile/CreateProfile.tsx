@@ -23,7 +23,7 @@ import { useMutation } from '@apollo/client'
 import { parsePhoneNumber } from '@jaedag/admin-portal-types'
 import { CreateMemberFormOptions } from './member-profile-types'
 import { CREATE_MEMBER_PROFILE } from './memberProfileGQL'
-import FellowshipCodeInputMessage from './FellowshipCodeInputMessage'
+import FellowshipCodeInputMessage from '../../components/FellowshipCodeInputMessage'
 
 const CreateProfile = () => {
   const { user } = useUser()

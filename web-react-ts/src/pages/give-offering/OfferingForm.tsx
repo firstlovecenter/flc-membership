@@ -29,6 +29,7 @@ import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import FellowshipCodeInputMessage from 'components/FellowshipCodeInputMessage'
 import { GIVE_FELLOWSHIP_OFFERING_MOMO } from './giveOfferingQueries'
 
 const GIVING_METHODS = [
@@ -84,7 +85,6 @@ const OfferingForm = () => {
           bankingCode: parseInt(values.bankingCode.toString(), 10),
         },
       })
-      console.log('🚀 ~ file: OfferingForm.tsx:91 ~ res:', res)
 
       setTransactionId(res.data?.GiveFellowshipOfferingMomo.id)
       navigate('/confirm-transaction')
@@ -130,6 +130,10 @@ const OfferingForm = () => {
               control={control}
               errors={errors}
             />
+            <FellowshipCodeInputMessage
+              watchedFellowshipCode={watch('bankingCode')}
+            />
+
             <Select
               label="Method of Giving"
               name="method"

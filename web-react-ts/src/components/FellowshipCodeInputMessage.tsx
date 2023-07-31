@@ -2,7 +2,7 @@ import { useLazyQuery } from '@apollo/client'
 import { useEffect } from 'react'
 import { Badge, Container, Tag, TagLabel, Text } from '@chakra-ui/react'
 import { BeatLoader } from 'react-spinners'
-import { GET_FELLOWSHIP } from './memberProfileGQL'
+import { GET_FELLOWSHIP } from '../pages/member-profile/memberProfileGQL'
 
 const FellowshipCodeInputMessage = ({
   watchedFellowshipCode,
