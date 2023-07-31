@@ -1,3 +1,41 @@
+#### 0.3.9 (2023-07-31)
+
+##### Bug Fixes
+
+*  add fellowship code input message for offering form ([7c8cad19](https://github.com/jaedag/fl-admin-portal/commit/7c8cad199cedc8e018bd6c653de0ff6abcc318da))
+*  mutation to createProfile now returns data correctly ([a5a541c6](https://github.com/jaedag/fl-admin-portal/commit/a5a541c624fa026e22c247f74ee3d8499120f184))
+*  minor changes ([9ea6ed16](https://github.com/jaedag/fl-admin-portal/commit/9ea6ed16b17754c04632f5e495c5bf3842a1d6b0))
+*  update create profile mutation ([07c84e8f](https://github.com/jaedag/fl-admin-portal/commit/07c84e8fb383fedcf5e73e5430ba76b511dd6031))
+*  add apollo.config file for apollo vscode ext ([1fb0bfe0](https://github.com/jaedag/fl-admin-portal/commit/1fb0bfe0af420b7cc8fe98ee2c337220c401fde9))
+*  order member  transactions by createdAt date ([9c49d98f](https://github.com/jaedag/fl-admin-portal/commit/9c49d98f9176c9149a8f243ff469248e93809a49))
+*  change 'fellowship' to 'fellowshipCode' in UpdateProfile.tsx ([aec4355a](https://github.com/jaedag/fl-admin-portal/commit/aec4355a1fefa7268df2cb2608f22be651a4c27a))
+*  fix bugs when submitting offerigs ([86c61e34](https://github.com/jaedag/fl-admin-portal/commit/86c61e3485b57da37af895f0f78b1b275de99e83))
+*  correct using memberRef in firestore ([4c9c8f6c](https://github.com/jaedag/fl-admin-portal/commit/4c9c8f6c86435d9048554bdc044b792cd5ef49b3))
+*  update resolvers for creating member profile ([da26639e](https://github.com/jaedag/fl-admin-portal/commit/da26639ef3d5fb86607882cab6949c8e9ce6de4f))
+*  update styling on fellowshipCodeInputMessage ([6b79973a](https://github.com/jaedag/fl-admin-portal/commit/6b79973abf56c1e491bf34a26aaa84f51109b83e))
+*  create fellowship name popup on entering bankingCode ([c4768bda](https://github.com/jaedag/fl-admin-portal/commit/c4768bda112f43033988007bc6c057f0716c0972))
+*  update backend code for viewing transactions ([af98d39b](https://github.com/jaedag/fl-admin-portal/commit/af98d39b9f6dad8e3c6980d28f922e27e8e19048))
+*  update transactions to use memberRef object ([7514daae](https://github.com/jaedag/fl-admin-portal/commit/7514daae0684310562b7d98c45f9df5ce57cc2da))
+*  remove anonymous flow, make createdBy reference ([0d9f8feb](https://github.com/jaedag/fl-admin-portal/commit/0d9f8feb20f244dca067981f9e3c84b4e2a09b62))
+*  when a person with no account signs in, it gives him  a createProfile page ([8a23e3d7](https://github.com/jaedag/fl-admin-portal/commit/8a23e3d7ace27c55b0616983a836382c60c067e8))
+*  fix import of ConfirmTransaction component ([f6ceb9bb](https://github.com/jaedag/fl-admin-portal/commit/f6ceb9bb6dcbc423690be8b5ec3f4cd50d26a502))
+*  implement better handling of splash screen scenario ([5bb4c3b8](https://github.com/jaedag/fl-admin-portal/commit/5bb4c3b8e1bcd68e427f88730b02229b383147fd))
+*  implement an update profile page for members to update their profile information ([8055fb69](https://github.com/jaedag/fl-admin-portal/commit/8055fb698dfe207b9d1929d1c7f8c5020cab49aa))
+*  solve problem with login page not showing on unauthenticated sessions ([525cdf99](https://github.com/jaedag/fl-admin-portal/commit/525cdf99bd1ece2d3885f303b64131b3dfb91298))
+*  remove anonymous flow in favour of google signin ([bc849f93](https://github.com/jaedag/fl-admin-portal/commit/bc849f934fed8a40ef397d9e57c8ec0e7ad007ab))
+*  add a placeholder constant ([605b6a68](https://github.com/jaedag/fl-admin-portal/commit/605b6a686004c5467c6ab777873beec8af51e6df))
+*  implement anon giving resolver ([852aebfd](https://github.com/jaedag/fl-admin-portal/commit/852aebfdfab6df33d82449986678ce1a9c13f0ec))
+*  udpate frontend dependencies ([d4fd4156](https://github.com/jaedag/fl-admin-portal/commit/d4fd4156b7eeb1453ae0a152b0cd8fd234312514))
+*  optional chaining on optional properties ([734d369b](https://github.com/jaedag/fl-admin-portal/commit/734d369ba0d12f76a1d37d5daa71965b15df731d))
+*  add hasHolyGhostBaptismDate to member type ([219f4745](https://github.com/jaedag/fl-admin-portal/commit/219f4745fc8a2ffc899763660443361e195d6238))
+*  set createdBy as a reference instead of a regular string ([1cfd3d6f](https://github.com/jaedag/fl-admin-portal/commit/1cfd3d6fb92e9ac6144fe9af450c403be31a0323))
+*  create page for member sign up ([dd234884](https://github.com/jaedag/fl-admin-portal/commit/dd2348841ac4331f919cc7bbaf27df757af8063b))
+*  correct import of humanReadableDate ([cbeff3aa](https://github.com/jaedag/fl-admin-portal/commit/cbeff3aac48b5f91084fa39a1e4340aed3c1ad1d))
+
+##### Refactors
+
+*  lowercase all  mutation names ([b2c530cc](https://github.com/jaedag/fl-admin-portal/commit/b2c530ccdfb566bf540db6d1d54d97da74950f1c))
+
 #### 0.3.8 (2023-07-09)
 
 ##### New Features
