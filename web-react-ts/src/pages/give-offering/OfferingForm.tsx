@@ -41,7 +41,7 @@ const OfferingForm = () => {
   const { user, setTransactionId } = useUser()
   const [error, setError] = useState('')
   const initialValues = {
-    amount: 100,
+    amount: 0,
     bankingCode: user.fellowship?.bankingCode,
     date: new Date(),
     method: 'mobileMoney',
@@ -53,7 +53,7 @@ const OfferingForm = () => {
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
-    amount: Yup.number().required(),
+    amount: Yup.number().positive().required(),
     bankingCode: Yup.number().required(),
     date: Yup.date().required(),
     method: Yup.string().required(),
