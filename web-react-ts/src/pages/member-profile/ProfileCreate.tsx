@@ -83,6 +83,7 @@ const CreateProfile = () => {
           dob: new Date(values.dob).toISOString().slice(0, 10),
         },
       })
+
       console.log('🚀 ~ file: CreateProfile.tsx:78 ~ res:', res)
     } catch (err) {
       console.log('🚀 ~ file: CreateProfile.tsx:81 ~ error:', err)

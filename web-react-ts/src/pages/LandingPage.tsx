@@ -74,8 +74,8 @@ const LandingPage = () => {
               </Button>
             </VStack>
 
-            <Button marginTop={2} onClick={() => navigate('/update-profile')}>
-              Update Profile
+            <Button marginTop={2} onClick={() => navigate('/display-profile')}>
+              View Profile
             </Button>
           </CardBody>
           <Button variant="link" paddingBottom={10} onClick={handleLogout}>
