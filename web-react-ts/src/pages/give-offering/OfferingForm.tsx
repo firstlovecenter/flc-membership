@@ -53,11 +53,13 @@ const OfferingForm = () => {
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
-    amount: Yup.number().positive().required(),
+    amount: Yup.number()
+      .positive('You must enter a valid amount')
+      .required('Amount is a required field'),
     bankingCode: Yup.number().required(),
     date: Yup.date().required(),
     method: Yup.string().required(),
-    mobileNetwork: Yup.string().required(),
+    mobileNetwork: Yup.string().required('Mobile Network is a required field'),
     mobileMoneyNumber: Yup.string()
       .required('You must enter a mobile number')
       .matches(
