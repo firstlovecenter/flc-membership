@@ -26,7 +26,7 @@ export const paymentMutations = {
   GiveFellowshipOfferingMomo: async (
     source: unknown,
     args: {
-      memberId: string
+      memberEmail: string
       amount: number
       bankingCode: number
       mobileNetwork: Network
@@ -38,10 +38,7 @@ export const paymentMutations = {
 
     try {
       const memberResponse = await session.executeRead((tx) =>
-        tx.run(getMember, {
-          auth: context.auth,
-          ...args,
-        })
+        tx.run(getMember, args)
       )
       const member: Member = memberResponse.records[0]?.get('member').properties
 

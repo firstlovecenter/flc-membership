@@ -27,6 +27,11 @@ const Navigation = () => {
       name: 'Home',
       link: '/',
     },
+    { name: 'Give Offering', link: '/give-offering' },
+    {
+      name: 'Giving History',
+      link: '/giving-history',
+    },
   ]
 
   return (

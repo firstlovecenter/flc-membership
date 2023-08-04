@@ -1,5 +1,5 @@
 export const getMember = `
-    OPTIONAL MATCH (member:Member {auth_id: $auth.jwt.sub})
+    OPTIONAL MATCH (member:Member {email: $memberEmail})
     MATCH (fellowship:Fellowship {bankingCode: $bankingCode})<-[:HAS*4]-(stream:Stream)
     RETURN member, stream
 `
@@ -10,7 +10,7 @@ export const getStreamFromFellowshipCode = `
 `
 
 export const initiateOfferingTransaction = `
-    MATCH (member:Member {auth_id: $auth.jwt.sub})-[:BELONGS_TO]->(fellowship:Fellowship)
+    MATCH (member:Member {email: $memberEmail})-[:BELONGS_TO]->(fellowship:Fellowship)
     WITH member, fellowship
 
     CREATE (transaction:Offering:Transaction {id: randomUUID()})
@@ -32,7 +32,7 @@ export const initiateOfferingTransaction = `
 `
 
 export const initiateTitheTransaction = `
-    MATCH (member:Member {auth_id: $auth.jwt.sub})-[:BELONGS_TO]->(fellowship:Fellowship)
+    MATCH (member:Member {email: $memberEmail})-[:BELONGS_TO]->(fellowship:Fellowship)
     WITH member, fellowship
 
     CREATE (transaction:Tithe:Transaction {id: randomUUID()})

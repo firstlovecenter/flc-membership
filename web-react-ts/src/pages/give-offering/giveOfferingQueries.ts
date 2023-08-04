@@ -2,12 +2,14 @@ import { gql } from '@apollo/client'
 
 export const GIVE_FELLOWSHIP_OFFERING_MOMO = gql`
   mutation GiveFellowshipOfferingMomo(
+    $memberEmail: String!
     $amount: Float!
     $mobileNetwork: String!
     $mobileNumber: String!
     $bankingCode: Int!
   ) {
     GiveFellowshipOfferingMomo(
+      memberEmail: $memberEmail
       amount: $amount
       mobileNetwork: $mobileNetwork
       mobileNumber: $mobileNumber

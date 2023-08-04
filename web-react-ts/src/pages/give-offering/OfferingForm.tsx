@@ -81,6 +81,7 @@ const OfferingForm = () => {
     try {
       const res = await GiveMomo({
         variables: {
+          memberEmail: user.email,
           amount: values.amount,
           mobileNumber: values.mobileMoneyNumber,
           mobileNetwork: values.mobileNetwork,
