@@ -43,7 +43,7 @@ const OfferingDetails = () => {
               <Td>{transaction?.method}</Td>
             </Tr>
             <Tr>
-              <Td>Statis</Td>
+              <Td>Status</Td>
               <Td>{transaction?.transactionStatus}</Td>
             </Tr>
             <Tr>
