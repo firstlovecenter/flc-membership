@@ -20,11 +20,25 @@ type Member {
   fellowship: Fellowship! @relationship(type: "BELONGS_TO", direction: OUT)
   offerings: [Offering!]! @relationship(type: "MADE", direction: OUT)
   transactions: [Transaction!]! @customResolver
+  council: Council!
+    @cypher(
+      statement: """
+      MATCH (this)-[:BELONGS_TO]->(fellowship:Fellowship)
+      MATCH (fellowship)<-[:HAS*3]-(council:Council)
+      RETURN council
+      """
+    )
 }
 
 type Fellowship {
   id: ID!
   bankingCode: Int!
+  name: String!
+  leader: Member! @relationship(type: "LEADS", direction: IN)
+}
+
+type Council {
+  id: ID!
   name: String!
   leader: Member! @relationship(type: "LEADS", direction: IN)
 }

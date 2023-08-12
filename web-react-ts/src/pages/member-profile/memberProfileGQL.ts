@@ -29,9 +29,19 @@ export const DISPLAY_MEMBER_BIO = gql`
       title {
         name
       }
+      council {
+        id
+        name
+      }
       fellowship {
         id
+        name
         bankingCode
+        leader {
+          id
+          firstName
+          lastName
+        }
       }
     }
   }
