@@ -1,17 +1,19 @@
 import { useUser } from 'contexts/UserContext'
 import React from 'react'
-import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
+import { ApolloWrapper, EditButton } from '@jaedag/admin-portal-react-core'
 import {
   Center,
   Container,
   Grid,
   GridItem,
+  HStack,
   Heading,
   Image,
 } from '@chakra-ui/react'
 import { useQuery } from '@apollo/client'
 import { Member } from '@jaedag/admin-portal-types'
 import useCustomColors from 'hooks/useCustomColors'
+import { useNavigate } from 'react-router-dom'
 import { DISPLAY_MEMBER_BIO } from './memberProfileGQL'
 import ProfileDetails from './component/ProfileDetails'
 
@@ -25,13 +27,13 @@ interface MemberWithCouncil extends Member {
 const ProfileDisplay = () => {
   const { user } = useUser()
   const { brand } = useCustomColors()
+  const navigate = useNavigate()
 
   const { data, error, loading } = useQuery(DISPLAY_MEMBER_BIO, {
     variables: { id: user.id },
   })
 
   const member = data?.members[0] as MemberWithCouncil | undefined
-
   const calculateAge = (dob: string | undefined) => {
     if (!dob) return 0
 
@@ -64,7 +66,11 @@ const ProfileDisplay = () => {
         <Heading size="md" color={brand}>
           {member?.firstName} {member?.lastName}
         </Heading>
-        <Heading size="sm">{`${member?.council.name} Council`}</Heading>
+        <HStack paddingY={2}>
+          <Heading size="sm">{`${member?.council.name} Council`}</Heading>
+          <EditButton onClick={() => navigate('/update-profile')} />
+        </HStack>
+
         <Container width="350px" height="350px" marginBottom={4}>
           <Center height="100%">
             <Image
@@ -73,7 +79,7 @@ const ProfileDisplay = () => {
               rounded="md"
             />
           </Center>
-          heaH
+          heaH E
         </Container>
 
         <Center>
