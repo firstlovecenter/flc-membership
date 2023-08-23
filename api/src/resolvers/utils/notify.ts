@@ -73,7 +73,6 @@ export const sendBulkSMS = async (recipient: string[], message: string) => {
   }
 
   try {
-    console.log('Sending SMS using mNotify')
     const res = await axios(sendMessage)
 
     if (res.data.code === '2000') {
