@@ -3,5 +3,15 @@ export const GIVING_METHODS = [
   { key: 'Card', value: 'card' },
 ]
 
+export const LOCATION_OPTIONS = [
+  { key: 'Home', value: 'home' },
+  { key: 'Work', value: 'Work' },
+]
+
+export const LOCATION_SELECTION_OPTIONS = [
+  { key: 'Automatic Setting', value: 'automatic' },
+  { key: 'Manual Setting', value: 'manual' },
+]
+
 // TODO: remove this constant
 export const CUSTOM = 'custom'

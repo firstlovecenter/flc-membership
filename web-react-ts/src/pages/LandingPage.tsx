@@ -72,6 +72,12 @@ const LandingPage = () => {
               <Button paddingY={10} onClick={() => navigate('/giving-history')}>
                 Giving History
               </Button>
+              <Button
+                paddingY={10}
+                onClick={() => navigate('/update-location')}
+              >
+                Update Location
+              </Button>
             </VStack>
 
             <Button marginTop={2} onClick={() => navigate('/display-profile')}>

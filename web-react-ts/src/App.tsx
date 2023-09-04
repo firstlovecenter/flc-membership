@@ -9,6 +9,7 @@ import AppWithApollo from 'utils/WithApolloProvider'
 import { UserProvider } from 'contexts/UserContext'
 import givingHistoryRoutes from 'pages/giving-history/givingHistoryRoutes'
 import memberProfileRoutes from 'pages/member-profile/memberProfileRoutes'
+import locationRoutes from 'pages/update-location/updateLocationRoutes'
 import Navigation from './components/Navigation'
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
                   ...offeringRoutes,
                   ...givingHistoryRoutes,
                   ...memberProfileRoutes,
+                  ...locationRoutes,
                 ].map((route) => (
                   <Route
                     key={route.path}
