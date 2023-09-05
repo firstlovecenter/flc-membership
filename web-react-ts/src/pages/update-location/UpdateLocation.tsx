@@ -14,28 +14,46 @@ import {
   Heading,
   Spacer,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 import * as Yup from 'yup'
 import React, { useState } from 'react'
 import { useUser } from 'contexts/UserContext'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Input, Select } from '@jaedag/admin-portal-react-core'
+import { Input, Select, Switch } from '@jaedag/admin-portal-react-core'
 import { LOCATION_OPTIONS, LOCATION_SELECTION_OPTIONS } from 'utils/constants'
+import { useMutation } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
+import {
+  UPDATE_HOME_LOCATION_MUTATION,
+  UPDATE_PREFERRED_LOCATIION_MUTATION,
+  UPDATE_WORK_OR_SCHOOL_LOCATION_MUTATION,
+} from './updateMutationGQL'
 
 const UpdateLocation = () => {
   const { user } = useUser()
   const [error, setError] = useState('')
   const [positionLoading, setPositionLoading] = useState(false)
+
+  const [UpdatePreferredLocation] = useMutation(
+    UPDATE_PREFERRED_LOCATIION_MUTATION
+  )
+  const [UpdateHomeLocation] = useMutation(UPDATE_HOME_LOCATION_MUTATION)
+  const [UpdateWorkOrSchoolLocation] = useMutation(
+    UPDATE_WORK_OR_SCHOOL_LOCATION_MUTATION
+  )
+
   const initialValues = {
     locationOptions: 'home',
     locationSettingMethod: 'automatic',
     latitude: 0.0,
     longitude: 0.0,
     landmark: '',
+    preferred: true,
   }
 
-  //   const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const validationSchema = Yup.object({
     locationOptions: Yup.string().required(),
@@ -43,6 +61,7 @@ const UpdateLocation = () => {
     latitude: Yup.number().required(),
     longitude: Yup.number().required(),
     landmark: Yup.string().required(),
+    preferred: Yup.boolean().required(),
   })
 
   const {
@@ -56,9 +75,59 @@ const UpdateLocation = () => {
     defaultValues: initialValues,
   })
 
+  const toast = useToast()
+
   const onSubmit = async (values: typeof initialValues) => {
+    const mutations = []
     try {
-      console.log('values', values)
+      if (values.preferred) {
+        mutations.push(
+          UpdatePreferredLocation({
+            variables: {
+              memberId: user.id,
+              latitude: values.latitude,
+              longitude: values.longitude,
+              visitationArea: values.landmark,
+            },
+          })
+        )
+      }
+
+      if (values.locationOptions === 'home') {
+        mutations.push(
+          UpdateHomeLocation({
+            variables: {
+              memberId: user.id,
+              latitude: values.latitude,
+              longitude: values.longitude,
+              visitationArea: values.landmark,
+            },
+          })
+        )
+      }
+
+      if (values.locationOptions === 'work') {
+        mutations.push(
+          UpdateWorkOrSchoolLocation({
+            variables: {
+              memberId: user.id,
+              latitude: values.latitude,
+              longitude: values.longitude,
+              visitationArea: values.landmark,
+            },
+          })
+        )
+      }
+
+      await Promise.all(mutations)
+      toast({
+        title: 'Location Updated.',
+        description: 'Your location has been updated successfully.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      navigate('/display-profile')
     } catch (e: any) {
       setError(e.message)
     }
@@ -93,7 +162,6 @@ const UpdateLocation = () => {
               control={control}
               errors={errors}
             />
-
             <Select
               name="locationSettingMethod"
               label="Choose What Method You Want To Use"
@@ -101,7 +169,6 @@ const UpdateLocation = () => {
               control={control}
               errors={errors}
             />
-
             <Input
               name="landmark"
               label="Choose A Landmark Or Name Of An Area To Help Us Locate You"
@@ -150,6 +217,16 @@ const UpdateLocation = () => {
               </>
             )}
 
+            <Container marginTop={10}>
+              <Switch
+                name="preferred"
+                label="Please Visit Me Here"
+                control={control}
+                errors={errors}
+                size="lg"
+                isChecked={!!watch('preferred')}
+              />
+            </Container>
             {error && (
               <Alert status="error" marginTop={5}>
                 <AlertIcon />

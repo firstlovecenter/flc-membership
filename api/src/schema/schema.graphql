@@ -9,9 +9,7 @@ type Member {
   phoneNumber: String
   whatsappNumber: String
   pictureUrl: String
-  visitationArea: String
-  homeVisitaionArea: String
-  workVisitationArea: String
+
   dob: TimeGraph @relationship(type: "WAS_BORN_ON", direction: OUT)
   occupation: Occupation @relationship(type: "HAS_OCCUPATION", direction: OUT)
   gender: Gender! @relationship(type: "HAS_GENDER", direction: OUT)

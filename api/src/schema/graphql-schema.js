@@ -19,6 +19,10 @@ const memberProfile = fs
   .readFileSync(path.join(__dirname, 'memberProfile.graphql'))
   .toString('utf-8')
 
-const array = [schema, transactions, memberProfile]
+const memberLocations = fs
+  .readFileSync(path.join(__dirname, 'memberLocations.graphql'))
+  .toString('utf-8')
+
+const array = [schema, transactions, memberProfile, memberLocations]
 
 exports.typeDefs = array.join(' ')

@@ -1,0 +1,50 @@
+extend type Member {
+  location: Point
+  visitationArea: String
+  homeVisitationLocation: Point
+  workOrSchoolVisitationLocation: Point
+}
+
+extend type Mutation {
+  updateMemberPreferredLocation(
+    memberId: ID!
+    latitude: Float!
+    longitude: Float!
+    visitationArea: String!
+  ): Member!
+    @cypher(
+      statement: """
+      MATCH (member:Member {id: $memberId})
+      SET member.location = point({latitude: $latitude, longitude: $longitude})
+      SET member.visitationArea = $visitationArea
+
+      RETURN member
+      """
+    )
+  updateMemberHomeLocation(
+    memberId: ID!
+    latitude: Float!
+    longitude: Float!
+  ): Member!
+    @cypher(
+      statement: """
+      MATCH (member:Member {id: $memberId})
+      SET member.homeVisitationLocation = point({latitude: $latitude, longitude: $longitude})
+
+      RETURN member
+      """
+    )
+  updateMemberWorkOrSchoolLocation(
+    memberId: ID!
+    latitude: Float!
+    longitude: Float!
+  ): Member!
+    @cypher(
+      statement: """
+      MATCH (member:Member {id: $memberId})
+      SET member.workOrSchoolVisitationLocation = point({latitude: $latitude, longitude: $longitude})
+
+      RETURN member
+      """
+    )
+}

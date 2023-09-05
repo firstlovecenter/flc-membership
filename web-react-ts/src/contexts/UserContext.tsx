@@ -5,6 +5,7 @@ import { Member } from 'utils/global-types'
 import { ApolloWrapper } from '@jaedag/admin-portal-react-core'
 import LogIn from 'auth/LogIn'
 import { User, useAuth0 } from '@auth0/auth0-react'
+import SplashScreen from 'auth/SplashScreen'
 import { useAuth } from './AuthContext'
 
 interface UserContextType {
@@ -55,7 +56,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <UserContext.Provider value={value}>
-      {isLoading && !isAuthenticated && <div>Splash Screen</div>}
+      {isLoading && !isAuthenticated && <SplashScreen />}
       {!isLoading && !isAuthenticated && <LogIn />}
       {isAuthenticated && (
         <ApolloWrapper data={data && user} loading={loading} error={error}>
