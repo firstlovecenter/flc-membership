@@ -220,7 +220,9 @@ const UpdateLocation = () => {
             <Container marginTop={10}>
               <Switch
                 name="preferred"
-                label="Please Visit Me Here"
+                label={`I would prefer to be visited at ${watch(
+                  'locationOptions'
+                )}`}
                 control={control}
                 errors={errors}
                 size="lg"
