@@ -1,3 +1,23 @@
+#### 0.3.10 (2023-09-06)
+
+##### New Features
+
+*  complete member profile page ([46fe8371](https://github.com/jaedag/fl-admin-portal/commit/46fe8371f05bea3757efc64cf76c22a161f31a34))
+*  implement profile display page ([4eb68d59](https://github.com/jaedag/fl-admin-portal/commit/4eb68d59352b19976dfbb2371b1ba70e0a8e1071))
+
+##### Bug Fixes
+
+*  edit text on the preferreed switch form ([2f1319bb](https://github.com/jaedag/fl-admin-portal/commit/2f1319bbc9bca44fc01f2fd325878d352e93bbb7))
+*  finish implementation of uploading member locations for visitation ([c964822b](https://github.com/jaedag/fl-admin-portal/commit/c964822bf506036c29862eaa65ea1209f8bc9522))
+*  introduce a frontend form for updating locations ([9ca052bd](https://github.com/jaedag/fl-admin-portal/commit/9ca052bdb0914dc0f5cd9274684cf1c778bace5e))
+*  remove unneeded console.log ([3d75fcf6](https://github.com/jaedag/fl-admin-portal/commit/3d75fcf6c80e156a8405b753072ce9e8ae1c7268))
+*  implement notify functions in api ([8cb185e4](https://github.com/jaedag/fl-admin-portal/commit/8cb185e4736a2ada1cbc1089b2f9e2480b2013ee))
+*   add an edit button ([7cc2cba1](https://github.com/jaedag/fl-admin-portal/commit/7cc2cba1bd80572959d407e492ecfc4348bebb90))
+*  fix typo on offering details page ([d3044e14](https://github.com/jaedag/fl-admin-portal/commit/d3044e14a9fe2e04e1acb0464fc23445fc61b522))
+*  fix bug  breaking frontend after confirm transaction ([4a3c7938](https://github.com/jaedag/fl-admin-portal/commit/4a3c79388434cdfc556af7f37b4584809698641d))
+*  update validation for flc-membership ([4aae0748](https://github.com/jaedag/fl-admin-portal/commit/4aae07482194751118edd9765c07d11dfda2cdd3))
+*  update initial Value for offering form ([704d99ec](https://github.com/jaedag/fl-admin-portal/commit/704d99ec469a6d1f3cbb1497bc9ddfbc736a20e5))
+
 #### 0.3.9 (2023-07-31)
 
 ##### Bug Fixes
