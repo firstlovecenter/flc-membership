@@ -226,14 +226,14 @@ const UpdateProfile = () => {
             control={control}
             errors={errors}
           />
-          <Input
+          {/* <Input
             label="Fellowship Code"
             name="fellowshipCode"
             placeholder="Enter Your Fellowship Code"
             aria-describedby="fellowshipCode"
             control={control}
             errors={errors}
-          />
+          /> */}
 
           <Container marginTop={10} textAlign="center" paddingX={0}>
             <ButtonGroup size="lg">

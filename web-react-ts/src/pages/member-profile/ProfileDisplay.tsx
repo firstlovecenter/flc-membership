@@ -79,7 +79,6 @@ const ProfileDisplay = () => {
               rounded="md"
             />
           </Center>
-          heaH E
         </Container>
 
         <Center>
