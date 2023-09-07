@@ -1,3 +1,9 @@
+#### 0.3.11 (2023-09-07)
+
+##### Bug Fixes
+
+*  clarify text on location form to include work/school ([ff8f6b84](https://github.com/jaedag/fl-admin-portal/commit/ff8f6b8473a65aa2883cbd79eb6cc2bf4a5879f0))
+
 #### 0.3.10 (2023-09-06)
 
 ##### New Features
