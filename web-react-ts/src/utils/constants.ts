@@ -5,7 +5,7 @@ export const GIVING_METHODS = [
 
 export const LOCATION_OPTIONS = [
   { key: 'Home', value: 'home' },
-  { key: 'Work', value: 'work' },
+  { key: 'Work or School', value: 'work/school' },
 ]
 
 export const LOCATION_SELECTION_OPTIONS = [

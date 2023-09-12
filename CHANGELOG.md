@@ -1,10 +1,10 @@
-#### 0.3.13 (2023-09-12)
+#### 0.3.11 (2023-09-07)
 
-#### 0.3.12 (2023-09-12)
+##### Bug Fixes
 
-#### 0.3.11 (2023-09-12)
+*  clarify text on location form to include work/school ([ff8f6b84](https://github.com/jaedag/fl-admin-portal/commit/ff8f6b8473a65aa2883cbd79eb6cc2bf4a5879f0))
 
-#### 0.3.10 (2023-09-12)
+#### 0.3.10 (2023-09-06)
 
 ##### New Features
 
@@ -13,8 +13,7 @@
 
 ##### Bug Fixes
 
-*  no more manual location setting ([c43302c0](https://github.com/jaedag/fl-admin-portal/commit/c43302c0a5bc9455958429909d891310fa14cc35))
-*  fix entering of 0.0 for location data ([7cdccecc](https://github.com/jaedag/fl-admin-portal/commit/7cdccecccc8beac9616584d00a01f793c1cefbf1))
+*  edit text on the preferreed switch form ([2f1319bb](https://github.com/jaedag/fl-admin-portal/commit/2f1319bbc9bca44fc01f2fd325878d352e93bbb7))
 *  finish implementation of uploading member locations for visitation ([c964822b](https://github.com/jaedag/fl-admin-portal/commit/c964822bf506036c29862eaa65ea1209f8bc9522))
 *  introduce a frontend form for updating locations ([9ca052bd](https://github.com/jaedag/fl-admin-portal/commit/9ca052bdb0914dc0f5cd9274684cf1c778bace5e))
 *  remove unneeded console.log ([3d75fcf6](https://github.com/jaedag/fl-admin-portal/commit/3d75fcf6c80e156a8405b753072ce9e8ae1c7268))

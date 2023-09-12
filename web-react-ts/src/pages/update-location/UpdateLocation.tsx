@@ -121,7 +121,7 @@ const UpdateLocation = () => {
         )
       }
 
-      if (values.locationOptions === 'work') {
+      if (values.locationOptions === 'work/school') {
         mutations.push(
           UpdateWorkOrSchoolLocation({
             variables: {
@@ -235,7 +235,7 @@ const UpdateLocation = () => {
             <Container marginTop={10}>
               <Switch
                 name="preferred"
-                label="Please Visit Me Here"
+                label={`I prefer to be visited at ${watch('locationOptions')}`}
                 control={control}
                 errors={errors}
                 size="lg"
