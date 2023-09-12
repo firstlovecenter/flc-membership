@@ -10,7 +10,7 @@ export const LOCATION_OPTIONS = [
 
 export const LOCATION_SELECTION_OPTIONS = [
   { key: 'Automatic Setting', value: 'automatic' },
-  { key: 'Manual Setting', value: 'manual' },
+  // { key: 'Manual Setting', value: 'manual' },
 ]
 
 // TODO: remove this constant
