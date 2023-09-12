@@ -31,6 +31,15 @@ import {
   UPDATE_WORK_OR_SCHOOL_LOCATION_MUTATION,
 } from './updateMutationGQL'
 
+interface InitialValues {
+  locationOptions: string
+  locationSettingMethod: string
+  latitude?: number
+  longitude?: number
+  landmark: string
+  preferred: boolean
+}
+
 const UpdateLocation = () => {
   const { user } = useUser()
   const [error, setError] = useState('')
@@ -44,11 +53,11 @@ const UpdateLocation = () => {
     UPDATE_WORK_OR_SCHOOL_LOCATION_MUTATION
   )
 
-  const initialValues = {
+  const initialValues: InitialValues = {
     locationOptions: 'home',
     locationSettingMethod: 'automatic',
-    latitude: 0.0,
-    longitude: 0.0,
+    latitude: undefined,
+    longitude: undefined,
     landmark: '',
     preferred: true,
   }
@@ -70,14 +79,20 @@ const UpdateLocation = () => {
     watch,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<typeof initialValues>({
+  } = useForm<InitialValues>({
+    // @ts-expect-error  yupResolver has a bug that doesn't play well with react-hook-form
     resolver: yupResolver(validationSchema),
     defaultValues: initialValues,
   })
 
   const toast = useToast()
 
-  const onSubmit = async (values: typeof initialValues) => {
+  const onSubmit = async (values: InitialValues) => {
+    if (!values.latitude || !values.longitude) {
+      setError('Please get your location before submitting')
+      return
+    }
+
     const mutations = []
     try {
       if (values.preferred) {
@@ -121,7 +136,7 @@ const UpdateLocation = () => {
 
       await Promise.all(mutations)
       toast({
-        title: 'Location Updated.',
+        title: 'Location Updated',
         description: 'Your location has been updated successfully.',
         status: 'success',
         duration: 9000,
@@ -234,13 +249,17 @@ const UpdateLocation = () => {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            {!!watch('latitude') && !!watch('longitude') && (
-              <Alert status="success" marginTop={5}>
-                <AlertIcon />
-                <AlertTitle>Success!</AlertTitle>
-                <AlertDescription>Location Captured</AlertDescription>
-              </Alert>
-            )}
+
+            {!!watch('latitude') &&
+              !!watch('longitude') &&
+              parseFloat(watch('latitude')?.toString() || '') !== 0.0 &&
+              parseFloat(watch('longitude')?.toString() || '') !== 0.0 && (
+                <Alert status="success" marginTop={5}>
+                  <AlertIcon />
+                  <AlertTitle>Success!</AlertTitle>
+                  <AlertDescription>Location Captured</AlertDescription>
+                </Alert>
+              )}
             <Center>
               <Button
                 marginTop={10}
