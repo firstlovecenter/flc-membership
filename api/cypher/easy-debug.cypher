@@ -32,3 +32,6 @@ MATCH (fellowship:Fellowship {bankingCode: 113})
            .status
          }
        }
+
+MATCH (fellowship:Fellowship)
+RETURN fellowship.bankingCode

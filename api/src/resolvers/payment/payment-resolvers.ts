@@ -40,7 +40,8 @@ export const paymentMutations = {
       const memberResponse = await session.executeRead((tx) =>
         tx.run(getMember, args)
       )
-      const member: Member = memberResponse.records[0]?.get('member').properties
+      const member: Member =
+        memberResponse.records[0]?.get('member')?.properties
 
       const stream: Stream = memberResponse.records[0]?.get('stream').properties
 

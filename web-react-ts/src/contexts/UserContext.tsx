@@ -29,7 +29,8 @@ export const useUser = () => {
 }
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const { currentUser } = useAuth()
+  const { currentUser, anon } = useAuth()
+
   const { isAuthenticated, isLoading } = useAuth0()
   const [transactionId, setTransactionId] = useState<string>(
     sessionStorage.getItem('transactionId') ?? ''
@@ -40,7 +41,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const { data, loading, error } = useQuery(GET_MEMBER, {
-    variables: { email: currentUser?.email ?? 'no@email.com' },
+    variables: { email: currentUser?.email },
+    skip: !currentUser?.email,
   })
 
   const user = data?.members[0] ?? currentUser
@@ -53,13 +55,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }),
     [user, transactionId]
   )
+  const isLoggedIn = (data && user) || anon
 
   return (
     <UserContext.Provider value={value}>
       {isLoading && !isAuthenticated && <SplashScreen />}
-      {!isLoading && !isAuthenticated && <LogIn />}
-      {isAuthenticated && (
-        <ApolloWrapper data={data && user} loading={loading} error={error}>
+      {!isLoading && !isAuthenticated && !anon && <LogIn />}
+      {(isAuthenticated || anon) && (
+        <ApolloWrapper data={isLoggedIn} loading={loading} error={error}>
           {children}
         </ApolloWrapper>
       )}

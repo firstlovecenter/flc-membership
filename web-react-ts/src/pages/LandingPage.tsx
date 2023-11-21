@@ -21,7 +21,7 @@ import NoAccountLandingPage from './NoAccountLandingPage'
 
 const LandingPage = () => {
   const [error, setError] = useState('')
-  const { logout } = useAuth()
+  const { logout, anon } = useAuth()
   const { user } = useUser()
   const navigate = useNavigate()
 
@@ -36,7 +36,7 @@ const LandingPage = () => {
     }
   }
 
-  if (!user.id) {
+  if (!user.id && !anon) {
     return <NoAccountLandingPage />
   }
 

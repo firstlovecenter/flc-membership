@@ -222,6 +222,7 @@ const CreateProfile = () => {
           control={control}
           errors={errors}
         />
+
         <FellowshipCodeInputMessage
           watchedFellowshipCode={watch('fellowshipCode')}
         />
