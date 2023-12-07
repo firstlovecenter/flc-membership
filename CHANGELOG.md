@@ -1,3 +1,25 @@
+#### 0.3.13 (2023-12-07)
+
+##### Documentation Changes
+
+*  update CHANGELOG.md ([61b54ee3](https://github.com/jaedag/fl-admin-portal/commit/61b54ee3dd86b924c2083f361397c749b117a637))
+*  update CHANGELOG.md ([04c08e07](https://github.com/jaedag/fl-admin-portal/commit/04c08e075d58a57fa5c263a9e4b469514f27062b))
+*  update CHANGELOG.md ([9b8fee93](https://github.com/jaedag/fl-admin-portal/commit/9b8fee935675883ab947faa3edb5ee8cb24a17d7))
+
+##### New Features
+
+*  add error handling for GraphQL and network errors ([5bc0deab](https://github.com/jaedag/fl-admin-portal/commit/5bc0deab8bebd45d2b6824d65b487d03449934d5))
+*  implement anon user log in ([12966959](https://github.com/jaedag/fl-admin-portal/commit/12966959717b8d49e1e48c00b80370c5a1f79eda))
+
+##### Bug Fixes
+
+*  clarify text on location form to include work/school ([ff8f6b84](https://github.com/jaedag/fl-admin-portal/commit/ff8f6b8473a65aa2883cbd79eb6cc2bf4a5879f0))
+*  edit text on the preferreed switch form ([2f1319bb](https://github.com/jaedag/fl-admin-portal/commit/2f1319bbc9bca44fc01f2fd325878d352e93bbb7))
+
+##### Other Changes
+
+* //github.com/firstlovecenter/flc-membership into deploy ([62bccf68](https://github.com/jaedag/fl-admin-portal/commit/62bccf68ff06f40a5163449c5266723a516c005a))
+
 #### 0.3.12 (2023-12-07)
 
 ##### Documentation Changes
