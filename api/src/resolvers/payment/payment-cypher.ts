@@ -61,7 +61,7 @@ RETURN transaction, stream
 
 export const setTransactionStatusFailed = `
 MATCH (transaction:Transaction {transactionReference: $reference})
-SET transaction.transactionStatus = $status,
+SET transaction.transactionStatus = $transactionStatus,
     transaction.failureReason = $failureReason
 
 RETURN transaction
