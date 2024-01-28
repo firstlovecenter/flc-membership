@@ -5,9 +5,9 @@ import {
   Stream,
 } from '@jaedag/admin-portal-types'
 import {
-  initiatePaystackTransaction,
   updatePaystackCustomerBody,
   transactionTimeBeforeConfirmationRange,
+  initiatePaystackCharge,
 } from '@jaedag/admin-portal-api-core'
 import axios, { AxiosRequestConfig } from 'axios'
 import { Context } from '../utils/neo-types'
@@ -49,10 +49,12 @@ export const paymentMutations = {
 
       const response = await Promise.all([
         axios(
-          initiatePaystackTransaction({
+          initiatePaystackCharge({
             amount: args.amount,
-            mobileNetwork: args.mobileNetwork,
-            mobileNumber: args.mobileNumber,
+            mobile_money: {
+              phone: args.mobileNumber,
+              provider: args.mobileNetwork,
+            },
             customer: member,
             subaccount,
             auth,
@@ -211,6 +213,93 @@ export const paymentMutations = {
       const response = await Promise.all(promises)
 
       return response[0].records[0]?.get('transaction').properties
+    } catch (error: any) {
+      console.error(error)
+      throw new Error(`Payment Error: ${error.response?.data.message ?? error}`)
+    } finally {
+      session.close()
+    }
+  },
+  GiveFellowshipOfferingCard: async (
+    source: unknown,
+    args: {
+      memberEmail: string
+      amount: number
+      cardNumber: string
+      cvv: number
+      expiryMonth: number
+      expiryYear: number
+    },
+    context: Context
+  ) => {
+    const session = context.executionContext.session()
+
+    try {
+      const memberResponse = await session.executeRead((tx) =>
+        tx.run(getMember, args)
+      )
+      const member: Member =
+        memberResponse.records[0]?.get('member')?.properties
+
+      const stream: Stream = memberResponse.records[0]?.get('stream').properties
+
+      const { auth, subaccount } = getStreamFinancials(stream)
+
+      const response = await Promise.all([
+        axios(
+          initiatePaystackCharge({
+            amount: args.amount,
+            card: {
+              number: args.cardNumber,
+              cvv: args.cvv,
+              expiry_month: args.expiryMonth,
+              expiry_year: args.expiryYear,
+            },
+            customer: member,
+            subaccount,
+            auth,
+          })
+        ),
+        member && axios(updatePaystackCustomerBody({ auth, customer: member })),
+      ])
+
+      const paymentRes = response[0].data.data
+      const memberRef = db.collection('members').doc(member.id)
+      await memberRef.set({
+        id: member.id,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        email: member.email,
+        phoneNumber: member.phoneNumber,
+        whatsappNumber: member.whatsappNumber,
+        pictureUrl: member.pictureUrl,
+      })
+
+      const dbRes = await Promise.all([
+        session.executeWrite((tx) =>
+          tx.run(initiateOfferingTransaction, {
+            ...args,
+            auth: context.auth,
+            transactionStatus: paymentRes.status,
+            transactionReference: paymentRes.reference,
+          })
+        ),
+        db
+          .collection('offerings')
+          .doc(paymentRes.reference)
+          .set({
+            ...args,
+            method: 'mobileMoney',
+            transactionReference: paymentRes.reference,
+            transactionStatus: paymentRes.status,
+            createdAt: new Date(),
+            createdBy: memberRef,
+          }),
+      ])
+
+      const cypherRes = dbRes[0]
+
+      return cypherRes.records[0].toObject().transaction.properties
     } catch (error: any) {
       console.error(error)
       throw new Error(`Payment Error: ${error.response?.data.message ?? error}`)
