@@ -5,9 +5,9 @@ import {
   Stream,
 } from '@jaedag/admin-portal-types'
 import {
-  initiatePaystackTransaction,
   updatePaystackCustomerBody,
   transactionTimeBeforeConfirmationRange,
+  initiatePaystackCharge,
 } from '@jaedag/admin-portal-api-core'
 import axios, { AxiosRequestConfig } from 'axios'
 import { Context } from '../utils/neo-types'
@@ -49,10 +49,12 @@ export const paymentMutations = {
 
       const response = await Promise.all([
         axios(
-          initiatePaystackTransaction({
+          initiatePaystackCharge({
             amount: args.amount,
-            mobileNetwork: args.mobileNetwork,
-            mobileNumber: args.mobileNumber,
+            mobile_money: {
+              phone: args.mobileNumber,
+              provider: args.mobileNetwork,
+            },
             customer: member,
             subaccount,
             auth,
