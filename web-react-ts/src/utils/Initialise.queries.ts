@@ -11,7 +11,7 @@ export const GET_MEMBER = gql`
       phoneNumber
       whatsappNumber
       pictureUrl
-      fellowship {
+      bacenta {
         id
         name
         bankingCode

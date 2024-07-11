@@ -33,7 +33,7 @@ export const DISPLAY_MEMBER_BIO = gql`
         id
         name
       }
-      fellowship {
+      bacenta {
         id
         name
         bankingCode
@@ -61,7 +61,7 @@ export const CREATE_MEMBER_PROFILE = gql`
     $occupation: String!
     $pictureUrl: String!
     $visitationArea: String!
-    $fellowshipCode: Int!
+    $bacentaCode: Int!
   ) {
     CreateMemberProfile(
       firstName: $firstName
@@ -76,7 +76,7 @@ export const CREATE_MEMBER_PROFILE = gql`
       occupation: $occupation
       pictureUrl: $pictureUrl
       visitationArea: $visitationArea
-      fellowshipCode: $fellowshipCode
+      bacentaCode: $bacentaCode
     ) {
       id
       firstName
@@ -98,7 +98,7 @@ export const CREATE_MEMBER_PROFILE = gql`
       maritalStatus {
         status
       }
-      fellowship {
+      bacenta {
         id
         name
         bankingCode
@@ -107,9 +107,9 @@ export const CREATE_MEMBER_PROFILE = gql`
   }
 `
 
-export const GET_FELLOWSHIP = gql`
-  query getFellowship($bankingCode: Int!) {
-    fellowships(where: { bankingCode: $bankingCode }) {
+export const GET_BACENTA = gql`
+  query getBacenta($bankingCode: Int!) {
+    bacentas(where: { bankingCode: $bankingCode }) {
       id
       name
       bankingCode

@@ -12,6 +12,6 @@ type Mutation {
     occupation: String!
     pictureUrl: String!
     visitationArea: String!
-    fellowshipCode: Int!
+    bacentaCode: Int!
   ): Member!
 }

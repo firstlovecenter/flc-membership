@@ -1,17 +1,17 @@
 export const getMember = `
     OPTIONAL MATCH (member:Member {email: $memberEmail})
-    MATCH (fellowship:Fellowship {bankingCode: $bankingCode})<-[:HAS*4]-(stream:Stream)
+    MATCH (bacenta:Bacenta {bankingCode: $bankingCode})<-[:HAS*3]-(stream:Stream)
     RETURN member, stream
 `
 
-export const getStreamFromFellowshipCode = `
-    MATCH (fellowship:Fellowship {bankingCode: $bankingCode})<-[:HAS*4]-(stream:Stream)
+export const getStreamFromBacentaCode = `
+    MATCH (bacenta:Bacenta {bankingCode: $bankingCode})<-[:HAS*3]-(stream:Stream)
     RETURN  stream
 `
 
 export const initiateOfferingTransaction = `
-    MATCH (member:Member {email: $memberEmail})-[:BELONGS_TO]->(fellowship:Fellowship)
-    WITH member, fellowship
+    MATCH (member:Member {email: $memberEmail})-[:BELONGS_TO]->(bacenta:Bacenta)
+    WITH member, bacenta
 
     CREATE (transaction:Offering:Transaction {id: randomUUID()})
         SET transaction.amount = $amount,
@@ -24,16 +24,16 @@ export const initiateOfferingTransaction = `
             transaction.mobileNetwork = $mobileNetwork,
             transaction.mobileNumber = $mobileNumber
 
-    WITH member, fellowship, transaction
+    WITH member, bacenta, transaction
     MERGE (member)-[:MADE]->(transaction)
-    MERGE (transaction)-[:GIVEN_AT]->(fellowship)
+    MERGE (transaction)-[:GIVEN_AT]->(bacenta)
 
     RETURN transaction
 `
 
 export const initiateTitheTransaction = `
-    MATCH (member:Member {email: $memberEmail})-[:BELONGS_TO]->(fellowship:Fellowship)
-    WITH member, fellowship
+    MATCH (member:Member {email: $memberEmail})-[:BELONGS_TO]->(bacenta:Bacenta)
+    WITH member, bacenta
 
     CREATE (transaction:Tithe:Transaction {id: randomUUID()})
         SET transaction.amount = $amount,
@@ -46,15 +46,15 @@ export const initiateTitheTransaction = `
             transaction.mobileNetwork = $mobileNetwork,
             transaction.mobileNumber = $mobileNumber
 
-    WITH member, fellowship, transaction
+    WITH member, bacenta, transaction
     MERGE (member)-[:MADE]->(transaction)
-    MERGE (transaction)-[:GIVEN_AT]->(fellowship)
+    MERGE (transaction)-[:GIVEN_AT]->(bacenta)
 
     RETURN transaction
 `
 
 export const checkTransactionReference = `
-MATCH (transaction {transactionReference: $reference})-[:GIVEN_AT]->(node) WHERE node:ServiceRecord OR node:Fellowship
+MATCH (transaction {transactionReference: $reference})-[:GIVEN_AT]->(node) WHERE node:ServiceRecord OR node:Bacenta
 MATCH (node)<-[:HAS_SERVICE|HAS_HISTORY|HAS*4..6]-(stream:Stream)
 RETURN transaction, stream
 `

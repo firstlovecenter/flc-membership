@@ -92,7 +92,11 @@ const WithApolloProvider = ({ children }: { children: ReactNode }) => {
           })
       })
 
-    if (networkError)
+    if (
+      networkError &&
+      networkError?.message !==
+        'Response not successful: Received status code 400'
+    )
       if (!toast.isActive(networkError?.message))
         toast({
           id: networkError?.message,

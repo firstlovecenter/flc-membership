@@ -17,20 +17,20 @@ type Member {
     @relationship(type: "HAS_MARITAL_STATUS", direction: OUT)
   title: [Title!]!
     @relationship(type: "HAS_TITLE", properties: "HasTitle", direction: OUT)
-  fellowship: Fellowship! @relationship(type: "BELONGS_TO", direction: OUT)
+  bacenta: Bacenta! @relationship(type: "BELONGS_TO", direction: OUT)
   offerings: [Offering!]! @relationship(type: "MADE", direction: OUT)
   transactions: [Transaction!]! @customResolver
   council: Council!
     @cypher(
       statement: """
-      MATCH (this)-[:BELONGS_TO]->(fellowship:Fellowship)
-      MATCH (fellowship)<-[:HAS*3]-(council:Council)
+      MATCH (this)-[:BELONGS_TO]->(bacenta:Bacenta)
+      MATCH (bacenta)<-[:HAS*2]-(council:Council)
       RETURN council
       """
     )
 }
 
-type Fellowship {
+type Bacenta {
   id: ID!
   bankingCode: Int!
   name: String!

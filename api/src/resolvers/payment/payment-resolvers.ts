@@ -23,7 +23,7 @@ import { db } from '../firebase-init'
 import { throwToSentry } from '../utils/utils'
 
 export const paymentMutations = {
-  GiveFellowshipOfferingMomo: async (
+  GiveBacentaOfferingMomo: async (
     source: unknown,
     args: {
       memberEmail: string

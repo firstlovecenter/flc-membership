@@ -35,14 +35,14 @@ type Offering implements TransactionInterface {
 }
 
 type Mutation {
-  GiveFellowshipOfferingMomo(
+  GiveBacentaOfferingMomo(
     memberEmail: String!
     amount: Float!
     bankingCode: Int!
     mobileNetwork: String!
     mobileNumber: String!
   ): Offering!
-  GiveAnonFellowshipOfferingMomo(
+  GiveAnonBacentaOfferingMomo(
     amount: Float!
     bankingCode: Int!
     mobileNetwork: String!

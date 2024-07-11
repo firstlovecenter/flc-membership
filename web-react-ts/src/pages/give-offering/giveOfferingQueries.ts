@@ -1,14 +1,14 @@
 import { gql } from '@apollo/client'
 
-export const GIVE_FELLOWSHIP_OFFERING_MOMO = gql`
-  mutation GiveFellowshipOfferingMomo(
+export const GIVE_BACENTA_OFFERING_MOMO = gql`
+  mutation GiveBacentaOfferingMomo(
     $memberEmail: String!
     $amount: Float!
     $mobileNetwork: String!
     $mobileNumber: String!
     $bankingCode: Int!
   ) {
-    GiveFellowshipOfferingMomo(
+    GiveBacentaOfferingMomo(
       memberEmail: $memberEmail
       amount: $amount
       mobileNetwork: $mobileNetwork
@@ -45,8 +45,8 @@ export const GET_TRANSACTION_DETAILS = gql`
   }
 `
 
-export const CONFIRM_FELLOWSHIP_OFFERING_MOMO = gql`
-  mutation ConfirmFellowshipOfferingMomo($reference: String!) {
+export const CONFIRM_BACENTA_OFFERING_MOMO = gql`
+  mutation ConfirmBacentaOfferingMomo($reference: String!) {
     ConfirmTransaction(reference: $reference) {
       id
       transactionReference

@@ -29,8 +29,8 @@ import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import FellowshipCodeInputMessage from 'components/FellowshipCodeInputMessage'
-import { GIVE_FELLOWSHIP_OFFERING_MOMO } from './giveOfferingQueries'
+import BacentaCodeInputMessage from 'components/BacentaCodeInputMessage'
+import { GIVE_BACENTA_OFFERING_MOMO } from './giveOfferingQueries'
 
 const GIVING_METHODS = [
   { key: 'Mobile Money', value: 'mobileMoney' },
@@ -42,14 +42,14 @@ const OfferingForm = () => {
   const [error, setError] = useState('')
   const initialValues = {
     amount: 0,
-    bankingCode: user.fellowship?.bankingCode,
+    bankingCode: user.bacenta?.bankingCode,
     date: new Date(),
     method: 'mobileMoney',
     mobileNetwork: '',
     mobileMoneyNumber: '',
   }
 
-  const [GiveMomo] = useMutation(GIVE_FELLOWSHIP_OFFERING_MOMO)
+  const [GiveMomo] = useMutation(GIVE_BACENTA_OFFERING_MOMO)
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
@@ -89,7 +89,7 @@ const OfferingForm = () => {
         },
       })
 
-      setTransactionId(res.data?.GiveFellowshipOfferingMomo.id)
+      setTransactionId(res.data?.GiveBacentaOfferingMomo.id)
       navigate('/confirm-transaction')
     } catch (err: any) {
       setError(err.message)
@@ -133,8 +133,8 @@ const OfferingForm = () => {
               control={control}
               errors={errors}
             />
-            <FellowshipCodeInputMessage
-              watchedFellowshipCode={watch('bankingCode')}
+            <BacentaCodeInputMessage
+              watchedBacentaCode={watch('bankingCode')}
             />
 
             <Select

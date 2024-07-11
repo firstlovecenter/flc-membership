@@ -21,9 +21,9 @@ import { Resolver, useForm } from 'react-hook-form'
 import { User } from '@auth0/auth0-react'
 import { useMutation } from '@apollo/client'
 import { parsePhoneNumber } from '@jaedag/admin-portal-types'
+import BacentaCodeInputMessage from 'components/BacentaCodeInputMessage'
 import { CreateMemberFormOptions } from './member-profile-types'
 import { CREATE_MEMBER_PROFILE } from './memberProfileGQL'
-import FellowshipCodeInputMessage from '../../components/FellowshipCodeInputMessage'
 
 const CreateProfile = () => {
   const { user } = useUser()
@@ -42,7 +42,7 @@ const CreateProfile = () => {
     occupation: '',
     pictureUrl: member?.picture ?? '',
     visitationArea: '',
-    fellowshipCode: 0,
+    bacentaCode: 0,
   }
 
   const validationSchema = Yup.object({
@@ -66,9 +66,7 @@ const CreateProfile = () => {
         `Phone Number must start with + and country code (eg. '+233')`
       )
       .required('Whats App Number is required'),
-    fellowshipCode: Yup.number().required(
-      'Pleaser enter a valid fellowship code'
-    ),
+    bacentaCode: Yup.number().required('Pleaser enter a valid bacenta code'),
   })
 
   const [CreateMemberProfile] = useMutation(CREATE_MEMBER_PROFILE)
@@ -215,17 +213,15 @@ const CreateProfile = () => {
           errors={errors}
         />
         <Input
-          label="Fellowship Code"
-          name="fellowshipCode"
-          placeholder="Enter Your Fellowship Code"
-          aria-describedby="fellowshipCode"
+          label="Bacenta Code"
+          name="bacentaCode"
+          placeholder="Enter Your Bacenta Code"
+          aria-describedby="bacentaCode"
           control={control}
           errors={errors}
         />
 
-        <FellowshipCodeInputMessage
-          watchedFellowshipCode={watch('fellowshipCode')}
-        />
+        <BacentaCodeInputMessage watchedBacentaCode={watch('bacentaCode')} />
 
         <Container marginTop={10} textAlign="center" paddingX={0}>
           <ButtonGroup size="lg">
