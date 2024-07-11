@@ -1,3 +1,17 @@
+#### 0.3.15 (2024-07-11)
+
+##### Chores
+
+*  remove commented out code and unused imports ([f34fdc5f](https://github.com/jaedag/fl-admin-portal/commit/f34fdc5f5ac6389a741f505dda4b67462f8a472d))
+
+##### Bug Fixes
+
+*  update giving portal to work with bacenta changes ([33decdec](https://github.com/jaedag/fl-admin-portal/commit/33decdec8116e49641005d636adfec9a896ea017))
+*  update @jaedag/admin-portal-api-core to version 2.0.1 ([716fa7f1](https://github.com/jaedag/fl-admin-portal/commit/716fa7f1ffa8de62444fcd2316e57abff2256b35))
+*  update @jaedag/admin-portal-types to version 1.5.13 ([e718ec6f](https://github.com/jaedag/fl-admin-portal/commit/e718ec6f163fe0db2b3f7c7bf05afb4cd679e71a))
+*  update transaction status and failure reason in payment-cypher.ts ([c43f11f7](https://github.com/jaedag/fl-admin-portal/commit/c43f11f7e53d76daf8b52cd0d15e6e3648dc0c74))
+*  update VSCode settings and add Cypher query for easy debugging ([6c0bcbf3](https://github.com/jaedag/fl-admin-portal/commit/6c0bcbf336d5118415b0a38d608992dcf37b3497))
+
 #### 0.3.14 (2023-12-07)
 
 ##### Documentation Changes
