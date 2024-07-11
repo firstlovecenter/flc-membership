@@ -46,7 +46,7 @@ const UpdateProfile = () => {
     occupation: member?.occupation?.occupation ?? '',
     pictureUrl: member?.pictureUrl ?? '',
     visitationArea: member?.visitationArea ?? 'no-location',
-    fellowshipCode: member?.fellowship.bankingCode,
+    bacentaCode: member?.fellowship.bankingCode,
   }
 
   const validationSchema = Yup.object({

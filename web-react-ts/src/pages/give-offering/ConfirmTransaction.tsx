@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import {
-  CONFIRM_FELLOWSHIP_OFFERING_MOMO,
+  CONFIRM_BACENTA_OFFERING_MOMO,
   GET_TRANSACTION_REFERENCE,
 } from './giveOfferingQueries'
 
@@ -29,7 +29,7 @@ const ConfirmTransaction = () => {
     variables: { transactionId },
   })
   const [ConfirmTransactionMutation, { loading: btnLoading }] = useMutation(
-    CONFIRM_FELLOWSHIP_OFFERING_MOMO
+    CONFIRM_BACENTA_OFFERING_MOMO
   )
 
   const [countdown, setCountdown] = useState(15)
