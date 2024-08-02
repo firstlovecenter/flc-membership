@@ -18,6 +18,7 @@ export const GIVE_BACENTA_OFFERING_MOMO = gql`
       id
       amount
       transactionReference
+      transactionStatus
     }
   }
 `
@@ -28,6 +29,7 @@ export const GET_TRANSACTION_REFERENCE = gql`
       id
       amount
       transactionReference
+      transactionStatus
     }
   }
 `
@@ -48,6 +50,19 @@ export const GET_TRANSACTION_DETAILS = gql`
 export const CONFIRM_BACENTA_OFFERING_MOMO = gql`
   mutation ConfirmBacentaOfferingMomo($reference: String!) {
     ConfirmTransaction(reference: $reference) {
+      id
+      transactionReference
+      transactionStatus
+      amount
+      method
+      createdAt
+    }
+  }
+`
+
+export const SEND_TRANSACTION_OTP = gql`
+  mutation SendTransactionOTP($reference: String!, $otp: String!) {
+    SendTransactionOTP(reference: $reference, otp: $otp) {
       id
       transactionReference
       transactionStatus

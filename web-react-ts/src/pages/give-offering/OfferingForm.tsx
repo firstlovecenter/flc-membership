@@ -14,8 +14,16 @@ import {
   Container,
   Flex,
   Heading,
+  Modal,
+  Input as ChakraInput,
   Spacer,
   Text,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalFooter,
+  useToast,
 } from '@chakra-ui/react'
 import {
   GH_MOBILE_NETWORK_OPTIONS,
@@ -30,7 +38,11 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import BacentaCodeInputMessage from 'components/BacentaCodeInputMessage'
-import { GIVE_BACENTA_OFFERING_MOMO } from './giveOfferingQueries'
+import {
+  CONFIRM_BACENTA_OFFERING_MOMO,
+  GIVE_BACENTA_OFFERING_MOMO,
+  SEND_TRANSACTION_OTP,
+} from './giveOfferingQueries'
 
 const GIVING_METHODS = [
   { key: 'Mobile Money', value: 'mobileMoney' },
@@ -39,7 +51,11 @@ const GIVING_METHODS = [
 
 const OfferingForm = () => {
   const { user, setTransactionId } = useUser()
+  const toast = useToast()
   const [error, setError] = useState('')
+  const [otp, setOtp] = useState('')
+  const [reference, setReference] = useState('')
+  const { isOpen, onClose, onOpen } = useDisclosure()
   const initialValues = {
     amount: 0,
     bankingCode: user.bacenta?.bankingCode,
@@ -50,6 +66,11 @@ const OfferingForm = () => {
   }
 
   const [GiveMomo] = useMutation(GIVE_BACENTA_OFFERING_MOMO)
+  const [ConfirmTransactionMutation, { loading: confirming }] = useMutation(
+    CONFIRM_BACENTA_OFFERING_MOMO
+  )
+  const [SendTransactionOTP, { loading: submittingOTP }] =
+    useMutation(SEND_TRANSACTION_OTP)
   const navigate = useNavigate()
 
   const validationSchema = Yup.object({
@@ -90,7 +111,13 @@ const OfferingForm = () => {
       })
 
       setTransactionId(res.data?.GiveBacentaOfferingMomo.id)
-      navigate('/confirm-transaction')
+
+      if (res.data?.GiveBacentaOfferingMomo.transactionStatus === 'send_otp') {
+        setReference(res.data?.GiveBacentaOfferingMomo.transactionReference)
+        onOpen()
+      } else {
+        navigate('/confirm-transaction')
+      }
     } catch (err: any) {
       setError(err.message)
     }
@@ -98,6 +125,76 @@ const OfferingForm = () => {
 
   return (
     <Container marginY={5}>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalBody>
+            <Alert status="info">
+              <AlertIcon />
+              <AlertTitle>Info!</AlertTitle>
+            </Alert>
+
+            <Text marginY={5}>
+              A registration token has just been sent to your phone via text
+              message. Please enter it here 👇
+            </Text>
+
+            <ChakraInput onChange={(e) => setOtp(e.target.value)} />
+            <Button
+              marginY={5}
+              colorScheme="green"
+              isLoading={submittingOTP}
+              onClick={async () => {
+                try {
+                  await SendTransactionOTP({
+                    variables: {
+                      reference,
+                      otp,
+                    },
+                  })
+                } catch (err) {
+                  toast({
+                    title: 'Error',
+                    description: (err as Error).message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+                }
+              }}
+            >
+              Submit OTP
+            </Button>
+            <Text
+              onClick={async () => {
+                try {
+                  await ConfirmTransactionMutation({
+                    variables: {
+                      reference,
+                    },
+                  })
+
+                  navigate('/giving-history')
+                } catch (err) {
+                  toast({
+                    title: 'Error',
+                    description: (err as Error).message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+                }
+              }}
+              className="text-secondary mt-2"
+            >
+              {`Didn't`} receive a token? Click <u>here</u> to resend{' '}
+              <Button variant="ghost" padding={0} isLoading={confirming} />
+            </Text>
+          </ModalBody>
+          <ModalFooter />
+        </ModalContent>
+      </Modal>
+
       <Card variant="outline">
         <CardHeader>
           <Heading>Give An Offering!</Heading>

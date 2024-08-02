@@ -1,4 +1,5 @@
 import { captureException } from '@sentry/node'
+import { DateTime } from 'neo4j-driver'
 
 export const throwError = (message: string, error: string | any) => {
   let errorVar = ''
@@ -62,5 +63,9 @@ export const convertFirestoreTimestampToDate = (timestamp: any) => {
   if (typeof timestamp === 'string') {
     return timestamp
   }
+  if (timestamp instanceof DateTime) {
+    return timestamp
+  }
+
   return new Date(timestamp?.toDate() || timestamp).toISOString()
 }

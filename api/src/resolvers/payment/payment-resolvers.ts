@@ -1,22 +1,20 @@
-import {
-  Member,
-  Network,
-  PayStackRequestBody,
-  Stream,
-} from '@jaedag/admin-portal-types'
+import { Member, Network, permitMe, Stream } from '@jaedag/admin-portal-types'
 import {
   updatePaystackCustomerBody,
   transactionTimeBeforeConfirmationRange,
   initiatePaystackCharge,
+  isAuth,
+  confirmTransactionStatus,
+  submitTransactionOTP,
 } from '@jaedag/admin-portal-api-core'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
 import { Context } from '../utils/neo-types'
 import {
   checkTransactionReference,
   getMember,
   initiateOfferingTransaction,
-  setTransactionStatus,
   setTransactionStatusFailed,
+  updateTransactionStatus,
 } from './payment-cypher'
 import { getStreamFinancials } from '../utils/financial-utils'
 import { db } from '../firebase-init'
@@ -108,6 +106,62 @@ export const paymentMutations = {
     }
   },
 
+  SendTransactionOTP: async (
+    object: any,
+    args: {
+      reference: string
+      otp: string
+    },
+    context: Context
+  ) => {
+    isAuth(permitMe('Fellowship'), context.auth.roles)
+
+    const session = context.executionContext.session()
+
+    const transactionResponse = await session.run(
+      checkTransactionReference,
+      args
+    )
+
+    const stream: Stream =
+      transactionResponse.records[0]?.get('stream').properties
+
+    const { auth } = getStreamFinancials(stream)
+
+    const otpResponse = await axios(
+      submitTransactionOTP({
+        auth,
+        otp: args.otp,
+        reference: args.reference,
+      })
+    ).catch(async (error) => {
+      if (error.response.data.message === 'Charge attempted') {
+        console.log('OTP was already sent and charge attempted')
+
+        return transactionResponse.records[0]?.get('transaction').properties
+      }
+
+      return throwToSentry('There was an error sending OTP', error)
+    })
+
+    if (otpResponse.data.data.status === 'failed') {
+      const paymentCypherRes = await session.run(setTransactionStatusFailed, {
+        reference: args.reference,
+        status: otpResponse.data.data.status,
+        error: otpResponse.data.data.gateway_response,
+      })
+
+      return paymentCypherRes.records[0]?.get('transaction').properties
+    }
+
+    const paymentCypherRes = await session.run(updateTransactionStatus, {
+      referece: args.reference,
+      otp: args.otp,
+    })
+
+    return paymentCypherRes.records[0]?.get('transaction').properties
+  },
+
   ConfirmTransaction: async (
     object: any,
     args: { reference: string },
@@ -126,23 +180,11 @@ export const paymentMutations = {
 
       const { auth } = getStreamFinancials(stream)
 
-      const confirmPaymentBody: AxiosRequestConfig<PayStackRequestBody> = {
-        method: 'get',
-        baseURL: 'https://api.paystack.co/',
-        url: `/transaction/verify/${transaction.transactionReference}`,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: auth,
-        },
-      }
-
-      const confirmationResponse = await axios(confirmPaymentBody).catch(
-        async (error) => {
-          throwToSentry(
-            'There was an error confirming transaction - ',
-            JSON.stringify(error.response.data)
-          )
-        }
+      const confirmationResponse = await axios(
+        confirmTransactionStatus({
+          reference: transaction.transactionReference,
+          auth,
+        })
       )
 
       if (
@@ -156,7 +198,7 @@ export const paymentMutations = {
       if (confirmationResponse?.data.data.status === 'success') {
         promises.push(
           session.executeWrite((tx) =>
-            tx.run(setTransactionStatus, {
+            tx.run(updateTransactionStatus, {
               ...args,
               transactionStatus: confirmationResponse?.data.data.status,
             })

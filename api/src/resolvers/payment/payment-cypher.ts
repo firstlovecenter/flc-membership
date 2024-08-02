@@ -54,8 +54,8 @@ export const initiateTitheTransaction = `
 `
 
 export const checkTransactionReference = `
-MATCH (transaction {transactionReference: $reference})-[:GIVEN_AT]->(node) WHERE node:ServiceRecord OR node:Bacenta
-MATCH (node)<-[:HAS_SERVICE|HAS_HISTORY|HAS*4..6]-(stream:Stream)
+MATCH (transaction {transactionReference: $reference})-[:GIVEN_AT]->(node) WHERE node:Bacenta
+MATCH (node)<-[:HAS_SERVICE|HAS_HISTORY|HAS*2..5]-(stream:Stream)
 RETURN transaction, stream
 `
 
@@ -67,7 +67,7 @@ SET transaction.transactionStatus = $transactionStatus,
 RETURN transaction
 `
 
-export const setTransactionStatus = `
+export const updateTransactionStatus = `
 MATCH (transaction:Transaction {transactionReference: $reference})
     SET transaction.transactionStatus = $transactionStatus
 
