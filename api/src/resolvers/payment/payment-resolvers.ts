@@ -254,7 +254,11 @@ export const paymentMutations = {
 
       const response = await Promise.all(promises)
 
-      return response[0].records[0]?.get('transaction').properties
+      console.log(
+        "🚀 ~ file: payment-resolvers.ts:264 ~ response[0].records[0]?.get('transaction').properties:",
+        response[0].records[0]?.get('transaction').properties
+      )
+      return { ...response[0].records[0]?.get('transaction').properties }
     } catch (error: any) {
       console.error(error)
       throw new Error(`Payment Error: ${error.response?.data.message ?? error}`)
