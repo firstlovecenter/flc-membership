@@ -1,3 +1,17 @@
+#### 0.3.16 (2024-08-02)
+
+##### Chores
+
+*  update banking code variable name in ConfirmTransaction and ProfileUpdate files ([8386f81a](https://github.com/jaedag/fl-admin-portal/commit/8386f81ae8556e766dc0d7e70c54ee4f390b3e5f))
+
+##### New Features
+
+*  implement  otp verification for new numbers ([0d24741d](https://github.com/jaedag/fl-admin-portal/commit/0d24741d24d1f425e69a35a05037aee4c89f87d7))
+
+##### Bug Fixes
+
+*  implement verify transaction on givig history ([c53b5026](https://github.com/jaedag/fl-admin-portal/commit/c53b5026d0f91715d5777ec410c409a578a2d45d))
+
 #### 0.3.15 (2024-07-11)
 
 ##### Chores
